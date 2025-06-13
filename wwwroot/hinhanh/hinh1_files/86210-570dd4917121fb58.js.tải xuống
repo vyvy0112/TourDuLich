@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[86210],{86210:function(n,u,t){var c;function e(n){switch(n){case 1:return"Trong nước";case 2:return"Nước ngoài";default:return""}}t.d(u,{Jq:function(){return c},m:function(){return e}}),function(n){n[n.DOMESTIC=1]="DOMESTIC",n[n.INTERNATIONAL=2]="INTERNATIONAL"}(c||(c={}))}}]);

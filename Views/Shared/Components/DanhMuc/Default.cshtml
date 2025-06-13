@@ -1,0 +1,14 @@
+﻿@model IEnumerable<VNTour.Data.DanhMucTour>
+
+
+<form asp-action="TourTheoDM" asp-controller="Tour" method="get">
+    <div class="form-group">
+        <select name="id" id="DanhMucId" class="form-control" onchange="this.form.submit()">
+            <option value="">Loại Tour</option>
+            @foreach (var item in Model)
+            {
+                <option value="@item.IdDanhMuc">@item.TenDanhMuc</option>
+            }
+        </select>
+    </div>
+</form>

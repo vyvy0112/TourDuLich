@@ -1,0 +1,647 @@
+﻿@model VNTour.ViewModel.ChiTietTour
+@{
+   
+    var hinhAnhs = ViewBag.HinhAnhs as List<string>;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết Tour Nhật Bản</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+      */
+        body {
+            font-family: $font-primary;
+            background: $white;
+            font-size: 14px;
+            line-height: 1.8;
+            font-weight: 300;
+            color: lighten($black,30%);
+            &.menu-show
+
+        {
+            overflow: hidden;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+        }
+
+        }
+
+        a {
+            transition: .3s all ease;
+            color: $primary;
+            &:hover
+
+        {
+            text-decoration: none;
+            color: $primary;
+        }
+
+        }
+        h1
+        .h1{
+            color:black;
+        }
+
+         h2, h3, h4, h5,
+        .h2, .h3, .h4, .h5 {
+            line-height: 1.5;
+            color: $black;
+            font-weight: 400;
+        }
+
+        .text-primary {
+            color: $primary !important;
+        }
+
+        .ftco-navbar-light {
+            background: transparent !important;
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            z-index: 3;
+       
+
+        {
+            background: $black !important;
+            position: relative;
+            top: 0;
+        }
+
+        .navbar-brand {
+            color: $white;
+        }
+
+        .navbar-nav {
+            > .nav-item
+
+        {
+            > .nav-link
+
+        {
+            font-size: 14px;
+            padding-top: .9rem;
+            padding-bottom: .9rem;
+            padding-left: 20px;
+            padding-right: 20px;
+            color: $white;
+            font-weight: 400;
+            &:hover
+
+        {
+            color: $white;
+        }
+
+        opacity: 1!important;
+        }
+
+        .dropdown-menu {
+            border: none;
+            background: $white;
+            -webkit-box-shadow: 0px 10px 34px -20px rgba(0,0,0,0.41);
+            -moz-box-shadow: 0px 10px 34px -20px rgba(0,0,0,0.41);
+            box-shadow: 0px 10px 34px -20px rgba(0,0,0,0.41);
+        }
+
+
+        &.ftco-seperator {
+            position: relative;
+            margin-left: 20px;
+            padding-left: 20px;
+       
+
+        {
+            padding-left: 0;
+            margin-left: 0;
+        }
+
+        &:before {
+            position: absolute;
+            content: "";
+            top: 10px;
+            bottom: 10px;
+            left: 0;
+            width: 2px;
+            background: rgba($white, .05);
+     
+
+        {
+            display: none;
+        }
+
+        }
+        }
+
+        &.cta {
+            > a
+
+        {
+            color: $white;
+            border: 1px solid rgba(255,255,255,.4);
+            padding-top: .5rem;
+            padding-bottom: .5rem;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-top: 4px;
+       
+            span
+
+        {
+            display: inline-block;
+            color: $white;
+        }
+
+        &:hover {
+            background: $primary;
+            border: 1px solid $primary;
+        }
+
+        }
+
+        &.cta-colored {
+            span
+
+        {
+            border-color: $primary;
+        }
+
+        }
+        }
+
+        &.active {
+            > a
+
+        {
+            color: rgba(255,255,255,.5);
+        }
+
+        }
+        }
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: rgba(255,255,255,.5) !important;
+            cursor: pointer;
+            padding-right: 0;
+            text-transform: uppercase;
+            font-size: 16px;
+            letter-spacing: .1em;
+        }
+
+        &.scrolled {
+            position: fixed;
+            right: 0;
+            left: 0;
+            top: 0;
+            margin-top: -130px;
+            background: $white !important;
+            box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
+            .nav-item
+
+        {
+            &.active
+
+        {
+            > a
+
+        {
+            color: $primary !important;
+        }
+
+        }
+
+        &.cta {
+            > a
+
+        {
+            color: $white !important;
+            background: $primary;
+            border: none !important;
+            padding-top: .5rem !important;
+            padding-bottom: .5rem !important;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-top: 6px !important;
+      
+
+        {
+            display: inline-block;
+            color: $white !important;
+        }
+
+        }
+
+        &.cta-colored {
+            span
+
+        {
+            border-color: $primary;
+        }
+
+        }
+        }
+        }
+
+        .navbar-nav {
+     
+
+        {
+            background: none;
+            border-radius: 0px;
+            padding-left: 0rem !important;
+            padding-right: 0rem !important;
+        }
+
+        }
+
+        .navbar-nav {
+      
+
+        {
+            background: none;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: rgba(0,0,0,.5) !important;
+            border-color: rgba(0,0,0,.5) !important;
+            cursor: pointer;
+            padding-right: 0;
+            text-transform: uppercase;
+            font-size: 16px;
+            letter-spacing: .1em;
+        }
+
+        .nav-link {
+            padding-top: .9rem !important;
+            padding-bottom: .9rem !important;
+            color: $black !important;
+            &.active
+
+        {
+            color: $primary !important;
+        }
+
+        }
+
+        &.awake {
+            margin-top: 0px;
+            transition: .3s all ease-out;
+        }
+
+        &.sleep {
+            transition: .3s all ease-out;
+        }
+
+        .navbar-brand {
+            color: $black;
+        }
+
+        }
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+         h2 {
+            color: #0d6efd;
+        }
+   
+    .container_details {
+      margin-top: 30px;
+    }
+    .main-content {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .main-left {
+      flex: 2;
+      min-width: 600px;
+    }
+    .main-right {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      height: fit-content;
+      min-width: 300px;
+    }
+    .main-image img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .discount-tag {
+      margin-top: 12px;
+      background-color: #ff7043;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .carousel-thumb {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .tour-detail, .reviews {
+      background: #fff;
+      padding: 20px;
+      margin-top: 24px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .tour-detail ul {
+      padding-left: 18px;
+    }
+    .review {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .review:last-child {
+      border-bottom: none;
+    }
+    .review-score {
+      background-color: #198754;
+      color: #fff;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .review-date {
+      float: right;
+      color: #6c757d;
+      font-size: 13px;
+    }
+    .tour-options label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .tour-options .btn {
+      margin: 4px 4px 4px 0;
+    }
+    .total-price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #d84315;
+      margin: 20px 0;
+    }
+    .btn-book {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff9800;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .btn-book:hover {
+      background-color: #fb8c00;
+    }
+    .form-section {
+      margin-top: 32px;
+    }
+
+
+
+    /*  .main-image-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+  } */
+
+
+
+ /*  .main-image-wrapper img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+  } */
+
+     /*    .main-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 800px; 
+            margin: auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .main-tour-image {
+            width: 100%;
+            height: auto; 
+            display: block;
+            object-fit: cover;
+            image-rendering: auto; 
+        } */
+        .main-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 450px; /* Chiều cao cố định */
+            margin: auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background-color: #f5f5f5; /* màu nền giúp che khoảng trắng nếu ảnh không đủ */
+        }
+
+        .main-tour-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* giữ tỷ lệ và cắt phần dư */
+            object-position: center;
+            display: block;
+            image-rendering: auto;
+        }
+
+
+  .discount-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #d32f2f;
+    color: white;
+    padding: 6px 14px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 4px;
+    z-index: 5;
+  }
+
+        .thumbnail-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .thumbnail-item img.thumbnail-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+            image-rendering: auto; /* Duy trì độ nét */
+        }
+
+            .thumbnail-item img.thumbnail-img:hover {
+                border: 2px solid #007bff;
+                transform: scale(1.05); /* zoom nhẹ */
+            }
+
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+  }
+  </style>
+</head>
+
+  <div class="container_details">
+    <div class="main-content">
+      <!-- LEFT COLUMN -->
+      <div class="main-left">
+        <h1>@Model.TenTour</h1>
+        <div class="rating mb-3">
+          <span class="text-success fw-bold fs-4">9.5</span> Tuyệt vời | 8 đánh giá
+        </div>
+       
+<div class="main-image-wrapper">
+  <img id="mainImage" src="~/hinhanh/@Model.HinhAnh" alt="@Model.TenTour">
+  <div class="discount-tag">Nhóm 4 giảm 3 triệu | 34.900k/khách</div>
+</div>
+            <div class="thumbnail-bar d-flex flex-wrap gap-2">
+                @if (hinhAnhs != null && hinhAnhs.Count > 0)
+                {
+                    foreach (var img in hinhAnhs)
+                    {
+                        <div class="thumbnail-item">
+                            <img src="~/hinhanh/@img" alt="Ảnh phụ" onclick="changeMainImage(this)" class="thumbnail-img">
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Không có hình ảnh cho tour này.</p>
+                }
+            </div>
+
+        <div class="tour-detail">
+          <h2>Chi tiết Tour</h2>
+          <ul>
+            <li><strong>Ngày khởi hành:</strong> @Model.NgayKhoiHanh</li>
+            <li><strong>Thời gian:</strong> @Model.ThoiGian</li>
+            <li><strong>Phương tiện:</strong> Máy bay khứ hồi + Xe du lịch </li>
+            <li><strong>Điểm nổi bật:</strong> @Model.MoTa</li>
+            <li><strong>Đã bao gồm:</strong> Vé máy bay, ăn uống, khách sạn, vé tham quan, HDV tiếng Việt</li>
+          </ul>
+        </div>
+
+        <div class="reviews">
+          <h2>Đánh giá khách hàng</h2>
+          <div class="review">
+            <strong>Lê Minh Tuấn</strong>
+            <span class="review-score">10.0</span>
+            <span class="review-date">21-08-2024</span>
+            <p>Thanks em Huyền đã hỗ trợ cho cả đoàn trong thời gian qua để có chuyến đi thật vui!</p>
+          </div>
+          <div class="review">
+            <strong>Trần Thị Cẩm Vy</strong>
+            <span class="review-score">8.0</span>
+            <span class="review-date">24-05-2024</span>
+            <p>Tour đi hơi nhanh, những chỗ tham quan ít có chỗ nghỉ ngơi. Hướng dẫn viên rất nhiệt tình.</p>
+          </div>
+        </div>
+
+        <div class="reviews form-section">
+          <h2>Gửi đánh giá của bạn</h2>
+          <form method="post" action="/Tour/GuiDanhGia">
+            <div class="mb-3">
+              <label for="ten" class="form-label">Tên của bạn</label>
+              <input type="text" class="form-control" id="ten" name="TenNguoiDung" required>
+            </div>
+            <div class="mb-3">
+              <label for="diem" class="form-label">Chọn điểm đánh giá</label>
+              <select class="form-select" id="diem" name="DiemDanhGia" required>
+                <option value="">-- Chọn điểm --</option>
+                <option value="10">10 - Tuyệt vời</option>
+                <option value="9">9 - Rất tốt</option>
+                <option value="8">8 - Tốt</option>
+                <option value="7">7 - Khá</option>
+                <option value="6">6 - Trung bình</option>
+                <option value="5">5 - Tệ</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="noidung" class="form-label">Nội dung đánh giá</label>
+              <textarea class="form-control" id="noidung" name="NoiDung" rows="4" placeholder="Viết cảm nhận của bạn về tour..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="main-right">
+        <div class="tour-options">
+          <label>Lịch trình & Giá tour</label>
+          <div>
+            <button class="btn btn-outline-secondary">01/07</button>
+            <button class="btn btn-outline-secondary">08/07</button>
+            <button class="btn btn-outline-secondary">15/07</button>
+          </div>
+        </div>
+
+        <div class="tour-options">
+          <label>Người lớn (&gt;10 tuổi)</label>
+          <div>
+            <button class="btn btn-outline-secondary">–</button>
+            <span class="mx-2">2</span>
+            <button class="btn btn-outline-secondary">+</button>
+            <span class="ms-3">x 34.900.000</span>
+          </div>
+        </div>
+
+        <div class="total-price">
+          Tổng giá tour: 69.800.000đ
+        </div>
+
+        <button class="btn-book">Yêu cầu đặt</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<script>
+  function changeMainImage(img) {
+    document.getElementById('mainImage').src = img.src;
+  }
+</script>

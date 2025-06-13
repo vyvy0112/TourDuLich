@@ -1,0 +1,89 @@
+﻿@model VNTour.Data.Tour
+
+@{
+    ViewData["Title"] = "CreateTour";
+}
+
+<h1>CreateTour</h1>
+
+<h4>Tour</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateTour" method="post" >
+            <div asp-validation-summary="ModelOnly" class="text-danger" ></div>
+            <div class="form-group">
+                <label asp-for="TenTour" class="control-label"></label>
+                <input asp-for="TenTour" class="form-control" />
+                <span asp-validation-for="TenTour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoTa" class="control-label"></label>
+                <input asp-for="MoTa" class="form-control" />
+                <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiaNguoiLon" class="control-label"></label>
+                <input asp-for="GiaNguoiLon" class="form-control" />
+                <span asp-validation-for="GiaNguoiLon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiaTreEm" class="control-label"></label>
+                <input asp-for="GiaTreEm" class="form-control" />
+                <span asp-validation-for="GiaTreEm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThoiGian" class="control-label"></label>
+                <input asp-for="ThoiGian" class="form-control" />
+                <span asp-validation-for="ThoiGian" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiemKhoiHanh" class="control-label"></label>
+                <input asp-for="DiemKhoiHanh" class="form-control" />
+                <span asp-validation-for="DiemKhoiHanh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiemDen" class="control-label"></label>
+                <input asp-for="DiemDen" class="form-control" />
+                <span asp-validation-for="DiemDen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayKhoiHanh" class="control-label"></label>
+                <input asp-for="NgayKhoiHanh" class="form-control" />
+                <span asp-validation-for="NgayKhoiHanh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayVe" class="control-label"></label>
+                <input asp-for="NgayVe" class="form-control" />
+                <span asp-validation-for="NgayVe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HinhAnh" class="control-label"></label>
+                <input asp-for="HinhAnh" class="form-control" />
+                <span asp-validation-for="HinhAnh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoCho" class="control-label"></label>
+                <input asp-for="SoCho" class="form-control" />
+                <span asp-validation-for="SoCho" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrangThai" class="control-label"></label>
+                <input asp-for="TrangThai" class="form-control" />
+                <span asp-validation-for="TrangThai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdDanhMuc" class="control-label"></label>
+                <select asp-for="IdDanhMuc" class ="form-control" asp-items="ViewBag.IdDanhMuc"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListTour" asp-controller="Admin">Back to List</a>
+</div>
+
