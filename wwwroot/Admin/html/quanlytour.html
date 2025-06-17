@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý Tour</title>
+  <link rel="stylesheet" href="/css/style_admin.css">
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>🌍 Admin Du Lịch</h2>
+  <a href="#">🏠 Dashboard</a>
+  <a href="#" class="active">🗺️ Quản lý Tour</a>
+  <a href="#">👤 Khách hàng</a>
+  <a href="#">📄 Đơn đặt Tour</a>
+</div>
+
+<div class="main">
+  <div class="header">
+    <div class="greeting">👋 Xin chào, Admin <strong>Nguyễn Văn A</strong></div>
+    <div class="user-info">
+      <div class="name">Nguyễn Văn A</div>
+      <div class="email">admin.dulich@example.com</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="tour-header">
+      <h2>📋 Danh sách Tour Du Lịch</h2>
+      <button class="btn-add">+ Thêm Tour</button>
+    </div>
+
+    <table class="tour-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Mã Tour</th>
+          <th>Tên Tour</th>
+          <th>Loại Tour</th>
+          <th>Địa điểm</th>
+          <th>Ngày khởi hành</th>
+          <th>Số ngày</th>
+          <th>Số chỗ còn</th>
+          <th>Giá</th>
+          <th>HDV</th>
+          <th>Trạng thái</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>JPN2025</td>
+          <td>Tour Nhật Bản 5N4Đ</td>
+          <td>Nước ngoài</td>
+          <td>Tokyo, Kyoto</td>
+          <td>01/07/2025</td>
+          <td>5 ngày</td>
+          <td>10</td>
+          <td>34.900.000đ</td>
+          <td>Nguyễn Văn Hưng</td>
+          <td>
+            <span class="status active">Hoạt động</span>
+          </td>
+          <td>
+  <div class="action-buttons">
+    <button class="btn-edit">Sửa</button>
+    <button class="btn-delete">Xóa</button>
+  </div>
+</td>
+
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>KOR0925</td>
+          <td>Tour Hàn Quốc Mùa Thu</td>
+          <td>Nước ngoài</td>
+          <td>Seoul, Nami</td>
+          <td>10/09/2025</td>
+          <td>6 ngày</td>
+          <td>5</td>
+          <td>27.500.000đ</td>
+          <td>Trần Thị Mai</td>
+          <td>
+            <span class="status inactive">Ngưng hoạt động</span>
+          </td>
+          <td>
+            <button class="btn-edit">Sửa</button>
+            <button class="btn-delete">Xóa</button>
+          </td>
+        </tr>
+        <!-- Thêm tour khác -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

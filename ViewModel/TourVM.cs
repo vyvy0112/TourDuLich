@@ -67,6 +67,13 @@ namespace VNTour.ViewModel
 
         public int? IdDanhMuc { get; set; }
         public string? TenDanhMuc { get; set; }
+        public virtual ICollection<DanhGium> DanhGia { get; set; } = new List<DanhGium>();
+
+        public virtual ICollection<DatTour> DatTours { get; set; } = new List<DatTour>();
+
+        public virtual DanhMucTour? IdDanhMucNavigation { get; set; }
+
+        public virtual ICollection<TourHinhAnh> TourHinhAnhs { get; set; } = new List<TourHinhAnh>();
 
     }
 }

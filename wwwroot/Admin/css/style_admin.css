@@ -1,0 +1,250 @@
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      min-height: 100vh;
+      background-color: #f1f5f9;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      background-color: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: #38bdf8;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #cbd5e1;
+      padding: 12px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #1e293b;
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background-color: white;
+      padding: 16px 30px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header .greeting {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header .user-info {
+      text-align: right;
+    }
+
+    .header .user-info .name {
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    .header .user-info .email {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+
+    .card p {
+      color: #475569;
+    }
+
+    @media screen and (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        width: 100%;
+      }
+    }
+
+
+    /* ... các CSS sidebar, header ... */
+
+.content {
+  padding: 30px;
+}
+
+.tour-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-add {
+    background-color: #22c55e;
+    text-decoration: none !important; /* Bỏ gạch chân */
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-add:hover {
+  background-color: #16a34a;
+}
+
+.tour-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tour-table th, .tour-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.tour-table th {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.btn-edit {
+    background-color: #3b82f6;
+    text-decoration: none !important; /* Bỏ gạch chân */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background-color: #2563eb;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+    text-decoration: none !important; /* Bỏ gạch chân */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
+}
+
+
+/* Nút trạng thái */
+.status {
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+}
+
+.status.active {
+  background-color: #22c55e; /* xanh lá */
+}
+
+.status.inactive {
+  background-color: #ef4444; /* đỏ */
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px; /* Khoảng cách giữa 2 nút */
+    align-items: center;
+}
+
+    .action-buttons a {
+        text-decoration: none !important; /* Bỏ gạch chân */
+        padding: 6px 12px; /* Kích thước nút */
+        border-radius: 4px; /* Bo góc */
+        color: white; /* Màu chữ */
+        font-weight: bold;
+    }
+
+.btn-edit {
+    background-color: #3498db; /* Màu xanh chỉnh sửa */
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* Màu đỏ xóa */
+}
+
+
+.status {
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+    .status.active {
+        background-color: #28a745; /* Màu xanh lá cây */
+    }
+
+    .status.inactive {
+        background-color: #dc3545; /* Màu đỏ */
+    }

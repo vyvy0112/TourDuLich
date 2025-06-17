@@ -11,9 +11,9 @@
 
 <div class="hero-wrap js-fullheight position-relative">
     <!-- Ảnh nền -->
-    <img src="~/hinhanh/sl_250506_he-2025.webp" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
-
-    <!-- Lớp overlay mờ -->
+    <img src="~/hinhanh/Tổng-quan-du-lịch-Vũng-Tàu-ivivu.jpg" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
+@*      kích thước ảnh 1349 x 736 *@    
+ <!-- Lớp overlay mờ -->
     <div class="overlay position-absolute w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: -1;"></div>
 
     <div class="container">
@@ -63,9 +63,9 @@
 
                                     <div class="d-flex align-items-center">
                                         <span class="mr-2">Từ</span>
-                                        <input type="range" id="giaTuRange" name="giaTu" min="0" max="200000000" step="100000" value="@ViewBag.GiaTu ?? 0" oninput="updateGiaTuValue(this.value)" />
+                                        <input type="range" id="giaTuRange" name="giaTu" min="0" max="200000000" step="0" value="@ViewBag.GiaTu ?? 0" oninput="updateGiaTuValue(this.value)" />
                                         <span class="ml-2">Đến</span>
-                                        <input type="range" id="giaDenRange" name="giaDen" min="0" max="200000000" step="100000" value="@ViewBag.GiaDen ?? 200000000" oninput="updateGiaDenValue(this.value)" />
+                                        <input type="range" id="giaDenRange" name="giaDen" min="0" max="200000000" step="1000000" value="@ViewBag.GiaDen ?? 200000000" oninput="updateGiaDenValue(this.value)" />
                                     </div>
 
                                     <p class="mt-2">

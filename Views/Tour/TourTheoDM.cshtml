@@ -52,9 +52,9 @@
 
                                     <div class="d-flex align-items-center">
                                         <span class="mr-2">Từ</span>
-                                        <input type="range" id="giaTuRange" name="giaTu" min="0" max="200000000" step="100000" value="@ViewBag.GiaTu ?? 0" oninput="updateGiaTuValue(this.value)" />
+                                        <input type="range" id="giaTuRange" name="giaTu" min="0" max="200000000" step="0" value="@ViewBag.GiaTu ?? 0" oninput="updateGiaTuValue(this.value)" />
                                         <span class="ml-2">Đến</span>
-                                        <input type="range" id="giaDenRange" name="giaDen" min="0" max="200000000" step="100000" value="@ViewBag.GiaDen ?? 200000000" oninput="updateGiaDenValue(this.value)" />
+                                        <input type="range" id="giaDenRange" name="giaDen" min="0" max="200000000" step="1000000" value="@ViewBag.GiaDen ?? 200000000" oninput="updateGiaDenValue(this.value)" />
                                     </div>
 
                                     <p class="mt-2">
@@ -83,11 +83,15 @@
                                 <div class="col-md-4 ftco-animate">
                                     <div class="destination">
                                         <div class="img img-2 position-relative d-flex justify-content-center align-items-center" style="height: 250px; overflow: hidden;">
-                                            <img src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" class="img-fluid w-100 h-100" style="object-fit: cover;" />
-                                            <a href="#" class="icon d-flex justify-content-center align-items-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.6); border-radius: 50%; width: 40px; height: 40px;">
-                                                <span class="icon-search2"></span>
+                                            <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@item.IdTour">
+                                                <img src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" class="img-fluid w-100 h-100" style="object-fit: cover;" />
+                                                <a href="#" class="icon d-flex justify-content-center align-items-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.6); border-radius: 50%; width: 40px; height: 40px;">
+                                                    <span class="icon-search2"></span>
+                                                </a>
                                             </a>
+
                                         </div>
+
                                         <div class="text p-3">
                                             <h3>@item.TenTour</h3>
                                             <p>@item.MoTa</p>
@@ -96,7 +100,8 @@
                                             <p><strong>Điểm khởi hành:</strong> @item.DiemKhoiHanh</p>
                                             <p><strong>Điểm đến:</strong> @item.DiemDen</p>
                                             <p><strong>Ngày khởi hành:</strong> @item.NgayKhoiHanh?.ToString("dd/MM/yyyy")</p>
-                                             <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
+                                            <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
+
                                         </div>
                                     </div>
                                 </div>

@@ -49,8 +49,8 @@ else
 
 <div class="hero-wrap js-fullheight position-relative">
     <!-- Ảnh nền -->
-    <img src="~/hinhanh/sl_250506_he-2025.webp" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
-
+    <img src="~/hinhanh/Tổng-quan-du-lịch-Vũng-Tàu-ivivu.jpg" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
+    @*      kích thước ảnh 1349 x 736 *@
     <!-- Lớp overlay mờ -->
     <div class="overlay position-absolute w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: -1;"></div>
 
@@ -72,13 +72,9 @@ else
 <section class="ftco-section ftco-degree-bg">
     <div class="container-fluid px-0">
         <div class="row no-gutters">
-   
-
-
-            <div class="row">
+               <div class="row">
     <div class="col-lg-3 sidebar ftco-animate">
         <div class="sidebar-wrap bg-light ftco-animate">
-            <h3 class="heading mb-4">Tìm kiếm Tour</h3>
                         <!-- Chọn danh mục -->
                         <div class="form-group">
                             @await Component.InvokeAsync("DanhMuc")
@@ -131,7 +127,13 @@ else
                             {
                                 <div class="col-md-4 mb-4">
                                     <div class="card h-100">
-                                        <img class="card-img-top" src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" style="height:200px; object-fit:cover;">
+@*                                         <img class="card-img-top" src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" style="height:200px; object-fit:cover;">
+ *@                                        <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@item.IdTour">
+                                            <img src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" class="img-fluid w-100 h-100" style="object-fit: cover;" />
+                                            <a href="#" class="icon d-flex justify-content-center align-items-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.6); border-radius: 50%; width: 40px; height: 40px;">
+                                                <span class="icon-search2"></span>
+                                            </a>
+                                        </a>
                                         <div class="card-body">
                                             <h5 class="card-title">@item.TenTour</h5>
                                             <p class="card-text">@item.MoTa</p>

@@ -425,58 +425,24 @@
     }
 
 
-
-    /*  .main-image-wrapper {
-    position: relative;
-    margin-bottom: 20px;
-  } */
-
-
-
- /*  .main-image-wrapper img {
-    width: 100%;
-    height: 450px;
-    object-fit: cover;
-    border-radius: 12px;
-  } */
-
-     /*    .main-image-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 800px; 
-            margin: auto;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .main-tour-image {
-            width: 100%;
-            height: auto; 
-            display: block;
-            object-fit: cover;
-            image-rendering: auto; 
-        } */
         .main-image-wrapper {
             position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 450px; /* Chiều cao cố định */
+            width: 710px;
+            height: 400px;
             margin: auto;
             overflow: hidden;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            background-color: #f5f5f5; /* màu nền giúp che khoảng trắng nếu ảnh không đủ */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background-color: #f5f5f5;
         }
 
         .main-tour-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* giữ tỷ lệ và cắt phần dư */
-            object-position: center;
-            display: block;
-            image-rendering: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* không cắt ảnh */
         }
+
+
 
 
   .discount-tag {
@@ -534,7 +500,6 @@
        
 <div class="main-image-wrapper">
   <img id="mainImage" src="~/hinhanh/@Model.HinhAnh" alt="@Model.TenTour">
-  <div class="discount-tag">Nhóm 4 giảm 3 triệu | 34.900k/khách</div>
 </div>
             <div class="thumbnail-bar d-flex flex-wrap gap-2">
                 @if (hinhAnhs != null && hinhAnhs.Count > 0)
@@ -563,41 +528,48 @@
           </ul>
         </div>
 
-        <div class="reviews">
-          <h2>Đánh giá khách hàng</h2>
-          <div class="review">
-            <strong>Lê Minh Tuấn</strong>
-            <span class="review-score">10.0</span>
-            <span class="review-date">21-08-2024</span>
-            <p>Thanks em Huyền đã hỗ trợ cho cả đoàn trong thời gian qua để có chuyến đi thật vui!</p>
-          </div>
-          <div class="review">
-            <strong>Trần Thị Cẩm Vy</strong>
-            <span class="review-score">8.0</span>
-            <span class="review-date">24-05-2024</span>
-            <p>Tour đi hơi nhanh, những chỗ tham quan ít có chỗ nghỉ ngơi. Hướng dẫn viên rất nhiệt tình.</p>
-          </div>
-        </div>
+            <div class="reviews">
+                <h2>Đánh giá khách hàng</h2>
+                @if (ViewBag.DanhGias != null && ((List<VNTour.Data.DanhGium>)ViewBag.DanhGias).Count > 0)
+                {
+                    foreach (var dg in (List<VNTour.Data.DanhGium>)ViewBag.DanhGias)
+                    {
+                        <div class="review">
+                            <strong>@dg.HoTen</strong>
+                            <span class="review-score">@dg.DiemDanhGia</span>
+                            <span class="review-date">@dg.NgayTao</span>
+                            <p>@dg.NoiDung</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Chưa có đánh giá nào cho tour này.</p>
+                }
+            </div>
 
-        <div class="reviews form-section">
+         <div class="reviews form-section">
           <h2>Gửi đánh giá của bạn</h2>
-          <form method="post" action="/Tour/GuiDanhGia">
+          <form method="post" action="/Tour/DanhGia">
             <div class="mb-3">
-              <label for="ten" class="form-label">Tên của bạn</label>
-              <input type="text" class="form-control" id="ten" name="TenNguoiDung" required>
+             <input type="hidden" name="IdTour" value="@Model.IdTour" />
+                        <input type="hidden" name="NgayTao" value="@DateTime.Now" />
+                            <label for="ten" class="form-label">Tên của bạn</label>
+                            <input type="text" class="form-control" id="ten" name="HoTen" required>
+                       
             </div>
-            <div class="mb-3">
-              <label for="diem" class="form-label">Chọn điểm đánh giá</label>
-              <select class="form-select" id="diem" name="DiemDanhGia" required>
-                <option value="">-- Chọn điểm --</option>
-                <option value="10">10 - Tuyệt vời</option>
-                <option value="9">9 - Rất tốt</option>
-                <option value="8">8 - Tốt</option>
-                <option value="7">7 - Khá</option>
-                <option value="6">6 - Trung bình</option>
-                <option value="5">5 - Tệ</option>
-              </select>
-            </div>
+                    <div class="mb-3">
+                        <label for="diem" class="form-label">Chọn điểm đánh giá</label>
+                        <select class="form-select" id="diem" name="DiemDanhGia" required>
+                            <option value="">-- Chọn điểm --</option>
+                            <option value="10">10 - Tuyệt vời</option>
+                            <option value="9">9 - Rất tốt</option>
+                            <option value="8">8 - Tốt</option>
+                            <option value="7">7 - Khá</option>
+                            <option value="6">6 - Trung bình</option>
+                            <option value="5">5 - Tệ</option>
+                        </select>
+                    </div>
             <div class="mb-3">
               <label for="noidung" class="form-label">Nội dung đánh giá</label>
               <textarea class="form-control" id="noidung" name="NoiDung" rows="4" placeholder="Viết cảm nhận của bạn về tour..." required></textarea>
@@ -605,8 +577,8 @@
             <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
           </form>
         </div>
-      </div>
-
+      </div> 
+       
       <!-- RIGHT COLUMN -->
       <div class="main-right">
         <div class="tour-options">
@@ -640,8 +612,37 @@
 
 
 
-<script>
+@* <script>
   function changeMainImage(img) {
     document.getElementById('mainImage').src = img.src;
   }
+</script> *@
+
+<script>
+    let currentIndex = 0;
+    let thumbnails = [];
+    let interval = null;
+
+    window.addEventListener("DOMContentLoaded", () => {
+        thumbnails = document.querySelectorAll('.thumbnail-img');
+        if (thumbnails.length > 0) {
+            changeMainImage(thumbnails[0]); // Đặt ảnh đầu tiên
+            interval = setInterval(nextImage, 3000); // Tự động đổi ảnh mỗi 3 giây
+        }
+    });
+
+    function changeMainImage(imgElement) {
+        const mainImage = document.getElementById('mainImage');
+        if (mainImage && imgElement) {
+            mainImage.src = imgElement.src;
+            currentIndex = Array.from(thumbnails).indexOf(imgElement);
+            clearInterval(interval); // Dừng tự động nếu người dùng click
+        }
+    }
+
+    function nextImage() {
+        if (thumbnails.length === 0) return;
+        currentIndex = (currentIndex + 1) % thumbnails.length;
+        changeMainImage(thumbnails[currentIndex]);
+    }
 </script>

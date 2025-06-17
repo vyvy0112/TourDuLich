@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Du Lịch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="~/Admin/css/style_admin.css" rel="stylesheet">
+</head>
+<body>
+ 
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>🌍 Tour Du Lịch</h2>
+        <a href="#">🏠 Dashboard</a>
+        <a asp-controller="Admin" asp-action="ListTour">🗺️ Quản lý Tour</a>
+        <a href="#">👤 Khách hàng</a>
+        <a href="#">📄 Đơn đặt Tour</a>
+        <a href="#">📌 Địa điểm</a>
+        <a href="#">📊 Thống kê</a>
+        <a href="#">⚙️ Cài đặt</a>
+    </div>
+   
+    <!-- MAIN -->
+    <div class="main">
+        <div class="header">
+            <div class="greeting">👋 Chào mừng, Admin <strong>Nguyễn Văn A</strong></div>
+            <div class="user-info">
+                <div class="name">Nguyễn Văn A</div>
+                <div class="email">admin.dulich@example.com</div>
+            </div>
+        </div>
+        @RenderBody()
+    @*     <div class="content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>🗺️ Tổng số tour</h3>
+                    <p>120 tour đang hoạt động</p>
+                </div>
+                <div class="card">
+                    <h3>👤 Khách hàng</h3>
+                    <p>850 khách hàng đã đăng ký</p>
+                </div>
+                <div class="card">
+                    <h3>📄 Đơn đặt tour</h3>
+                    <p>420 đơn đang xử lý</p>
+                </div>
+                <div class="card">
+                    <h3>📌 Địa điểm du lịch</h3>
+                    <p>35 địa danh được thêm</p>
+                </div>
+            </div>
+        </div> *@
+    </div>
+
+</body>
+</html>

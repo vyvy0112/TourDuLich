@@ -1,5 +1,0 @@
-const days = 1;
-const date = new Date();
-date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000); // Thời gian hết hạn
-const expires = "expires=" + date.toUTCString();
-document.cookie = "cbenable=1; " + expires + "; path=/";

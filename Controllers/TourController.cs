@@ -152,6 +152,9 @@ namespace VNTour.Controllers
 
             var hinhanhs = _context.TourHinhAnhs.Where(x=>x.IdTour == id)
                 .Select(x=>x.UrlHinhAnh).ToList();
+            var danhgias = _context.DanhGia.Where(x=>x.IdTour == id)
+                .OrderByDescending(x=>x.NgayTao)
+                .ToList();
             var result = new ChiTietTour
             {
                 IdTour = tour.IdTour,
@@ -175,14 +178,39 @@ namespace VNTour.Controllers
                 //        IdHinhAnh = th.IdHinhAnh,
                 //        HinhAnh = th.HinhAnh
                 //    }).ToList()
+
             };
 
+            ViewBag.DanhGias = danhgias;
             ViewBag.HinhAnhs = hinhanhs;
 
             return View(result);
         }
 
 
+        [HttpPost]
+        public IActionResult DanhGia(DanhGiaVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var danhgia = new DanhGium
+                {
+                    IdTour = model.IdTour,
+                    HoTen = model.HoTen,
+                    NoiDung = model.NoiDung,    
+                    DiemDanhGia = model.DiemDanhGia,
+                    NgayTao = model.NgayTao,
+                };
+                 _context.DanhGia.Add(danhgia);
+                _context.SaveChanges();
+
+            }
+            var lstdanhgia =  _context.DanhGia
+                .Where(x=>x.IdTour == model.IdTour)
+                .OrderByDescending(x => x.NgayTao)
+                .ToList();
+            return RedirectToAction("ChiTiet", new { id = model.IdTour });
+        }
 
 
     }

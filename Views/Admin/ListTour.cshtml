@@ -1,109 +1,64 @@
 ﻿@model IEnumerable<VNTour.Data.Tour>
 
 @{
-    ViewData["Title"] = "ListTour";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>ListTour</h1>
+        <div class="content">
+            <div class="tour-header">
+                <h2>📋 Danh sách Tour Du Lịch</h2>
+                <a asp-action="Create" class="btn-add">+ Thêm Tour</a>
+            </div>
 
-<p >
-    <a asp-action="CreateTour" asp-controller="Admin">Create New</a>
-</p>  
+            <table class="tour-table">
+                <thead>
+                    <tr>
+                        <th>IdTour</th>
+                        <th>Tên Tour</th>
+                        <th>Loại Tour</th>
+                        <th>Địa điểm</th>
+                        <th>Ngày khởi hành</th>
+                        <th>Số ngày</th>
+                        <th>Số chỗ còn</th>
+                        <th>Giá</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.IdTour</td>
+                            <td>@item.TenTour</td>
+                            <td>@item.IdDanhMucNavigation?.TenDanhMuc</td>
+                            <td>@item.DiemDen</td>
+                            <td>@item.NgayKhoiHanh</td>
+                            <td>@item.ThoiGian</td>
+                            <td>@item.SoCho</td>
+                            <td>@string.Format("{0:N0}đ", item.GiaNguoiLon)</td>
+                            <td>
+                               @if (item.TrangThai == "Hoạt động")
+                                 {
+                                    <span class="status active">Hoạt động</span>
+                                 }
+                               else
+                                 {
+                                    <span class="status inactive">Ngưng hoạt động</span>
+                                 }
+                            </td>
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenTour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MoTa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GiaNguoiLon)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GiaTreEm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThoiGian)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiemKhoiHanh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiemDen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayKhoiHanh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayVe)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HinhAnh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoCho)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-           @*  <th>
-                @Html.DisplayNameFor(model => model.IdDanhMuc)
-            </th> *@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenTour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoTa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiaNguoiLon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiaTreEm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThoiGian)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiemKhoiHanh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiemDen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayKhoiHanh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayVe)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HinhAnh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoCho)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-           @*  <td>
-                @Html.DisplayFor(modelItem => item.IdDanhMuc)
-            </td> *@
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTour">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdTour">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdTour">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                        
+                            <td>
+                                <div class="action-buttons">
+                                    <a asp-action="Edit" asp-route-id="@item.IdTour" class="btn-edit">Sửa</a>
+                                    <a asp-action="Delete" asp-route-id="@item.IdTour" class="btn-delete">Xóa</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+ 
