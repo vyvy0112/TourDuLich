@@ -16,4 +16,8 @@ public partial class NhanVien
     public string? DiaChi { get; set; }
 
     public string? MatKhau { get; set; }
+
+    public string? Role { get; set; }
+
+    public virtual ICollection<DatTour> DatTours { get; set; } = new List<DatTour>();
 }

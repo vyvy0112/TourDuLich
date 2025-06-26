@@ -1,4 +1,4 @@
-﻿@{
+﻿@* @{
     ViewData["Title"] = "Trang Tour Du Lịch";
 }
 
@@ -8,8 +8,12 @@
 @model X.PagedList.IPagedList<VNTour.Data.Tour>
 
 <div class="hero-wrap js-fullheight position-relative">
-    <img src="~/hinhanh/sl_250506_he-2025.webp" alt="Background Image" class="img-fluid w-50 h-50 position-absolute" style="object-fit: cover; top: 0; left: 0; z-index: -1;">
-    <div class="overlay"></div>
+    
+    <img src="~/hinhanh/Tổng-quan-du-lịch-Vũng-Tàu-ivivu.jpg" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
+   
+
+    <div class="overlay position-absolute w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: -1;"></div>
+
     <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
             <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
@@ -29,7 +33,7 @@
                 <div class="col-lg-3 sidebar ftco-animate">
                     <div class="sidebar-wrap bg-light ftco-animate">
                         <h3 class="heading mb-4">Tìm kiếm Tour</h3>
-                        <!-- Chọn danh mục -->
+                  
                         <div class="form-group">
                             @await Component.InvokeAsync("DanhMuc")
                         </div>
@@ -42,7 +46,7 @@
                                 <div class="form-group">
                                     <input type="text" id="checkin_date" class="form-control" placeholder="Date to">
                                 </div>
-                                <!-- Query -->
+                          
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="query" placeholder="Tìm điểm đến, thành phố..." value="@ViewBag.TuKhoa" />
                                 </div>
@@ -63,7 +67,7 @@
                                     </p>
                                 </div>
 
-                                <!-- Nút tìm kiếm -->
+                                
                                 <div class="form-group">
                                     <input type="submit" value="Tìm kiếm" class="btn btn-primary py-3 px-5" />
                                 </div>
@@ -73,7 +77,7 @@
                     </div>
                 </div>
 
-                <!-- Danh sách Tour kết quả -->
+              
                 <div class="col-lg-9">
                     @if (Model != null && Model.Any())
                     {
@@ -100,7 +104,7 @@
                                             <p><strong>Điểm khởi hành:</strong> @item.DiemKhoiHanh</p>
                                             <p><strong>Điểm đến:</strong> @item.DiemDen</p>
                                             <p><strong>Ngày khởi hành:</strong> @item.NgayKhoiHanh?.ToString("dd/MM/yyyy")</p>
-                                            <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
+                                           <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p> 
 
                                         </div>
                                     </div>
@@ -116,18 +120,20 @@
                     }
                 </div>
             </div>
-        </div> <!-- row -->
-    </div> <!-- container-fluid -->
+        </div> 
+    </div> 
     <div class="row mt-5">
         <div class="col text-center">
             <div class="block-27">
                 <ul>
-                    <li> @Html.PagedListPager(Model, page => Url.Action("TourTheoDM", new { page }))</li>
+                    <li>
+                        @Html.PagedListPager(Model, page => Url.Action("TourTheoDM", new { id = ViewBag.IdDanhMuc, page = page }))
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
-</section> <!-- section -->
+</section> 
 <script>
     function updateGiaTuValue(val) {
         document.getElementById("giaTuValue").innerText = Number(val).toLocaleString('vi-VN');
@@ -137,10 +143,173 @@
         document.getElementById("giaDenValue").innerText = Number(val).toLocaleString('vi-VN');
     }
 
-    // Gọi khi trang load để cập nhật đúng giá trị đầu tiên
+  
     document.addEventListener("DOMContentLoaded", function () {
         updateGiaTuValue(document.getElementById("giaTuRange").value);
         updateGiaDenValue(document.getElementById("giaDenRange").value);
     });
 </script>
 
+ *@
+
+@{
+    ViewData["Title"] = "Trang Tour Du Lịch";
+}
+
+@using VNTour.Data
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model X.PagedList.IPagedList<VNTour.Data.Tour>
+
+<div class="hero-wrap js-fullheight position-relative">
+    <img src="~/hinhanh/Tổng-quan-du-lịch-Vũng-Tàu-ivivu.jpg" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
+    <div class="overlay position-absolute w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: -1;"></div>
+
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="/">Home</a></span> <span>Tour</span>
+                </p>
+                <h1 class="mb-3 bread">Destination</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container-fluid px-0">
+        <div class="row no-gutters">
+            <div class="row">
+                <div class="col-lg-3 sidebar ftco-animate">
+                    <div class="sidebar-wrap bg-light ftco-animate">
+                        <h3 class="heading mb-4">Tìm kiếm Tour</h3>
+                        <form asp-controller="Tour" asp-action="TourTheoDM" method="get">
+                            <div class="form-group">
+                                <label for="id">Chọn danh mục</label>
+                                <select class="form-control" id="id" name="id" asp-items="@(ViewBag.DanhMucList as SelectList)">
+                                    <option value="">-- Chọn danh mục --</option>
+                                </select>
+                              
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tuKhoa">Từ khóa</label>
+                                <input type="text" class="form-control" id="tuKhoa" name="tuKhoa" value="@ViewBag.TuKhoa" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ngayBatDau">Ngày khởi hành từ</label>
+                                <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" value="@ViewBag.NgayBatDau" />
+                            </div>
+                            <div class="form-group">
+                                <label>Khoảng giá</label>
+                                <div class="d-flex align-items-center">
+                                    <span class="mr-2">Từ</span>
+                                    <input type="range" id="giaTuRange" name="giaTu" min="0" max="200000000" step="1000000"
+                                           value="@ViewBag.GiaTu ?? 0" oninput="updateGiaTuValue(this.value)" />
+                                    <span class="ml-2">Đến</span>
+                                    <input type="range" id="giaDenRange" name="giaDen" min="0" max="200000000" step="1000000"
+                                           value="@ViewBag.GiaDen ?? 200000000" oninput="updateGiaDenValue(this.value)" />
+                                </div>
+                                <p>
+                                    Giá từ: <span id="giaTuValue">@String.Format("{0:N0}", ViewBag.GiaTu ?? 0)</span> đ -
+                                    đến: <span id="giaDenValue">@String.Format("{0:N0}", ViewBag.GiaDen ?? 200000000)</span> đ
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary py-2 px-4 w-100">Tìm kiếm</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-md-4 ftco-animate">
+                                    <div class="destination">
+                                        <div class="img img-2 position-relative d-flex justify-content-center align-items-center" style="height: 250px; overflow: hidden;">
+                                            <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@item.IdTour">
+                                                <img src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" class="img-fluid w-100 h-100" style="object-fit: cover;" />
+                                                <a href="#" class="icon d-flex justify-content-center align-items-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.6); border-radius: 50%; width: 40px; height: 40px;">
+                                                    <span class="icon-search2"></span>
+                                                </a>
+                                            </a>
+                                        </div>
+
+                                        <div class="text p-3">
+                                            <h3>@item.TenTour</h3>
+                                            <p>@item.MoTa</p>
+                                            <p><strong>Giá người lớn:</strong> @item.GiaNguoiLon.ToString("N0") đ</p>
+                                            <p><strong>Giá trẻ em:</strong> @item.GiaTreEm.ToString("N0") đ</p>
+                                            <p><strong>Điểm khởi hành:</strong> @item.DiemKhoiHanh</p>
+                                            <p><strong>Điểm đến:</strong> @item.DiemDen</p>
+                                            <p><strong>Ngày khởi hành:</strong> @item.NgayKhoiHanh?.ToString("dd/MM/yyyy")</p>
+                                            <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <div class="d-flex justify-content-center align-items-center" style="min-height: 400px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 10px;">
+                                    <div class="text-center px-4">
+                                        <img src="~/hinhanh/no-result.png" alt="No Result" style="width: 120px; opacity: 0.7;" />
+                                        <h4 class="mt-4 text-danger">Không có tour nào phù hợp với tiêu chí tìm kiếm.</h4>
+                                        <p class="text-muted">Hãy thử thay đổi từ khóa, ngày hoặc khoảng giá khác.</p>
+                                        <a href="@Url.Action("TourTheoDM", "Tour")" class="btn btn-outline-primary mt-3">Xóa bộ lọc và tìm lại</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col text-center">
+            <div class="block-27">
+                <ul>
+                    <li>
+                        @Html.PagedListPager(Model, page => Url.Action("TourTheoDM", new
+                            {
+                                id = ViewBag.IdDanhMuc,
+                                page = page,
+                                tuKhoa = ViewBag.TuKhoa,
+                                ngayBatDau = ViewBag.NgayBatDau,
+                                giaTu = ViewBag.GiaTu,
+                                giaDen = ViewBag.GiaDen
+                            }))
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+        function updateGiaTuValue(val) {
+        document.getElementById("giaTuValue").innerText = Number(val).toLocaleString('vi-VN');
+    }
+    function updateGiaDenValue(val) {
+        document.getElementById("giaDenValue").innerText = Number(val).toLocaleString('vi-VN');
+        }
+    document.addEventListener("DOMContentLoaded", function () {
+        updateGiaTuValue(document.getElementById("giaTuRange")?.value);
+        updateGiaDenValue(document.getElementById("giaDenRange")?.value);
+    });
+</script>

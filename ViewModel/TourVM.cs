@@ -1,4 +1,5 @@
-﻿using VNTour.Data;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using VNTour.Data;
 
 namespace VNTour.ViewModel
 {
@@ -22,13 +23,18 @@ namespace VNTour.ViewModel
 
         public DateOnly? NgayKhoiHanh { get; set; }
 
-        public string? HinhAnh { get; set; }
+        public DateOnly? NgayVe { get; set; }
 
+        //public IFormFile HinhAnh { get; set; }
+
+
+        public string? HinhAnh { get; set; }
         public int? SoCho { get; set; }
 
         public string? TrangThai { get; set; }
 
         public int? IdDanhMuc { get; set; }
+
         public string? TenDanhMuc { get; set; }
 
         public virtual ICollection<DatTour> DatTours { get; set; } = new List<DatTour>();

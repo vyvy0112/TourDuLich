@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký tài khoản</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .register-section {
+      padding: 4rem 0;
+      background: #f8f9fa;
+    }
+
+    .register-form {
+      background: #fff;
+      padding: 3rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .register-form .form-control {
+      height: 50px;
+      font-size: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    .register-form .form-control:focus {
+      border-color: #28a745;
+      box-shadow: none;
+    }
+
+    .register-form h2 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      color: #343a40;
+      text-align: center;
+    }
+
+    .btn-register {
+      width: 100%;
+      font-size: 18px;
+      padding: 12px 0;
+      border-radius: 8px;
+    }
+
+    .hero-wrap {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .hero-wrap .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1;
+    }
+
+    .hero-wrap .text-center {
+      z-index: 2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+ 
+
+  <!-- BANNER -->
+  <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+    <div class="overlay"></div>
+    <div class="text-center">
+      <h1 class="display-4">Đăng ký tài khoản</h1>
+    </div>
+  </div>
+
+  <!-- FORM ĐĂNG KÝ -->
+  <section class="register-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <form action="/Account/Register" method="post" class="register-form">
+            <h2>Đăng ký</h2>
+
+            <input type="text" name="HoTen" class="form-control" placeholder="Họ và tên" required>
+            <input type="email" name="Email" class="form-control" placeholder="Email" required>
+            <input type="text" name="TenDangNhap" class="form-control" placeholder="Tên đăng nhập" required>
+            <input type="password" name="MatKhau" class="form-control" placeholder="Mật khẩu" required>
+            <input type="password" name="XacNhanMatKhau" class="form-control" placeholder="Xác nhận mật khẩu" required>
+
+            <button type="submit" class="btn btn-primary btn-register">Đăng ký</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (tuỳ chọn) -->
+  <footer class="text-center py-4 bg-dark text-white">
+    © 2025 DirEngine Travel. All rights reserved.
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

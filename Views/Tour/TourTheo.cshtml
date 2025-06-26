@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Trang Tour Du Lịch";
+}
+
+@using VNTour.Data
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model X.PagedList.IPagedList<VNTour.Data.Tour>
+
+<div class="hero-wrap js-fullheight position-relative">
+    <img src="~/hinhanh/Tổng-quan-du-lịch-Vũng-Tàu-ivivu.jpg" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
+    <div class="overlay position-absolute w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: -1;"></div>
+
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="/">Home</a></span> <span>Tour</span>
+                </p>
+                <h1 class="mb-3 bread">Destination</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container-fluid px-0">
+        <div class="row no-gutters">
+            <div class="row">
+                <div class="col-lg-3 sidebar ftco-animate">
+                    <div class="sidebar-wrap bg-light ftco-animate">
+                        <h3 class="heading mb-4">Tìm kiếm Tour</h3>
+                        <div class="form-group">
+                            @await Component.InvokeAsync("DanhMuc")
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-md-4 ftco-animate">
+                                    <div class="destination">
+                                        <div class="img img-2 position-relative d-flex justify-content-center align-items-center" style="height: 250px; overflow: hidden;">
+                                            <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@item.IdTour">
+                                                <img src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" class="img-fluid w-100 h-100" style="object-fit: cover;" />
+                                                <a href="#" class="icon d-flex justify-content-center align-items-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.6); border-radius: 50%; width: 40px; height: 40px;">
+                                                    <span class="icon-search2"></span>
+                                                </a>
+                                            </a>
+                                        </div>
+                                        <div class="text p-3">
+                                            <h3>@item.TenTour</h3>
+                                            <p>@item.MoTa</p>
+                                            <p><strong>Giá người lớn:</strong> @item.GiaNguoiLon.ToString("N0") đ</p>
+                                            <p><strong>Giá trẻ em:</strong> @item.GiaTreEm.ToString("N0") đ</p>
+                                            <p><strong>Điểm khởi hành:</strong> @item.DiemKhoiHanh</p>
+                                            <p><strong>Điểm đến:</strong> @item.DiemDen</p>
+                                            <p><strong>Ngày khởi hành:</strong> @item.NgayKhoiHanh?.ToString("dd/MM/yyyy")</p>
+                                            <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            Không có tour nào phù hợp với tiêu chí tìm kiếm.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col text-center">
+            <div class="block-27">
+                <ul>
+                    <li>
+                        @Html.PagedListPager(Model, page => Url.Action("TourTheoDM", new
+                            {
+                                id = ViewBag.IdDanhMuc,
+                                page = page,
+                                tuKhoa = ViewBag.TuKhoa,
+                                ngayBatDau = ViewBag.NgayBatDau,
+                                giaTu = ViewBag.GiaTu,
+                                giaDen = ViewBag.GiaDen
+                            }))
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function updateGiaTuValue(val) {
+        document.getElementById("giaTuValue").innerText = Number(val).toLocaleString('vi-VN');
+    }
+    function updateGiaDenValue(val) {
+        document.getElementById("giaDenValue").innerText = Number(val).toLocaleString('vi-VN');
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        updateGiaTuValue(document.getElementById("giaTuRange")?.value);
+        updateGiaDenValue(document.getElementById("giaDenRange")?.value);
+    });
+</script>

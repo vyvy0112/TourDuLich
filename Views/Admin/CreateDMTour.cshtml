@@ -1,0 +1,173 @@
+﻿
+
+ @model VNTour.Data.DanhMucTour
+
+@{
+    ViewData["Title"] = "Thêm Danh Mục Tour";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f1f3f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-wrapper {
+        background-color: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        padding: 40px 50px;
+        margin: 40px auto;
+        max-width: 100%;
+    }
+
+    /* ========================
+       Typography & Header
+    ======================== */
+    .form-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 3px solid #007bff;
+        padding-bottom: 6px;
+        margin-bottom: 30px;
+        display: inline-block;
+    }
+
+    .icon-title {
+        font-size: 22px;
+        color: #007bff;
+        margin-right: 8px;
+    }
+
+    /* ========================
+       Form Structure
+    ======================== */
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
+    .form-col {
+        flex: 1 1 48%;
+        min-width: 300px;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #34495e;
+        display: block;
+    }
+
+    /* ========================
+       Form Controls
+    ======================== */
+    .form-control,
+    .form-select {
+        width: 60%;
+        padding: 12px 16px;
+        font-size: 15px;
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+
+    textarea.form-control {
+        height: auto;
+        resize: vertical;
+    }
+
+    input[type="checkbox"] {
+        transform: scale(1.2);
+        margin-right: 8px;
+    }
+
+    /* ========================
+       Form Buttons
+    ======================== */
+    .form-actions {
+        display: flex;
+        justify-content: flex-start;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .btn-submit {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: #0069d9;
+        }
+
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+    }
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+</style>
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">➕ Thêm Danh Mục Tour</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="CreateDMTour">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="TenDanhMuc" class="form-label">Tên Danh Mục</label>
+                    <input asp-for="TenDanhMuc" class="form-control" placeholder="Nhập tên danh mục..." />
+                    <span asp-validation-for="TenDanhMuc" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TrangThai" class="form-label">Trạng Thái</label>
+                    <select asp-for="TrangThai" class="form-select">
+                        <option value="">-- Chọn trạng thái --</option>
+                        <option value="Hoạt Động">Hoạt động</option>
+                        <option value="Ngưng Hoạt Động">Ngưng hoạt động</option>
+                    </select>
+                    <span asp-validation-for="TrangThai" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="ListDanhMucTour" class="btn btn-secondary">← Quay lại</a>
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

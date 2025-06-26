@@ -1,0 +1,30 @@
+﻿@model VNTour.Data.KhachHang
+
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+
+<h2>Thông tin khách hàng</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Mã KH:</th>
+        <td>@Model.IdKhachHang</td>
+    </tr>
+    <tr>
+        <th>Họ tên:</th>
+        <td>@Model.HoTenKh</td>
+    </tr>
+    <tr>
+        <th>Email:</th>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <th>SĐT:</th>
+        <td>@Model.Sdt</td>
+    </tr>
+    <tr>
+        <th>Địa chỉ:</th>
+        <td>@Model.DiaChi</td>
+    </tr>
+</table>

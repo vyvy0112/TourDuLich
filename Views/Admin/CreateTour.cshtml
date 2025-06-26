@@ -1,0 +1,222 @@
+﻿@model VNTour.ViewModel.TourVM
+@{
+    ViewData["Title"] = "Thêm Tour Du Lịch";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f1f3f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-wrapper {
+        background-color: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        padding: 40px 50px;
+        margin: 40px auto;
+        max-width: 100%;
+    }
+
+    /* ========================
+       Typography & Header
+    ======================== */
+    .form-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 3px solid #007bff;
+        padding-bottom: 6px;
+        margin-bottom: 30px;
+        display: inline-block;
+    }
+
+    .icon-title {
+        font-size: 22px;
+        color: #007bff;
+        margin-right: 8px;
+    }
+
+    /* ========================
+       Form Structure
+    ======================== */
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
+    .form-col {
+        flex: 1 1 48%;
+        min-width: 300px;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #34495e;
+        display: block;
+    }
+
+    /* ========================
+       Form Controls
+    ======================== */
+    .form-control,
+    .form-select {
+        width: 60%;
+        padding: 12px 16px;
+        font-size: 15px;
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+
+    textarea.form-control {
+        height: auto;
+        resize: vertical;
+    }
+
+    input[type="checkbox"] {
+        transform: scale(1.2);
+        margin-right: 8px;
+    }
+
+    /* ========================
+       Form Buttons
+    ======================== */
+    .form-actions {
+        display: flex;
+        justify-content: flex-start;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .btn-submit {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: #0069d9;
+        }
+
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+    }
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+</style>
+
+
+<div class="page-container">
+    <div class="page-header">➕ Thêm Tour Du Lịch</div>
+
+    <form asp-action="CreateTour" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="form-group">
+            <label asp-for="TenTour" class="form-label"></label>
+            <input asp-for="TenTour" class="form-control" />
+            <span asp-validation-for="TenTour" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MoTa" class="form-label"></label>
+            <textarea asp-for="MoTa" class="form-control" rows="8"></textarea>
+            <span asp-validation-for="MoTa" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GiaNguoiLon" class="form-label"></label>
+            <input asp-for="GiaNguoiLon" class="form-control" />
+            <span asp-validation-for="GiaNguoiLon" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GiaTreEm" class="form-label"></label>
+            <input asp-for="GiaTreEm" class="form-control" />
+            <span asp-validation-for="GiaTreEm" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NgayKhoiHanh" class="form-label"></label>
+            <input asp-for="NgayKhoiHanh" type="date" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NgayVe" class="form-label"></label>
+            <input asp-for="NgayVe" type="date" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SoCho" class="form-label"></label>
+            <input asp-for="SoCho" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ThoiGian" class="form-label"></label>
+            <input asp-for="ThoiGian" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="DiemDen" class="form-label"></label>
+            <input asp-for="DiemDen" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="DiemKhoiHanh" class="form-label"></label>
+            <input asp-for="DiemKhoiHanh" class="form-control" />
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="TrangThai" class="form-label">Trạng thái</label>
+            <select asp-for="TrangThai" asp-items="ViewBag.TrangThaiList" class="form-select"></select>
+            <span asp-validation-for="TrangThai" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IdDanhMuc" class="form-label">Danh mục</label>
+            <select asp-for="IdDanhMuc" asp-items="ViewBag.IdDanhMuc" class="form-select"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Hình ảnh đại diện</label>
+            <input type="file" name="HinhAnhFile" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Ảnh phụ (có thể chọn nhiều)</label>
+            <input type="file" name="HinhAnhPhu" multiple class="form-control" />
+        </div>
+
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Lưu</button>
+            <a asp-action="ListTour" class="btn-cancel">Quay lại</a>
+        </div>
+    </form>
+</div>

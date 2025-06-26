@@ -13,8 +13,6 @@ public partial class MaGiamGium
 
     public double? PhanTramGiam { get; set; }
 
-    public double? GiaTriToiThieu { get; set; }
-
     public DateOnly? NgayBatDau { get; set; }
 
     public DateOnly? NgayKetThuc { get; set; }

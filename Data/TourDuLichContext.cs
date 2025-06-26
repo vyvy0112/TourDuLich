@@ -15,6 +15,8 @@ public partial class TourDuLichContext : DbContext
     {
     }
 
+    public virtual DbSet<ChiTietDatTour> ChiTietDatTours { get; set; }
+
     public virtual DbSet<DanhGium> DanhGia { get; set; }
 
     public virtual DbSet<DanhMucTour> DanhMucTours { get; set; }
@@ -37,6 +39,19 @@ public partial class TourDuLichContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<ChiTietDatTour>(entity =>
+        {
+            entity.HasKey(e => e.Idctdt).HasName("PK__ChiTietD__0F8780C1D99DC1FB");
+
+            entity.ToTable("ChiTietDatTour");
+
+            entity.Property(e => e.Idctdt).HasColumnName("IDCTDT");
+
+            entity.HasOne(d => d.IdDatTourNavigation).WithMany(p => p.ChiTietDatTours)
+                .HasForeignKey(d => d.IdDatTour)
+                .HasConstraintName("FK_CTDT_DatTour");
+        });
+
         modelBuilder.Entity<DanhGium>(entity =>
         {
             entity.HasKey(e => e.IdDanhGia).HasName("PK__DanhGia__81F722D21B03C6DB");
@@ -44,6 +59,10 @@ public partial class TourDuLichContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.HoTen).HasMaxLength(100);
             entity.Property(e => e.NgayTao).HasColumnType("datetime");
+
+            entity.HasOne(d => d.IdKhachHangNavigation).WithMany(p => p.DanhGia)
+                .HasForeignKey(d => d.IdKhachHang)
+                .HasConstraintName("FK_DanhGia_KhachHang");
 
             entity.HasOne(d => d.IdTourNavigation).WithMany(p => p.DanhGia)
                 .HasForeignKey(d => d.IdTour)
@@ -67,6 +86,7 @@ public partial class TourDuLichContext : DbContext
 
             entity.ToTable("DatTour");
 
+            entity.Property(e => e.PtthanhToan).HasColumnName("PTThanhToan");
             entity.Property(e => e.TrangThai).HasMaxLength(50);
 
             entity.HasOne(d => d.IdGiamGiaNavigation).WithMany(p => p.DatTours)
@@ -76,6 +96,10 @@ public partial class TourDuLichContext : DbContext
             entity.HasOne(d => d.IdKhachHangNavigation).WithMany(p => p.DatTours)
                 .HasForeignKey(d => d.IdKhachHang)
                 .HasConstraintName("FK__DatTour__IdKhach__45F365D3");
+
+            entity.HasOne(d => d.IdNhanVienNavigation).WithMany(p => p.DatTours)
+                .HasForeignKey(d => d.IdNhanVien)
+                .HasConstraintName("FK_DatTour_NhanVien");
 
             entity.HasOne(d => d.IdTourNavigation).WithMany(p => p.DatTours)
                 .HasForeignKey(d => d.IdTour)
@@ -121,6 +145,7 @@ public partial class TourDuLichContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("HoTenNV");
             entity.Property(e => e.MatKhau).HasMaxLength(100);
+            entity.Property(e => e.Role).HasMaxLength(50);
             entity.Property(e => e.Sdt)
                 .HasMaxLength(20)
                 .HasColumnName("SDT");
@@ -140,7 +165,7 @@ public partial class TourDuLichContext : DbContext
 
             entity.HasOne(d => d.IdDanhMucNavigation).WithMany(p => p.Tours)
                 .HasForeignKey(d => d.IdDanhMuc)
-                .HasConstraintName("FK_Tour_DanhMuc");
+                .HasConstraintName("IdDanhMuc");
         });
 
         modelBuilder.Entity<TourHinhAnh>(entity =>

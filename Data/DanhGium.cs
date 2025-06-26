@@ -19,5 +19,9 @@ public partial class DanhGium
 
     public int IdTour { get; set; }
 
+    public int? IdKhachHang { get; set; }
+
+    public virtual KhachHang? IdKhachHangNavigation { get; set; }
+
     public virtual Tour IdTourNavigation { get; set; } = null!;
 }

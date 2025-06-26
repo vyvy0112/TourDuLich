@@ -1,64 +1,270 @@
 ﻿@model IEnumerable<VNTour.Data.Tour>
 
 @{
+    ViewData["Title"] = "Danh sách Tour";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-        <div class="content">
-            <div class="tour-header">
-                <h2>📋 Danh sách Tour Du Lịch</h2>
-                <a asp-action="Create" class="btn-add">+ Thêm Tour</a>
-            </div>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
 
-            <table class="tour-table">
-                <thead>
-                    <tr>
-                        <th>IdTour</th>
-                        <th>Tên Tour</th>
-                        <th>Loại Tour</th>
-                        <th>Địa điểm</th>
-                        <th>Ngày khởi hành</th>
-                        <th>Số ngày</th>
-                        <th>Số chỗ còn</th>
-                        <th>Giá</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.IdTour</td>
-                            <td>@item.TenTour</td>
-                            <td>@item.IdDanhMucNavigation?.TenDanhMuc</td>
-                            <td>@item.DiemDen</td>
-                            <td>@item.NgayKhoiHanh</td>
-                            <td>@item.ThoiGian</td>
-                            <td>@item.SoCho</td>
-                            <td>@string.Format("{0:N0}đ", item.GiaNguoiLon)</td>
-                            <td>
-                               @if (item.TrangThai == "Hoạt động")
-                                 {
-                                    <span class="status active">Hoạt động</span>
-                                 }
-                               else
-                                 {
-                                    <span class="status inactive">Ngưng hoạt động</span>
-                                 }
-                            </td>
+    .content {
+        padding: 30px 40px;
+        background-color: #ffffff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    }
 
-                        
-                            <td>
-                                <div class="action-buttons">
-                                    <a asp-action="Edit" asp-route-id="@item.IdTour" class="btn-edit">Sửa</a>
-                                    <a asp-action="Delete" asp-route-id="@item.IdTour" class="btn-delete">Xóa</a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+    /* Header */
+    .tour-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .tour-header h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #343a40;
+        margin: 0;
+    }
+
+    /* Buttons */
+    .btn-add {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-add:hover {
+        background-color: #218838;
+    }
+
+    .btn-search,
+    .btn-secondary {
+        font-size: 15px;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+        cursor: pointer;
+    }
+
+    .btn-search {
+        background-color: #007bff;
+    }
+
+    .btn-search:hover {
+        background-color: #0069d9;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    /* Form */
+    .filter-form,
+    .search-form {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .form-select-custom,
+    .search-input {
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        font-size: 15px;
+        background-color: #fff;
+    }
+
+    .form-select-custom {
+        width: 200px;
+    }
+
+    .search-input {
+        width: 250px;
+    }
+
+    /* Tour Table */
+    .tour-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .tour-table thead {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .tour-table th,
+    .tour-table td {
+        padding: 14px 18px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+
+    .tour-table img {
+        width: 100px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* Status */
+    .status {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .status.active {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status.inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    /* Action Buttons */
+    .action-buttons a {
+        margin-right: 6px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-edit:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    .btn-detail {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .btn-detail:hover {
+        background-color: #138496;
+    }
+</style>
+
+<div class="content">
+    <div class="tour-header">
+        <h2>📋 Danh sách Tour Du Lịch</h2>
+        <a asp-action="CreateTour" asp-controller="Admin" class="btn-add">+ Thêm Tour</a>
+    </div>
+
+    <form asp-action="LocTrangThai" method="get" class="search-form">
+        <div class="col-auto">
+            <select class="form-select" name="trangthai">
+                <option value="">-- Tất cả trạng thái --</option>
+                <option value="Hoạt Động">Hoạt Động</option>
+                <option value="Ngưng Hoạt Động">Ngưng Hoạt Động</option>
+            </select>
         </div>
- 
+
+        <div class="col-auto">
+            <input name="query" type="text" class="search-input" placeholder="🔍 Nhập tên tour..." value="@ViewBag.Query" />
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-search">Tìm</button>
+        </div>
+    </form>
+
+    <table class="tour-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tên Tour</th>
+                <th>Hình</th>
+                <th>Địa điểm</th>
+                <th>Ngày khởi hành</th>
+                <th>Số ngày</th>
+                <th>Số chỗ còn</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdTour</td>
+                    <td>@item.TenTour</td>
+                    <td>
+                        <img src="@Url.Content("~/hinhanh/" + item.HinhAnh)" alt="Hình ảnh tour" />
+                    </td>
+                    <td>@item.DiemDen</td>
+                    <td>@item.NgayKhoiHanh</td>
+                    <td>@item.ThoiGian</td>
+                    <td>@item.SoCho</td>
+                    <td>@string.Format("{0:N0}đ", item.GiaNguoiLon)</td>
+                    <td>
+                        @if (item.TrangThai == "Hoạt Động")
+                        {
+                            <span class="status active">Hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="status inactive">Ngưng hoạt động</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <a asp-action="EditTour" asp-route-id="@item.IdTour" class="btn-edit">Sửa</a>
+                            <a asp-action="Delete" asp-route-id="@item.IdTour" class="btn-delete">Xóa</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

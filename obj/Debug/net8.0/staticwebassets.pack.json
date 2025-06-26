@@ -3673,6 +3673,10 @@
       "PackagePath": "staticwebassets\\css\\style.css"
     },
     {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\dangky.html",
+      "PackagePath": "staticwebassets\\dangky.html"
+    },
+    {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
@@ -3777,8 +3781,60 @@
       "PackagePath": "staticwebassets\\fonts\\open-iconic\\open-iconic.woff"
     },
     {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\11b4c7db-c386-429b-a3ba-175fa0cf3707.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\11b4c7db-c386-429b-a3ba-175fa0cf3707.jpg"
+    },
+    {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\1432287152-hon-thom-phu-quoc-02-750x460.jpg",
       "PackagePath": "staticwebassets\\hinhanh\\1432287152-hon-thom-phu-quoc-02-750x460.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\16aeed64-cd59-4e46-bd95-dafde9e839a2.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\16aeed64-cd59-4e46-bd95-dafde9e839a2.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\2685d0fb-f61d-419c-89b8-8efb16a68906.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\2685d0fb-f61d-419c-89b8-8efb16a68906.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\269984ee-8744-4ebe-9d53-8caf0e9cab57.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\269984ee-8744-4ebe-9d53-8caf0e9cab57.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\51d862d1-b310-4e87-a904-d5d68fc846d7.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\51d862d1-b310-4e87-a904-d5d68fc846d7.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\5a054575-f457-4ffe-8092-7ca91a53a7f8.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\5a054575-f457-4ffe-8092-7ca91a53a7f8.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\6e498c8d-6835-47f4-93bd-4b43d41e656a.gif",
+      "PackagePath": "staticwebassets\\hinhanh\\6e498c8d-6835-47f4-93bd-4b43d41e656a.gif"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\6fac41f9-0ed2-4655-b94d-5bfdf2c4186f.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\6fac41f9-0ed2-4655-b94d-5bfdf2c4186f.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\720d314c-a149-4351-b714-44819119c655.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\720d314c-a149-4351-b714-44819119c655.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\787ffb88-f5b6-4886-bc3c-79866ae40751.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\787ffb88-f5b6-4886-bc3c-79866ae40751.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\7edfbff1-4ea7-413a-b95a-6ef8655e9211.gif",
+      "PackagePath": "staticwebassets\\hinhanh\\7edfbff1-4ea7-413a-b95a-6ef8655e9211.gif"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\811a6d4d-35de-4547-ac77-ef87d267cdc5.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\811a6d4d-35de-4547-ac77-ef87d267cdc5.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\9511dfdf-445e-43b2-ab2f-f1282781ef3a.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\9511dfdf-445e-43b2-ab2f-f1282781ef3a.jpg"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\Tổng-quan-du-lịch-Vũng-Tàu-ivivu.jpg",
@@ -3787,6 +3843,14 @@
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\ZmL2FbH.jpg",
       "PackagePath": "staticwebassets\\hinhanh\\ZmL2FbH.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\a3f5c799-97c6-4e42-9167-e94d41490b50.gif",
+      "PackagePath": "staticwebassets\\hinhanh\\a3f5c799-97c6-4e42-9167-e94d41490b50.gif"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\a86b984b-1faa-4690-8380-9bb0020b3697.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\a86b984b-1faa-4690-8380-9bb0020b3697.jpg"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\angkor-wat-with-water-750x460.jpg",
@@ -3799,6 +3863,10 @@
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\bich-hoa-han-quoc-ivv-750x460.gif",
       "PackagePath": "staticwebassets\\hinhanh\\bich-hoa-han-quoc-ivv-750x460.gif"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\c9a2248e-dac4-4d13-9158-35dd54616b5e.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\c9a2248e-dac4-4d13-9158-35dd54616b5e.jpg"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\ca-mau-ivv-750x460.gif",
@@ -3833,6 +3901,10 @@
       "PackagePath": "staticwebassets\\hinhanh\\cuoi-voi-suanthai-thai-lan-ivv-750x460.gif"
     },
     {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\da1f9939-5b79-4b29-8baa-d02f2e76ad7e.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\da1f9939-5b79-4b29-8baa-d02f2e76ad7e.jpg"
+    },
+    {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\dai-loan-750x460.jpg",
       "PackagePath": "staticwebassets\\hinhanh\\dai-loan-750x460.jpg"
     },
@@ -3843,6 +3915,14 @@
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\e-world-han-quoc-ivv-750x460.gif",
       "PackagePath": "staticwebassets\\hinhanh\\e-world-han-quoc-ivv-750x460.gif"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\f983e5a0-d027-4f60-98e2-a19f3436136e.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\f983e5a0-d027-4f60-98e2-a19f3436136e.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\fa51b10b-7d73-4e92-9a3d-84e4bbb4ec17.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\fa51b10b-7d73-4e92-9a3d-84e4bbb4ec17.jpg"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\hon-tam-1-750x460.jpg",

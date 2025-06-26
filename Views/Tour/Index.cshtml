@@ -1,4 +1,5 @@
 ﻿
+
 @using VNTour.Data
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
@@ -38,57 +39,61 @@
 
 
             <div class="row">
-    <div class="col-lg-3 sidebar ftco-animate">
-        <div class="sidebar-wrap bg-light ftco-animate">
-            <h3 class="heading mb-4">Tìm kiếm Tour</h3>
-                        <!-- Chọn danh mục -->
-                        <div class="form-group">
-                            @await Component.InvokeAsync("DanhMuc")
-                        </div>
-            <form asp-controller="Tour" asp-action="TimKiemTour" method="get">
-                <div class="fields">
-                                    <!-- Query -->
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="query" placeholder="Tìm điểm đến, thành phố..." value="@ViewBag.TuKhoa" />
-                    </div>
-                                <div class="form-group">
-                                    <label for="ngayBatDau">Từ ngày</label>
-                                    <input type="text" id="ngayBatDau" name="ngayBatDau" class="form-control" placeholder="Từ ngày" value="@ViewBag.NgayBatDau" />
+                <div class="col-lg-3 sidebar ftco-animate">
+                    <div class="sidebar-wrap bg-light ftco-animate">
+                        <h3 class="heading mb-4">Tìm kiếm Tour</h3>
+                        <form asp-controller="Tour" asp-action="TourTheoDM" method="get">
+                            <div class="form-group">
+                                <label for="id">Chọn danh mục</label>
+                                <select class="form-control" id="id" name="id" asp-items="@(ViewBag.DanhMucList as SelectList)">
+                                    <option value="">-- Chọn danh mục --</option>
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tuKhoa">Từ khóa</label>
+                                <input type="text" class="form-control" id="tuKhoa" name="tuKhoa" value="@ViewBag.TuKhoa" />
+                            </div>
+
+                             <div class="form-group">
+                                 <label for="ngayBatDau">Ngày khởi hành từ</label>
+                                 <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" value="@ViewBag.NgayBatDau" />
+                             </div>
+                           
+
+                           
+
+                            <div class="form-group">
+                                <label>Khoảng giá</label>
+                                <div class="d-flex align-items-center">
+                                    <span class="mr-2">Từ</span>
+                                    <input type="range" id="giaTuRange" name="giaTu" min="0" max="200000000" step="1000000"
+                                           value="@ViewBag.GiaTu ?? 0" oninput="updateGiaTuValue(this.value)" />
+                                    <span class="ml-2">Đến</span>
+                                    <input type="range" id="giaDenRange" name="giaDen" min="0" max="200000000" step="1000000"
+                                           value="@ViewBag.GiaDen ?? 200000000" oninput="updateGiaDenValue(this.value)" />
                                 </div>
-                                <div class="form-group">
-                                    <input type="text" id="checkin_date" class="form-control" placeholder="Date to">
-                                </div>                                
-                                <div class="form-group">
-                                    <label>Chọn khoảng giá:</label>
+                                <p>
+                                    Giá từ: <span id="giaTuValue">@String.Format("{0:N0}", ViewBag.GiaTu ?? 0)</span> đ -
+                                    đến: <span id="giaDenValue">@String.Format("{0:N0}", ViewBag.GiaDen ?? 200000000)</span> đ
+                                </p>
+                            </div>
 
-                                    <div class="d-flex align-items-center">
-                                        <span class="mr-2">Từ</span>
-                                        <input type="range" id="giaTuRange" name="giaTu" min="0" max="200000000" step="0" value="@ViewBag.GiaTu ?? 0" oninput="updateGiaTuValue(this.value)" />
-                                        <span class="ml-2">Đến</span>
-                                        <input type="range" id="giaDenRange" name="giaDen" min="0" max="200000000" step="1000000" value="@ViewBag.GiaDen ?? 200000000" oninput="updateGiaDenValue(this.value)" />
-                                    </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary py-2 px-4 w-100">Tìm kiếm</button>
+                            </div>
+                        </form>
 
-                                    <p class="mt-2">
-                                        Giá từ: <span id="giaTuValue">@String.Format("{0:N0}", ViewBag.GiaTu ?? 0)</span> VNĐ -
-                                        Đến: <span id="giaDenValue">@String.Format("{0:N0}", ViewBag.GiaDen ?? 200000000)</span> VNĐ
-                                    </p>
-                                </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Tìm kiếm" class="btn btn-primary py-3 px-5" />
                     </div>
-
                 </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Danh sách Tour kết quả -->
     <div class="col-lg-9">
-       
+
         @if (Model != null && Model.Any())
         { 
-         
             <div class="row">
                 @foreach (var item in Model)
                 {
@@ -102,20 +107,25 @@
                                                     <span class="icon-search2"></span>
                                                 </a>
                                             </a>
-                                       
                                         </div>
 
-                            <div class="text p-3">
-                                <h3>@item.TenTour</h3>
-                                <p>@item.MoTa</p>
-                                <p><strong>Giá người lớn:</strong> @item.GiaNguoiLon.ToString("N0") đ</p>
-                                <p><strong>Giá trẻ em:</strong> @item.GiaTreEm.ToString("N0") đ</p>
-                                <p><strong>Điểm khởi hành:</strong> @item.DiemKhoiHanh</p>
-                                <p><strong>Điểm đến:</strong> @item.DiemDen</p>
-                                <p><strong>Ngày khởi hành:</strong> @item.NgayKhoiHanh?.ToString("dd/MM/yyyy")</p>
-                                   <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
- 
-                            </div>
+                                        <div class="text p-3">
+                                            <h3><i class="fas fa-map-signs me-2"></i> @item.TenTour</h3>
+                                            <p><i class="fas fa-info-circle me-2"></i> @item.MoTa</p>
+                                            <p><i class="fas fa-user me-2"></i> <strong>Giá người lớn:</strong> @item.GiaNguoiLon.ToString("N0") đ</p>
+                                            <p><i class="fas fa-child me-2"></i> <strong>Giá trẻ em:</strong> @item.GiaTreEm.ToString("N0") đ</p>
+                                            <p><i class="fas fa-location-arrow me-2"></i> <strong>Điểm khởi hành:</strong> @item.DiemKhoiHanh</p>
+                                            <p><i class="fas fa-map-marker-alt me-2"></i> <strong>Điểm đến:</strong> @item.DiemDen</p>
+                                            <p><i class="fas fa-calendar-alt me-2"></i> <strong>Ngày khởi hành:</strong> @item.NgayKhoiHanh?.ToString("dd/MM/yyyy")</p>
+                                             <p><i class="fas fa-folder-open me-2"></i> <strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
+                                          <form asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@item.IdTour" method="get">
+                                                <input type="hidden" name="id" value="@item.IdTour" />
+                                                <button type="submit" class="btn btn-success mt-3">
+                                                    <i class="fas fa-ticket-alt me-2"></i> Đặt Ngay
+                                                </button>
+                                            </form>
+
+                                        </div>
                         </div>
                     </div>
                 }
@@ -127,6 +137,7 @@
                 Không có tour nào phù hợp với tiêu chí tìm kiếm.
             </div>
         }
+
     </div>             
 </div>
         </div> <!-- row -->
@@ -135,7 +146,17 @@
         <div class="col text-center">
             <div class="block-27">
                 <ul>
-                    <li> @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))</li>
+                    <li>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new
+                            {
+                                id = ViewBag.IdDanhMuc,
+                                page = page,
+                                tuKhoa = ViewBag.TuKhoa,
+                                ngayBatDau = ViewBag.NgayBatDau,
+                                giaTu = ViewBag.GiaTu,
+                                giaDen = ViewBag.GiaDen
+                            }))
+                    </li>
 
                 </ul>
             </div>
@@ -160,5 +181,23 @@
     document.addEventListener("DOMContentLoaded", function () {
         updateGiaTuValue(document.getElementById("giaTuRange").value);
         updateGiaDenValue(document.getElementById("giaDenRange").value);
+    });
+
+     document.addEventListener('DOMContentLoaded', function () {
+        // Lấy danh sách ngày khởi hành từ ViewBag
+        var ngayCoTour = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.NgayCoTour));
+
+        flatpickr("#calendar", {
+            dateFormat: "Y-m-d",
+            disable: [], // không disable ngày nào cả
+            onDayCreate: function (dObj, dStr, fp, dayElem) {
+                const dateStr = dayElem.dateObj.toISOString().slice(0, 10);
+                if (ngayCoTour.includes(dateStr)) {
+                    dayElem.style.backgroundColor = "#ff4d4d";  // tô đỏ
+                    dayElem.style.color = "white";
+                    dayElem.style.borderRadius = "50%";
+                }
+            }
+        });
     });
 </script>

@@ -1,0 +1,100 @@
+﻿
+
+ @model VNTour.ViewModel.DangNhapVM
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<style>
+    .register-section {
+      padding: 4rem 0;
+      background: #f8f9fa;
+    }
+
+    .register-form {
+      background: #fff;
+      padding: 3rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .register-form .form-control {
+      height: 50px;
+      font-size: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    .register-form .form-control:focus {
+      border-color: #28a745;
+      box-shadow: none;
+    }
+
+    .register-form h2 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      color: #343a40;
+      text-align: center;
+    }
+
+    .btn-register {
+      width: 100%;
+      font-size: 18px;
+      padding: 12px 0;
+      border-radius: 8px;
+    }
+
+    .hero-wrap {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .hero-wrap .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1;
+    }
+
+    .hero-wrap .text-center {
+      z-index: 2;
+    }
+</style>
+
+<section class="register-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+
+                <form asp-action="DangNhap" asp-controller="TaiKhoan" method="post" class="register-form">
+                    <h2>Đăng nhập</h2>
+
+                    <input asp-for="EmailOrPhone" class="form-control" placeholder="Email hoặc Số điện thoại" />
+                    <input asp-for="MatKhau" type="password" class="form-control" placeholder="Mật khẩu" />
+
+                    <button type="submit" class="btn btn-primary btn-register">Đăng nhập</button>
+                    <div class="text-right mb-3">
+                        <a asp-action="QuenMatKhau" asp-controller="TaiKhoan" class="text-muted">Quên mật khẩu?</a>
+                    </div>
+                    <div class="text-center mt-3">
+                        <span>Chưa có tài khoản?</span>
+                        <a asp-action="DangKy" asp-controller="TaiKhoan" class="text-primary font-weight-bold">Đăng ký</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

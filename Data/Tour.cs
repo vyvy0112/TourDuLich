@@ -31,6 +31,8 @@ public partial class Tour
 
     public string? TrangThai { get; set; }
 
+    public DateOnly? NgayTao { get; set; }
+
     public int? IdDanhMuc { get; set; }
 
     public virtual ICollection<DanhGium> DanhGia { get; set; } = new List<DanhGium>();

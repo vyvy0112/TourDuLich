@@ -26,6 +26,50 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\Nam4\doan3\VNTour\VNTour
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/CreateDMTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlRE1Ub3VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/CreateKH.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlS0guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/CreateTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlVG91ci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/DeleteDMTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlRE1Ub3VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/DeleteKH.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlS0guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/EditDMTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdERNVG91ci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/EditKH.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdEtILmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/EditTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFRvdXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ListDanhMucTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdERhbmhNdWNUb3VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ListKH.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEtILmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ListTour.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdFRvdXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -62,6 +106,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Nam4/doan3/VNTour/VNTour/Views/TaiKhoan/DangKy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFpS2hvYW5cRGFuZ0t5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/TaiKhoan/DangNhap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFpS2hvYW5cRGFuZ05oYXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/TaiKhoan/ThongTin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFpS2hvYW5cVGhvbmdUaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Nam4/doan3/VNTour/VNTour/Views/Tour/ChiTiet.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91clxDaGlUaWV0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -72,6 +128,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Tour/TimKiemTour.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91clxUaW1LaWVtVG91ci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Tour/TourTheo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91clxUb3VyVGhlby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Tour/TourTheoDM.cshtml]

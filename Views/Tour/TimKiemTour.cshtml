@@ -127,8 +127,7 @@ else
                             {
                                 <div class="col-md-4 mb-4">
                                     <div class="card h-100">
-@*                                         <img class="card-img-top" src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" style="height:200px; object-fit:cover;">
- *@                                        <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@item.IdTour">
+                                        <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@item.IdTour">
                                             <img src="~/hinhanh/@item.HinhAnh" alt="@item.TenTour" class="img-fluid w-100 h-100" style="object-fit: cover;" />
                                             <a href="#" class="icon d-flex justify-content-center align-items-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.6); border-radius: 50%; width: 40px; height: 40px;">
                                                 <span class="icon-search2"></span>
@@ -141,8 +140,8 @@ else
                                             <p class="card-text">Điểm khởi hành: @item.DiemKhoiHanh</p>
                                             <p class="card-text">Thời gian: @item.ThoiGian</p>
                                             <p class="card-text">Giá người lớn: @item.GiaNguoiLon.ToString("N0") đ</p>
-                                            <p class="card-text">Danh mục: @item.TenDanhMuc</p>
-                                            <a href="#" class="btn btn-success btn-sm">Đặt ngay</a>
+@*                                              <p class="card-text">Danh mục: @item.IdDanhMucNavigation.TenDanhMuc</p> 
+ *@                                            <a href="#" class="btn btn-success btn-sm">Đặt ngay</a>
                                         </div>
                                     </div>
                                 </div>
@@ -164,16 +163,7 @@ else
 </div>
         </div> <!-- row -->
     </div> <!-- container-fluid -->
-   @*  <div class="row mt-5">
-        <div class="col text-center">
-            <div class="block-27">
-                <ul>
-                    <li> @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))</li>
 
-                </ul>
-            </div>
-        </div>
-    </div> *@
 </section> <!-- section -->
 
 

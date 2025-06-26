@@ -1,0 +1,272 @@
+﻿
+
+
+
+  @model IEnumerable<VNTour.Data.KhachHang>
+
+@{
+    ViewData["Title"] = "Danh sách Khách Hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@*
+ *@
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .content {
+        padding: 30px 40px;
+        background-color: #ffffff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    }
+
+    .tour-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+        .tour-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #343a40;
+            margin: 0;
+        }
+
+    .btn-add {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+
+    .search-form {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .search-select {
+        width: 200px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        font-size: 15px;
+        background-color: #fff;
+    }
+
+    .search-input {
+        width: 250px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        font-size: 15px;
+    }
+
+    .btn-search,
+    .btn-secondary {
+        font-size: 15px;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+        border: none;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-search {
+        background-color: #007bff;
+    }
+
+        .btn-search:hover {
+            background-color: #0069d9;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .tour-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+        .tour-table thead {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .tour-table th,
+        .tour-table td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: middle;
+        }
+
+        .tour-table img {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+        .status.active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status.inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+    .action-buttons a {
+        margin-right: 6px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+        .btn-edit:hover {
+            background-color: #e0a800;
+        }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+    .btn-detail {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+        .btn-detail:hover {
+            background-color: #138496;
+        }
+
+    .filter-form {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .form-select-custom {
+        width: 200px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        font-size: 15px;
+        background-color: #fff;
+    }
+
+    .search-input {
+        width: 250px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        font-size: 15px;
+    }
+
+    .btn-search {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-search:hover {
+            background-color: #0069d9;
+        }
+
+</style>
+<div class="content">
+    <div class="tour-header">
+        <h2>📋 Danh sách Khách Hàng</h2>
+        <a asp-action="CreateKH" asp-controller="Admin" class="btn-add">+ Thêm Khách Hàng</a>
+    </div>
+
+
+    <table class="tour-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Họ Tên</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Địa Chỉ</th>
+                <th>Mật Khẩu</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdKhachHang</td>
+                    <td>@item.HoTenKh</td>
+                    <td>@item.Sdt</td>
+                    <td>@item.Email</td>
+                    <td>@item.DiaChi</td>
+                    <td>@item.MatKhau</td>
+               
+                    <td>
+                        <div class="action-buttons">
+                            <a asp-action="EditKH" asp-route-id="@item.IdKhachHang" class="btn-edit">Sửa</a>
+                            <a asp-action="DeleteKH" asp-route-id="@item.IdKhachHang" class="btn-delete">Xóa</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VNTour.Data;
 using VNTour.ViewModel;
@@ -14,15 +15,22 @@ namespace VNTour.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(int? page)
-        {
+        public async Task<IActionResult> Index(int? page,int? id)
+        {        
+            var danhMucs = await _context.DanhMucTours
+           .Where(x => x.TrangThai == "Hoạt Động")
+            .ToListAsync();
+
+
+            ViewBag.DanhMucList = new SelectList(danhMucs, "IdDanhMuc", "TenDanhMuc", id);
+
             int pageSize = 6;
             int pageNumber = page == null || page < 1 ? 1 : page.Value;
 
             // Query danh sách tour (bất đồng bộ)
             var listtour = await _context.Tours
              .AsNoTracking()
-             .Where(x => x.TrangThai == "Hoạt Động")
+             .Where(x => x.TrangThai == "Hoạt Động" && x.IdDanhMucNavigation.TrangThai == "Hoạt Động")
              .Include(x => x.IdDanhMucNavigation) // << thêm dòng này
              .OrderBy(x => x.TenTour)
              .ToListAsync();
@@ -37,7 +45,39 @@ namespace VNTour.Controllers
         }
 
 
-        public async Task<IActionResult> TourTheoDM(int? id, int? page)
+        //public async Task<IActionResult> TourTheoDM(int? id, int? page)
+        //{
+        //    if (id == null || !await _context.DanhMucTours.AnyAsync(x => x.IdDanhMuc == id))
+        //    {
+        //        return NotFound("Không tìm thấy danh mục tour này");
+        //    }
+
+        //    var danhMuc = await _context.DanhMucTours.FirstOrDefaultAsync(x => x.IdDanhMuc == id);
+        //    ViewBag.TenDanhMuc = danhMuc?.TenDanhMuc; // để hiện tên danh mục trên View
+        //    ViewBag.IdDanhMuc = id;                   // chính chỗ này => để phân trang giữ id
+
+        //    int pageSize = 6;
+        //    int pageNumber = page == null || page < 1 ? 1 : page.Value;
+
+        //    var listtour = await _context.Tours
+        //      .AsNoTracking()
+        //      .Include(x => x.IdDanhMucNavigation)
+        //      .Where(x => x.IdDanhMuc == id
+        //     && x.TrangThai == "Hoạt Động"
+        //     && x.IdDanhMucNavigation.TrangThai == "Hoạt Động")
+        //      .OrderBy(x => x.TenTour).ToListAsync();
+
+        //    PagedList<Tour> tours = new PagedList<Tour>(listtour, pageNumber, pageSize);
+
+        //    if (tours == null || !tours.Any())
+        //    {
+        //        return NotFound("Không có tour nào hoạt động trong danh mục này.");
+        //    }
+
+        //    return View(tours);
+
+        //}      @*      kích thước ảnh 1349 x 736 *@
+        public async Task<IActionResult> TourTheoDM(int? id, int? page, string tuKhoa, DateTime? ngayBatDau, int? giaTu, int? giaDen)
         {
             if (id == null || !await _context.DanhMucTours.AnyAsync(x => x.IdDanhMuc == id))
             {
@@ -45,36 +85,66 @@ namespace VNTour.Controllers
             }
 
             var danhMuc = await _context.DanhMucTours.FirstOrDefaultAsync(x => x.IdDanhMuc == id);
-            ViewBag.TenDanhMuc = danhMuc?.TenDanhMuc; // để hiện tên danh mục trên View
-            ViewBag.IdDanhMuc = id;                   // chính chỗ này => để phân trang giữ id
+            ViewBag.TenDanhMuc = danhMuc?.TenDanhMuc;
+            ViewBag.IdDanhMuc = id;
+            var danhMucs = await _context.DanhMucTours
+           .Where(x => x.TrangThai == "Hoạt Động")
+           .ToListAsync();
+            ViewBag.DanhMucList = new SelectList(danhMucs, "IdDanhMuc", "TenDanhMuc", id); // id nếu đã chọn
 
             int pageSize = 6;
-            int pageNumber = page == null || page < 1 ? 1 : page.Value;
+            int pageNumber = page ?? 1;
 
-            var listtour = await _context.Tours
+            var query = _context.Tours
                 .AsNoTracking()
-                .Where(x => x.IdDanhMuc == id && x.TrangThai == "Hoạt Động")
                 .Include(x => x.IdDanhMucNavigation)
-                .OrderBy(x => x.TenTour)
-                .ToListAsync();
+                .Where(x => x.IdDanhMuc == id
+                            && x.TrangThai == "Hoạt Động"
+                            && x.IdDanhMucNavigation.TrangThai == "Hoạt Động");
 
-            PagedList<Tour> tours = new PagedList<Tour>(listtour, pageNumber, pageSize);
-
-            if (tours == null || !tours.Any())
+            if (!string.IsNullOrEmpty(tuKhoa))
             {
-                return NotFound("Không có tour nào hoạt động trong danh mục này.");
+                query = query.Where(x => x.TenTour.Contains(tuKhoa) || x.DiemDen.Contains(tuKhoa));
+                ViewBag.TuKhoa = tuKhoa;
             }
 
-            return View(tours);
+          
 
+            if (giaTu.HasValue)
+            {
+                query = query.Where(x => x.GiaNguoiLon >= giaTu.Value);
+                ViewBag.GiaTu = giaTu;
+            }
+
+            if (giaDen.HasValue)
+            {
+                query = query.Where(x => x.GiaNguoiLon <= giaDen.Value);
+                ViewBag.GiaDen = giaDen;
+            }
+
+            var listTour = await query.OrderBy(x => x.TenTour).ToListAsync();
+            var tours = new PagedList<Tour>(listTour, pageNumber, pageSize);
+            //Cách này không tối ưu nếu có nhiều dữ liệu vì load toàn bộ rồi mới phân trang.
+
+
+            return View(tours);
         }
 
 
-        
-        public async Task<IActionResult> TimKiemTour(string? query, int? giaTu, int? giaDen, int? idDanhMuc,DateTime? ngayBatDau)
-        {
-            var queryTour = _context.Tours.AsQueryable();
 
+        public async Task<IActionResult> TimKiemTour(string? query, int? giaTu, int? giaDen, int? idDanhMuc,DateOnly? ngayBatDau)
+        {
+            //   var queryTour = _context.Tours
+            //.Include(x => x.IdDanhMucNavigation)
+            //   .AsQueryable();
+
+            //var queryTour = _context.Tours
+            //.AsQueryable();
+
+            var queryTour = _context.Tours
+       .Include(x => x.IdDanhMucNavigation) // Nếu cần lấy TenDanhMuc
+       .Where(x => x.TrangThai == "Hoạt Động") // Nếu bạn chỉ muốn lấy tour hoạt động
+       .AsQueryable();
             if (!string.IsNullOrEmpty(query))
             {
                 queryTour = queryTour.Where(x =>
@@ -102,10 +172,15 @@ namespace VNTour.Controllers
 
             if (ngayBatDau.HasValue)
             {
-                //queryTour = queryTour.Where(x => x.NgayKhoiHanh.HasValue && x.NgayKhoiHanh.Value >= ngayBatDau.Value);
+                queryTour = queryTour.Where(x =>
+                    x.NgayKhoiHanh.HasValue &&
+                    x.NgayKhoiHanh.Value == ngayBatDau.Value
+                );
             }
 
 
+
+            
             var lsttour = await queryTour.Select(p => new TourVM
             {
                 IdTour = p.IdTour,
@@ -129,7 +204,7 @@ namespace VNTour.Controllers
             ViewBag.GiaDen = giaDen;
             ViewBag.TuKhoa = query;
             ViewBag.IdDanhMuc = idDanhMuc;
-                    ViewBag.NgayBatDau = ngayBatDau?.ToString("yyyy-MM-dd");
+            ViewBag.NgayBatDau = ngayBatDau;
             ViewBag.DanhMucTours = await _context.DanhMucTours
                 .AsNoTracking()
                 .OrderBy(x => x.TenDanhMuc)
@@ -150,8 +225,12 @@ namespace VNTour.Controllers
                 return NotFound("Tour không tồn tại hoặc đã bị xóa.");
             }
 
+            //lọc bảng hình anh
             var hinhanhs = _context.TourHinhAnhs.Where(x=>x.IdTour == id)
                 .Select(x=>x.UrlHinhAnh).ToList();
+
+
+
             var danhgias = _context.DanhGia.Where(x=>x.IdTour == id)
                 .OrderByDescending(x=>x.NgayTao)
                 .ToList();
@@ -171,14 +250,6 @@ namespace VNTour.Controllers
                 TrangThai = tour.TrangThai,
                 IdDanhMuc = tour.IdDanhMuc,
                 TenDanhMuc = tour.IdDanhMucNavigation?.TenDanhMuc,
-                //TourHinhAnhs = _context.TourHinhAnhs
-                //    .Where(th => th.IdTour == tour.IdTour)
-                //    .Select(th => new TourHinhAnh
-                //    {
-                //        IdHinhAnh = th.IdHinhAnh,
-                //        HinhAnh = th.HinhAnh
-                //    }).ToList()
-
             };
 
             ViewBag.DanhGias = danhgias;
@@ -186,6 +257,7 @@ namespace VNTour.Controllers
 
             return View(result);
         }
+
 
 
         [HttpPost]
@@ -210,6 +282,27 @@ namespace VNTour.Controllers
                 .OrderByDescending(x => x.NgayTao)
                 .ToList();
             return RedirectToAction("ChiTiet", new { id = model.IdTour });
+        }
+
+        public async Task<IActionResult> ListDat()
+        {
+            if (ModelState.IsValid)
+            {
+                var lstDatTour = await _context.DatTours
+                    .AsNoTracking()
+                    .Include(x => x.IdKhachHangNavigation)
+                    .Include(x => x.IdTourNavigation)
+                    .Include(x => x.IdGiamGiaNavigation)
+                    .OrderByDescending(x => x.NgayDat)
+                    .ToListAsync();
+
+                return View(lstDatTour);
+            }
+            else
+            {
+                return BadRequest("Dữ liệu không hợp lệ.");
+            }
+
         }
 
 
