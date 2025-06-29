@@ -423,8 +423,6 @@
     .form-section {
       margin-top: 32px;
     }
-
-
         .main-image-wrapper {
             position: relative;
             width: 710px;
@@ -442,9 +440,6 @@
             object-fit: contain; 
         }
 
-
-
-
   .discount-tag {
     position: absolute;
     top: 15px;
@@ -457,7 +452,6 @@
     border-radius: 4px;
     z-index: 5;
   }
-
         .thumbnail-bar {
             display: flex;
             flex-wrap: wrap;
@@ -480,12 +474,75 @@
                 transform: scale(1.05); /* zoom nhẹ */
             }
 
-
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
   }
+
+        .btn-ngay.active {
+            background-color: #dc3545; /* đỏ đậm */
+            color: white;
+            border-color: #dc3545;
+        }
+
+        /* --- Cập nhật màu chữ và giao diện --- */
+
+/* Màu chữ tiêu đề và label */
+h1, h3, h4, h5, label, .text-primary, .fw-semibold {
+    color: #003c71 !important;
+    font-weight: 600;
+}
+
+/* Form Thông tin khởi hành - nền cam */
+.col-lg-4 .p-4 {
+    background-color: #FFF3E0 !important;
+    color: white !important;
+}
+
+/* Nút "Yêu cầu đặt tour" */
+.col-lg-4 .btn-danger {
+    background-color: #FF8C00 !important;
+    color: white !important;
+    border: none;
+}
+
+.col-lg-4 .btn-danger:hover {
+    background-color: #FFA54F !important;
+    color: white !important;
+}
+
+/* Label giá bên phải */
+.list-group-item span {
+    color: black;
+}
+
+
+/* Nút ngày được chọn */
+.btn-ngay.active {
+    background-color: #FF8C00;     /* Cam đậm */
+    color: white;
+    border-color: #FF8C00;         /* Đồng bộ màu viền */
+    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.3); /* Hiệu ứng viền nổi bật nhẹ */
+    font-weight: 600;
+}
+
+
+
+
+.tour-options label {
+    color: #007bff !important;
+}
+
+.review-score {
+    background-color: #198754;
+    color: #fff;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
   </style>
 </head>
 <div class="container my-5">
@@ -516,12 +573,29 @@
             <div class="bg-light rounded p-4 mt-4">
                 <h4 class="text-primary">Chi tiết Tour</h4>
                 <ul class="list-unstyled">
-                    <li><strong>Ngày khởi hành:</strong> @Model.NgayKhoiHanh?.ToString("dd/MM/yyyy")</li>
+                    @{
+                        var ngayGanNhat = Model.NgayKhoiHanhs?
+                        .Where(x => x.NgayKhoiHanh1 >= DateOnly.FromDateTime(DateTime.Today))
+                        .OrderBy(x => x.NgayKhoiHanh1)
+                        .FirstOrDefault();
+                    }
+                    <li>
+                        <strong>Ngày khởi hành:</strong>
+                        @if (ngayGanNhat != null)
+                        {
+                            @ngayGanNhat.NgayKhoiHanh1.ToString("dd/MM/yyyy")
+                        }
+                        else
+                        {
+                            <span class="text-muted">Chưa có lịch</span>
+                        }
+                    </li>
                     <li><strong>Thời gian:</strong> @Model.ThoiGian</li>
                     <li><strong>Phương tiện:</strong> Máy bay khứ hồi + Xe du lịch</li>
                     <li><strong>Mô tả:</strong> @Model.MoTa</li>
                     <li><strong>Đã bao gồm:</strong> Vé máy bay, ăn uống, khách sạn, vé tham quan, HDV tiếng Việt</li>
                 </ul>
+
             </div>
 
             <!-- Reviews -->
@@ -572,43 +646,57 @@
                     <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                 </form>
             </div>
-        </div>
-
-        <!-- Right Column: Thông tin khởi hành -->
+        </div>       
         <div class="col-lg-4">
             <div class="p-4 rounded shadow">
-                <h5 class="mb-3 text-danger fw-bold text-uppercase">Thông tin khởi hành</h5>
+                <h5 class="mb-3 text-primary fw-bold text-uppercase">Thông tin khởi hành</h5>
 
-                <label class="mb-2 fw-semibold">Ngày khởi hành</label>
-                <div class="d-flex flex-wrap gap-2 mb-3">
-                    <button class="btn btn-outline-danger btn-sm">01/07</button>
-                    <button class="btn btn-outline-danger btn-sm">08/07</button>
-                    <button class="btn btn-outline-danger btn-sm">15/07</button>
-                    <button class="btn btn-outline-secondary btn-sm">Tất cả</button>
+                <label class="mb-2 fw-semibold">Ngày khởi hành</label>             
+                <div class="d-flex flex-wrap gap-3 mb-3">
+                    @if (Model.NgayKhoiHanhs != null && Model.NgayKhoiHanhs.Any())
+                    {
+                        foreach (var ngay in Model.NgayKhoiHanhs
+                        .Where(x => x.NgayKhoiHanh1 >= DateOnly.FromDateTime(DateTime.Today))
+                        .OrderBy(x => x.NgayKhoiHanh1))
+                        {
+                            <div class="text-center">
+                                <button type="button" class="btn btn-outline-danger btn-sm btn-ngay" onclick="chonNgay(this)">
+    @ngay.NgayKhoiHanh1.ToString("dd/MM")
+</button>
+
+                                <div class="mt-1 text-muted small">
+                                    Còn @ngay.SoChoConLai chỗ
+                                </div>
+                            </div>
+                        }
+
+                        <div class="text-center">
+                            <button class="btn btn-outline-secondary btn-sm">Tất cả</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Chưa có lịch khởi hành</span>
+                    }
                 </div>
 
-                <ul class="list-group mb-3">
+                <ul class="list-group mb-3">                     
                     <li class="list-group-item bg-transparent border-0 d-flex justify-content-between">
-                        <strong>Thời gian:</strong>
-                        <span>5 ngày 4 đêm</span>
-                    </li>
-                    <li class="list-group-item bg-transparent border-0 d-flex justify-content-between">
-                        <strong>Số chỗ còn:</strong>
-                        <span>20 chỗ</span>
-                    </li>
-                    <li class="list-group-item bg-transparent border-0 d-flex justify-content-between">
-                        <strong>Giá người lớn:</strong>
-                        <span>34.900.000 đ</span>
+                        <strong>Giá người lớn</strong>
+                        <span>@Model.GiaNguoiLon.ToString("N0") vnđ</span>
                     </li>
                     <li class="list-group-item bg-transparent border-0 d-flex justify-content-between">
                         <strong>Giá trẻ em:</strong>
-                        <span>24.900.000 đ</span>
+                        <span>@Model.GiaTreEm.ToString("N0") vnđ</span>
                     </li>
                 </ul>
 
-                <button class="btn btn-danger w-100 fw-semibold py-2">
-                    <i class="fas fa-ticket-alt me-2"></i> Yêu cầu đặt tour
-                </button>
+                <a asp-action="Index" asp-controller="DatTour">
+                    <button class="btn btn-danger w-100 fw-semibold py-2">
+                        <i class="fas fa-ticket-alt me-2"></i> Yêu cầu đặt tour
+                    </button>
+                </a>
+                
             </div>
         </div>
     </div>
@@ -641,6 +729,15 @@
         if (thumbnails.length === 0) return;
         currentIndex = (currentIndex + 1) % thumbnails.length;
         changeMainImage(thumbnails[currentIndex]);
+    }
+     function chonNgay(button) {
+        // Bỏ class 'active' khỏi tất cả các nút ngày
+        document.querySelectorAll('.btn-ngay').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Thêm class 'active' cho nút được chọn
+        button.classList.add('active');
     }
 </script>
 

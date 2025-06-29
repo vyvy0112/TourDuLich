@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oA5CGr6/VUBvMuzVsyVpkdhlhYK/TLSus6QQ0LZVy4U=",
+  "Hash": "rJzkx17slpzIjKBNvcM1I7GPgeS26LGUUULOG+VuEdQ=",
   "Source": "VNTour",
   "BasePath": "_content/VNTour",
   "Mode": "Default",
@@ -568,6 +568,25 @@
       "OriginalItemSpec": "wwwroot\\dangky.html"
     },
     {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\dattour.html",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "dattour.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\dattour.html"
+    },
+    {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\favicon.ico",
       "SourceId": "VNTour",
       "SourceType": "Discovered",
@@ -1119,6 +1138,25 @@
       "OriginalItemSpec": "wwwroot\\hinhanh\\16aeed64-cd59-4e46-bd95-dafde9e839a2.jpg"
     },
     {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\2490f83d-6353-435e-b3a3-cb9aceb0c1b1.jpg",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "hinhanh/2490f83d-6353-435e-b3a3-cb9aceb0c1b1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\hinhanh\\2490f83d-6353-435e-b3a3-cb9aceb0c1b1.jpg"
+    },
+    {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\2685d0fb-f61d-419c-89b8-8efb16a68906.jpg",
       "SourceId": "VNTour",
       "SourceType": "Discovered",
@@ -1233,6 +1271,25 @@
       "OriginalItemSpec": "wwwroot\\hinhanh\\6fac41f9-0ed2-4655-b94d-5bfdf2c4186f.jpg"
     },
     {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\7090866f-96da-49b3-b6ca-9b1664e7df4f.jpg",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "hinhanh/7090866f-96da-49b3-b6ca-9b1664e7df4f.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\hinhanh\\7090866f-96da-49b3-b6ca-9b1664e7df4f.jpg"
+    },
+    {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\720d314c-a149-4351-b714-44819119c655.jpg",
       "SourceId": "VNTour",
       "SourceType": "Discovered",
@@ -1309,6 +1366,25 @@
       "OriginalItemSpec": "wwwroot\\hinhanh\\811a6d4d-35de-4547-ac77-ef87d267cdc5.jpg"
     },
     {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\85813e4a-b722-4a4b-afe3-b731cab47673.jpg",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "hinhanh/85813e4a-b722-4a4b-afe3-b731cab47673.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\hinhanh\\85813e4a-b722-4a4b-afe3-b731cab47673.jpg"
+    },
+    {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\9511dfdf-445e-43b2-ab2f-f1282781ef3a.jpg",
       "SourceId": "VNTour",
       "SourceType": "Discovered",
@@ -1383,6 +1459,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\hinhanh\\angkor-wat-with-water-750x460.jpg"
+    },
+    {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\b699d343-d865-4989-a1a8-b95fae04a798.jpg",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "hinhanh/b699d343-d865-4989-a1a8-b95fae04a798.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\hinhanh\\b699d343-d865-4989-a1a8-b95fae04a798.jpg"
     },
     {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\batam-indonesia-ivv-750x460.gif",

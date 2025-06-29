@@ -28,13 +28,22 @@ namespace VNTour.Controllers
             int pageNumber = page == null || page < 1 ? 1 : page.Value;
 
             // Query danh sách tour (bất đồng bộ)
+            //var listtour = await _context.Tours
+            // .AsNoTracking()
+            // .Where(x => x.TrangThai == "Hoạt Động" && x.IdDanhMucNavigation.TrangThai == "Hoạt Động")
+            // .Include(x => x.IdDanhMucNavigation) // << thêm dòng này
+            // .OrderBy(x => x.TenTour)
+            // .ToListAsync();
+
             var listtour = await _context.Tours
-             .AsNoTracking()
-             .Where(x => x.TrangThai == "Hoạt Động" && x.IdDanhMucNavigation.TrangThai == "Hoạt Động")
-             .Include(x => x.IdDanhMucNavigation) // << thêm dòng này
-             .OrderBy(x => x.TenTour)
-             .ToListAsync();
-             PagedList<Tour> tours = new PagedList<Tour>(listtour, pageNumber, pageSize);
+    .AsNoTracking()
+    .Where(x => x.TrangThai == "Hoạt Động" && x.IdDanhMucNavigation.TrangThai == "Hoạt Động")
+    .Include(x => x.IdDanhMucNavigation)
+    .Include(x => x.NgayKhoiHanhs) // << Thêm dòng này
+    .OrderBy(x => x.TenTour)
+    .ToListAsync();
+
+            PagedList<Tour> tours = new PagedList<Tour>(listtour, pageNumber, pageSize);
 
             // Kiểm tra nếu không có dữ liệu
             if (tours == null || !tours.Any())
@@ -89,6 +98,7 @@ namespace VNTour.Controllers
             ViewBag.IdDanhMuc = id;
             var danhMucs = await _context.DanhMucTours
            .Where(x => x.TrangThai == "Hoạt Động")
+          
            .ToListAsync();
             ViewBag.DanhMucList = new SelectList(danhMucs, "IdDanhMuc", "TenDanhMuc", id); // id nếu đã chọn
 
@@ -98,6 +108,7 @@ namespace VNTour.Controllers
             var query = _context.Tours
                 .AsNoTracking()
                 .Include(x => x.IdDanhMucNavigation)
+                .Include(x=>x.NgayKhoiHanhs)
                 .Where(x => x.IdDanhMuc == id
                             && x.TrangThai == "Hoạt Động"
                             && x.IdDanhMucNavigation.TrangThai == "Hoạt Động");
@@ -170,13 +181,13 @@ namespace VNTour.Controllers
                 queryTour = queryTour.Where(x => x.IdDanhMuc == idDanhMuc.Value);
             }
 
-            if (ngayBatDau.HasValue)
-            {
-                queryTour = queryTour.Where(x =>
-                    x.NgayKhoiHanh.HasValue &&
-                    x.NgayKhoiHanh.Value == ngayBatDau.Value
-                );
-            }
+            //if (ngayBatDau.HasValue)
+            //{
+            //    queryTour = queryTour.Where(x =>
+            //        x.NgayKhoiHanh.HasValue &&
+            //        x.NgayKhoiHanh.Value == ngayBatDau.Value
+            //    );
+            //}
 
 
 
@@ -191,11 +202,11 @@ namespace VNTour.Controllers
                 ThoiGian = p.ThoiGian,
                 DiemKhoiHanh = p.DiemKhoiHanh,
                 DiemDen = p.DiemDen,
-                NgayKhoiHanh = p.NgayKhoiHanh,
-                HinhAnh = p.HinhAnh,
-                SoCho = p.SoCho,
+                //NgayKhoiHanh = p.NgayKhoiHanh,
+                //HinhAnh = p.HinhAnh,
+                //SoCho = p.SoCho,
                 TrangThai = p.TrangThai,
-                IdDanhMuc = p.IdDanhMuc,
+                //IdDanhMuc = p.IdDanhMuc,
                 TenDanhMuc = p.IdDanhMucNavigation.TenDanhMuc
             }).ToListAsync();
 
@@ -218,6 +229,7 @@ namespace VNTour.Controllers
             var tour = _context.Tours
                 .AsNoTracking()
                 .Include(t => t.IdDanhMucNavigation)
+                .Include(t => t.NgayKhoiHanhs) // Thêm dòng này nếu cần 
                 .SingleOrDefault(t => t.IdTour == id);
 
             if (tour == null)
@@ -244,12 +256,15 @@ namespace VNTour.Controllers
                 ThoiGian = tour.ThoiGian,
                 DiemKhoiHanh = tour.DiemKhoiHanh,
                 DiemDen = tour.DiemDen,
-                NgayKhoiHanh = tour.NgayKhoiHanh,
+
+                NgayKhoiHanhs = tour.NgayKhoiHanhs?.ToList(),
                 HinhAnh = tour.HinhAnh,
-                SoCho = tour.SoCho,
+                //SoCho = tour.SoCho,
                 TrangThai = tour.TrangThai,
                 IdDanhMuc = tour.IdDanhMuc,
                 TenDanhMuc = tour.IdDanhMucNavigation?.TenDanhMuc,
+               
+
             };
 
             ViewBag.DanhGias = danhgias;

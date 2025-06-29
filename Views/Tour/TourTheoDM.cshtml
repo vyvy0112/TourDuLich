@@ -251,7 +251,27 @@
                                             <p><strong>Giá trẻ em:</strong> @item.GiaTreEm.ToString("N0") đ</p>
                                             <p><strong>Điểm khởi hành:</strong> @item.DiemKhoiHanh</p>
                                             <p><strong>Điểm đến:</strong> @item.DiemDen</p>
-                                            <p><strong>Ngày khởi hành:</strong> @item.NgayKhoiHanh?.ToString("dd/MM/yyyy")</p>
+                                            <p>
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                <strong>Khởi hành gần nhất:</strong>
+                                                @{
+                                                    var ngayGanNhat = item.NgayKhoiHanhs?
+                                                    .Where(x => x.NgayKhoiHanh1 >= DateOnly.FromDateTime(DateTime.Today))
+                                                    .OrderBy(x => x.NgayKhoiHanh1)
+                                                    .FirstOrDefault();
+                                                }
+                                                @if (ngayGanNhat != null)
+                                                {
+                                                    <span class="ms-2 text-success">
+                                                        @ngayGanNhat.NgayKhoiHanh1.ToString("dd/MM/yyyy")
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="ms-2 text-muted">Chưa có lịch</span>
+                                                }
+                                            </p>
+                                           
                                             <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>
                                         </div>
                                     </div>

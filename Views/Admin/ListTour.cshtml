@@ -1,4 +1,116 @@
-﻿@model IEnumerable<VNTour.Data.Tour>
+﻿@* @model IEnumerable<VNTour.Data.Tour>
+
+@{
+    ViewData["Title"] = "ListTour";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>ListTour</h1>
+
+<p>
+    <a asp-action="CreateTour">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TenTour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoTa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaNguoiLon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaTreEm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThoiGian)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiemKhoiHanh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiemDen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HinhAnh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayTao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdDanhMucNavigation)
+            </th>
+            <th>kh</th>
+     
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenTour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaNguoiLon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaTreEm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGian)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiemKhoiHanh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiemDen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HinhAnh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayTao)
+            </td>
+                <td>
+                    <ul>
+                        @foreach (var ngay in item.NgayKhoiHanhs)
+                        {
+                            <li>@ngay.NgayKhoiHanh1.ToString("dd/MM/yyyy")</li>
+                        }
+                    </ul>
+                </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDanhMucNavigation.IdDanhMuc)
+            </td>
+            
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdTour">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdTour">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdTour">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+ *@
+
+
+ @model IEnumerable<VNTour.Data.Tour>
 
 @{
     ViewData["Title"] = "Danh sách Tour";
@@ -9,34 +121,31 @@
     body {
         font-family: 'Segoe UI', sans-serif;
         background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
     }
 
-    .content {
+    .page-container {
+        width: 100%;
         padding: 30px 40px;
         background-color: #ffffff;
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
     }
 
-    /* Header */
-    .tour-header {
+    .page-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         flex-wrap: wrap;
         gap: 10px;
     }
 
-    .tour-header h2 {
+    .page-header h2 {
         font-size: 24px;
         font-weight: 600;
         color: #343a40;
-        margin: 0;
     }
 
-    /* Buttons */
     .btn-add {
         background-color: #28a745;
         color: white;
@@ -51,63 +160,36 @@
         background-color: #218838;
     }
 
-    .btn-search,
-    .btn-secondary {
-        font-size: 15px;
-        font-weight: 500;
-        padding: 10px 20px;
+    .search-form {
+        margin-bottom: 24px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        width: 250px;
+        padding: 10px 14px;
         border-radius: 8px;
-        border: none;
-        color: white;
-        text-decoration: none;
-        transition: background-color 0.2s ease;
-        cursor: pointer;
+        border: 1px solid #ced4da;
+        font-size: 15px;
     }
 
     .btn-search {
         background-color: #007bff;
+        color: white;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 15px;
+        border: none;
+        transition: background-color 0.2s ease;
     }
 
     .btn-search:hover {
         background-color: #0069d9;
     }
 
-    .btn-secondary {
-        background-color: #6c757d;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-    }
-
-    /* Form */
-    .filter-form,
-    .search-form {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        align-items: center;
-        margin-bottom: 24px;
-    }
-
-    .form-select-custom,
-    .search-input {
-        padding: 10px 14px;
-        border-radius: 8px;
-        border: 1px solid #ced4da;
-        font-size: 15px;
-        background-color: #fff;
-    }
-
-    .form-select-custom {
-        width: 200px;
-    }
-
-    .search-input {
-        width: 250px;
-    }
-
-    /* Tour Table */
     .tour-table {
         width: 100%;
         border-collapse: collapse;
@@ -122,22 +204,25 @@
         color: #212529;
     }
 
-    .tour-table th,
-    .tour-table td {
-        padding: 14px 18px;
+    .tour-table th, .tour-table td {
+        padding: 14px 16px;
         text-align: left;
         border-bottom: 1px solid #dee2e6;
         vertical-align: middle;
     }
 
-    .tour-table img {
-        width: 100px;
-        height: 70px;
-        object-fit: cover;
-        border-radius: 8px;
+    .tour-table tbody tr:hover {
+        background-color: #f1f3f5;
     }
 
-    /* Status */
+    .tour-table img {
+        width: 90px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+    }
+
     .status {
         padding: 6px 12px;
         border-radius: 6px;
@@ -156,14 +241,17 @@
         color: #721c24;
     }
 
-    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
     .action-buttons a {
-        margin-right: 6px;
         padding: 6px 12px;
         border-radius: 6px;
         font-size: 14px;
-        text-decoration: none;
         font-weight: 500;
+        text-decoration: none;
     }
 
     .btn-edit {
@@ -194,13 +282,16 @@
     }
 </style>
 
-<div class="content">
-    <div class="tour-header">
-        <h2>📋 Danh sách Tour Du Lịch</h2>
-        <a asp-action="CreateTour" asp-controller="Admin" class="btn-add">+ Thêm Tour</a>
+<div class="page-container">
+    <div class="page-header">
+        <h2>📋 Danh Sách Tour Du Lịch</h2>
+        <a asp-action="CreateTour" class="btn-add">+ Thêm Tour</a>
     </div>
 
-    <form asp-action="LocTrangThai" method="get" class="search-form">
+
+
+   
+        <form asp-action="LocTrangThai" method="get" class="search-form">
         <div class="col-auto">
             <select class="form-select" name="trangthai">
                 <option value="">-- Tất cả trạng thái --</option>
@@ -218,53 +309,57 @@
         </div>
     </form>
 
+
     <table class="tour-table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <th>Tên Tour</th>
                 <th>Hình</th>
-                <th>Địa điểm</th>
-                <th>Ngày khởi hành</th>
-                <th>Số ngày</th>
-                <th>Số chỗ còn</th>
+                <th>Địa Điểm</th>
+                <th>Thời Gian</th>
                 <th>Giá</th>
-                <th>Trạng thái</th>
-                <th>Hành động</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+               
             </tr>
         </thead>
-        <tbody>
+         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.IdTour</td>
-                    <td>@item.TenTour</td>
-                    <td>
-                        <img src="@Url.Content("~/hinhanh/" + item.HinhAnh)" alt="Hình ảnh tour" />
-                    </td>
-                    <td>@item.DiemDen</td>
-                    <td>@item.NgayKhoiHanh</td>
-                    <td>@item.ThoiGian</td>
-                    <td>@item.SoCho</td>
-                    <td>@string.Format("{0:N0}đ", item.GiaNguoiLon)</td>
-                    <td>
+                    <tr>
+                        <td>@item.IdTour</td>
+                        <td>@item.TenTour</td>
+                        <td>
+                            <img src="@Url.Content("~/hinhanh/" + item.HinhAnh)" alt="Hình ảnh tour" />
+                        </td>
+                        <td>@item.DiemDen</td>
+
+                        <td>@item.ThoiGian</td>
+
+
+
+
+                        <td>@string.Format("{0:N0}đ", item.GiaNguoiLon)</td>
+                        <td>
                         @if (item.TrangThai == "Hoạt Động")
                         {
-                            <span class="status active">Hoạt động</span>
+                                    <span class="status active">Hoạt động</span>
                         }
                         else
                         {
-                            <span class="status inactive">Ngưng hoạt động</span>
+                                    <span class="status inactive">Ngưng hoạt động</span>
                         }
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a asp-action="EditTour" asp-route-id="@item.IdTour" class="btn-edit">Sửa</a>
-                            <a asp-action="Delete" asp-route-id="@item.IdTour" class="btn-delete">Xóa</a>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a asp-action="EditTour" asp-route-id="@item.IdTour" class="btn-edit">Sửa</a>
+                                <a asp-action="Delete" asp-route-id="@item.IdTour" class="btn-delete">Xóa</a>
+                            </div>
+                        </td>
+                    </tr>
             }
         </tbody>
+
     </table>
 </div>

@@ -19,12 +19,9 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
         padding: 40px 50px;
         margin: 40px auto;
-        max-width: 100%;
+        max-width: 850px;
     }
 
-    /* ========================
-       Typography & Header
-    ======================== */
     .form-title {
         font-size: 28px;
         font-weight: 600;
@@ -41,9 +38,6 @@
         margin-right: 8px;
     }
 
-    /* ========================
-       Form Structure
-    ======================== */
     .form-row {
         display: flex;
         flex-wrap: wrap;
@@ -52,7 +46,7 @@
 
     .form-col {
         flex: 1 1 48%;
-        min-width: 300px;
+        min-width: 280px;
     }
 
     .form-group {
@@ -66,13 +60,10 @@
         display: block;
     }
 
-    /* ========================
-       Form Controls
-    ======================== */
     .form-control,
     .form-select {
-        width: 60%;
-        padding: 12px 16px;
+        width: 100%;
+        padding: 10px 14px;
         font-size: 15px;
         border-radius: 10px;
         border: 1px solid #ced4da;
@@ -87,18 +78,18 @@
         }
 
     textarea.form-control {
-        height: auto;
+        min-height: 120px;
         resize: vertical;
     }
 
-    input[type="checkbox"] {
-        transform: scale(1.2);
-        margin-right: 8px;
+    #ngay-khoi-hanh-wrapper .form-row {
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px dashed #ccc;
+        border-radius: 8px;
     }
 
-    /* ========================
-       Form Buttons
-    ======================== */
     .form-actions {
         display: flex;
         justify-content: flex-start;
@@ -129,10 +120,26 @@
         font-weight: 500;
         text-decoration: none;
     }
+
         .btn-cancel:hover {
             background-color: #5a6268;
         }
+
+    .btn-secondary {
+        margin-top: 10px;
+        background-color: #6c757d;
+        border: none;
+        padding: 8px 18px;
+        color: white;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
 </style>
+
 
 
 <div class="page-container">
@@ -165,20 +172,7 @@
             <span asp-validation-for="GiaTreEm" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="NgayKhoiHanh" class="form-label"></label>
-            <input asp-for="NgayKhoiHanh" type="date" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="NgayVe" class="form-label"></label>
-            <input asp-for="NgayVe" type="date" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="SoCho" class="form-label"></label>
-            <input asp-for="SoCho" class="form-control" />
-        </div>
+       
         <div class="form-group">
             <label asp-for="ThoiGian" class="form-label"></label>
             <input asp-for="ThoiGian" class="form-control" />
@@ -194,9 +188,12 @@
         
         <div class="form-group">
             <label asp-for="TrangThai" class="form-label">Trạng thái</label>
-            <select asp-for="TrangThai" asp-items="ViewBag.TrangThaiList" class="form-select"></select>
+            <select asp-for="TrangThai" asp-items="ViewBag.TrangThaiList" class="form-select">
+                <option value="">-- Chọn trạng thái --</option>
+            </select>
             <span asp-validation-for="TrangThai" class="text-danger"></span>
         </div>
+
 
         <div class="form-group">
             <label asp-for="IdDanhMuc" class="form-label">Danh mục</label>
@@ -212,6 +209,24 @@
             <label class="form-label">Ảnh phụ (có thể chọn nhiều)</label>
             <input type="file" name="HinhAnhPhu" multiple class="form-control" />
         </div>
+        <div id="ngay-khoi-hanh-wrapper">
+            <div class="form-row" data-index="0">
+                <div class="form-group">
+                    <label>Ngày khởi hành</label>
+                    <input type="date" name="NgayKhoiHanhs[0].NgayKhoiHanh" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Ngày kết thúc</label>
+                    <input type="date" name="NgayKhoiHanhs[0].NgayKetThuc" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Số chỗ</label>
+                    <input type="number" name="NgayKhoiHanhs[0].SoCho" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary mt-2" onclick="addNgayKhoiHanh()">➕ Thêm ngày</button>
 
 
         <div class="form-actions">
@@ -220,3 +235,26 @@
         </div>
     </form>
 </div>
+<script>
+    let index = 1;
+    function addNgayKhoiHanh() {
+        const wrapper = document.getElementById("ngay-khoi-hanh-wrapper");
+        const html = `
+            <div class="form-row" data-index="${index}">
+                <div class="form-group">
+                    <label>Ngày khởi hành</label>
+                    <input type="date" name="NgayKhoiHanhs[${index}].NgayKhoiHanh" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Ngày kết thúc</label>
+                    <input type="date" name="NgayKhoiHanhs[${index}].NgayKetThuc" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Số chỗ</label>
+                    <input type="number" name="NgayKhoiHanhs[${index}].SoCho" class="form-control" />
+                </div>
+            </div>`;
+        wrapper.insertAdjacentHTML("beforeend", html);
+        index++;
+    }
+</script>

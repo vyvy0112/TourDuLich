@@ -21,13 +21,7 @@ public partial class Tour
 
     public string? DiemDen { get; set; }
 
-    public DateOnly? NgayKhoiHanh { get; set; }
-
-    public DateOnly? NgayVe { get; set; }
-
     public string? HinhAnh { get; set; }
-
-    public int? SoCho { get; set; }
 
     public string? TrangThai { get; set; }
 
@@ -41,5 +35,10 @@ public partial class Tour
 
     public virtual DanhMucTour? IdDanhMucNavigation { get; set; }
 
+  
+    public virtual ICollection<NgayKhoiHanh> NgayKhoiHanhs { get; set; } = new List<NgayKhoiHanh>();
+
     public virtual ICollection<TourHinhAnh> TourHinhAnhs { get; set; } = new List<TourHinhAnh>();
+    
+
 }

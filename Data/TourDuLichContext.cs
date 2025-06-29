@@ -27,6 +27,8 @@ public partial class TourDuLichContext : DbContext
 
     public virtual DbSet<MaGiamGium> MaGiamGia { get; set; }
 
+    public virtual DbSet<NgayKhoiHanh> NgayKhoiHanhs { get; set; }
+
     public virtual DbSet<NhanVien> NhanViens { get; set; }
 
     public virtual DbSet<Tour> Tours { get; set; }
@@ -34,7 +36,7 @@ public partial class TourDuLichContext : DbContext
     public virtual DbSet<TourHinhAnh> TourHinhAnhs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=LAPTOP-EUOBO6JQ;Initial Catalog=TourDuLich;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -131,6 +133,22 @@ public partial class TourDuLichContext : DbContext
 
             entity.Property(e => e.MaCode).HasMaxLength(50);
             entity.Property(e => e.MoTa).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<NgayKhoiHanh>(entity =>
+        {
+            entity.HasKey(e => e.IdNkh).HasName("PK__NgayKhoi__0DD2F644DB2DC303");
+
+            entity.ToTable("NgayKhoiHanh");
+
+            entity.Property(e => e.IdNkh).HasColumnName("IdNKH");
+            entity.Property(e => e.NgayKhoiHanh1).HasColumnName("NgayKhoiHanh");
+            entity.Property(e => e.SoChoConLai).HasDefaultValue(0);
+
+            entity.HasOne(d => d.IdTourNavigation).WithMany(p => p.NgayKhoiHanhs)
+                .HasForeignKey(d => d.IdTour)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__NgayKhoiH__IdTou__634EBE90");
         });
 
         modelBuilder.Entity<NhanVien>(entity =>
