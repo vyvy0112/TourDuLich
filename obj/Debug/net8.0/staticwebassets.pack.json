@@ -3785,8 +3785,16 @@
       "PackagePath": "staticwebassets\\fonts\\open-iconic\\open-iconic.woff"
     },
     {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\0df056a3-0890-4854-9a85-7689285a2733.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\0df056a3-0890-4854-9a85-7689285a2733.jpg"
+    },
+    {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\11b4c7db-c386-429b-a3ba-175fa0cf3707.jpg",
       "PackagePath": "staticwebassets\\hinhanh\\11b4c7db-c386-429b-a3ba-175fa0cf3707.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\13b0676c-7fae-42f0-9d46-795f92bb9e87.gif",
+      "PackagePath": "staticwebassets\\hinhanh\\13b0676c-7fae-42f0-9d46-795f92bb9e87.gif"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\1432287152-hon-thom-phu-quoc-02-750x460.jpg",
@@ -4163,6 +4171,10 @@
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\kham-pha-lang-co-cuu-phan-tai-dai-loan-750x460.jpg",
       "PackagePath": "staticwebassets\\hinhanh\\kham-pha-lang-co-cuu-phan-tai-dai-loan-750x460.jpg"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\logo.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\logo.jpg"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\malacca-malaysia-ivv-930x520.gif",

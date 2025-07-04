@@ -13,7 +13,11 @@ public partial class DatTour
 
     public int? IdGiamGia { get; set; }
 
-    public DateOnly? NgayDat { get; set; }
+    public string TenNguoiDat { get; set; } = null!;
+
+    public string DiaChi { get; set; } = null!;
+
+    public DateTime? NgayDat { get; set; }
 
     public int? SoNguoiLon { get; set; }
 
@@ -31,6 +35,8 @@ public partial class DatTour
 
     public int? IdNhanVien { get; set; }
 
+    public int IdNkh { get; set; }
+
     public virtual ICollection<ChiTietDatTour> ChiTietDatTours { get; set; } = new List<ChiTietDatTour>();
 
     public virtual MaGiamGium? IdGiamGiaNavigation { get; set; }
@@ -38,6 +44,8 @@ public partial class DatTour
     public virtual KhachHang? IdKhachHangNavigation { get; set; }
 
     public virtual NhanVien? IdNhanVienNavigation { get; set; }
+
+    public virtual NgayKhoiHanh IdNkhNavigation { get; set; } = null!;
 
     public virtual Tour? IdTourNavigation { get; set; }
 }

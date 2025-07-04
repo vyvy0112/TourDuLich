@@ -25,6 +25,8 @@ public partial class TourDuLichContext : DbContext
 
     public virtual DbSet<KhachHang> KhachHangs { get; set; }
 
+    public virtual DbSet<LienHe> LienHes { get; set; }
+
     public virtual DbSet<MaGiamGium> MaGiamGia { get; set; }
 
     public virtual DbSet<NgayKhoiHanh> NgayKhoiHanhs { get; set; }
@@ -36,7 +38,7 @@ public partial class TourDuLichContext : DbContext
     public virtual DbSet<TourHinhAnh> TourHinhAnhs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=LAPTOP-EUOBO6JQ;Initial Catalog=TourDuLich;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -88,24 +90,32 @@ public partial class TourDuLichContext : DbContext
 
             entity.ToTable("DatTour");
 
+            entity.Property(e => e.DiaChi).HasMaxLength(100);
+            entity.Property(e => e.NgayDat).HasColumnType("datetime");
             entity.Property(e => e.PtthanhToan).HasColumnName("PTThanhToan");
+            entity.Property(e => e.TenNguoiDat).HasMaxLength(100);
             entity.Property(e => e.TrangThai).HasMaxLength(50);
 
             entity.HasOne(d => d.IdGiamGiaNavigation).WithMany(p => p.DatTours)
                 .HasForeignKey(d => d.IdGiamGia)
-                .HasConstraintName("FK__DatTour__IdGiamG__47DBAE45");
+                .HasConstraintName("FK_DatTour_MaGiamGia");
 
             entity.HasOne(d => d.IdKhachHangNavigation).WithMany(p => p.DatTours)
                 .HasForeignKey(d => d.IdKhachHang)
-                .HasConstraintName("FK__DatTour__IdKhach__45F365D3");
+                .HasConstraintName("FK_DatTour_KhachHang");
 
             entity.HasOne(d => d.IdNhanVienNavigation).WithMany(p => p.DatTours)
                 .HasForeignKey(d => d.IdNhanVien)
                 .HasConstraintName("FK_DatTour_NhanVien");
 
+            entity.HasOne(d => d.IdNkhNavigation).WithMany(p => p.DatTours)
+                .HasForeignKey(d => d.IdNkh)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DatTour_NgayKhoiHanh");
+
             entity.HasOne(d => d.IdTourNavigation).WithMany(p => p.DatTours)
                 .HasForeignKey(d => d.IdTour)
-                .HasConstraintName("FK__DatTour__IdTour__46E78A0C");
+                .HasConstraintName("FK_DatTour_Tour");
         });
 
         modelBuilder.Entity<KhachHang>(entity =>
@@ -125,6 +135,21 @@ public partial class TourDuLichContext : DbContext
                 .HasColumnName("SDT");
         });
 
+        modelBuilder.Entity<LienHe>(entity =>
+        {
+            entity.HasKey(e => e.IdLienHe).HasName("PK__LienHe__03AC912A3941DB9F");
+
+            entity.ToTable("LienHe");
+
+            entity.Property(e => e.HoTen).HasMaxLength(100);
+            entity.Property(e => e.NgayTao).HasColumnType("datetime");
+            entity.Property(e => e.SoDienThoai).HasMaxLength(20);
+
+            entity.HasOne(d => d.IdKhachHangNavigation).WithMany(p => p.LienHes)
+                .HasForeignKey(d => d.IdKhachHang)
+                .HasConstraintName("FK__LienHe__IdKhachH__0880433F");
+        });
+
         modelBuilder.Entity<MaGiamGium>(entity =>
         {
             entity.HasKey(e => e.IdGiamGia).HasName("PK__MaGiamGi__E0F7D8B6EBCFD7E8");
@@ -133,6 +158,9 @@ public partial class TourDuLichContext : DbContext
 
             entity.Property(e => e.MaCode).HasMaxLength(50);
             entity.Property(e => e.MoTa).HasMaxLength(255);
+            entity.Property(e => e.NgayBatDau).HasColumnType("datetime");
+            entity.Property(e => e.NgayKetThuc).HasColumnType("datetime");
+            entity.Property(e => e.TrangThai).HasMaxLength(100);
         });
 
         modelBuilder.Entity<NgayKhoiHanh>(entity =>
@@ -142,7 +170,10 @@ public partial class TourDuLichContext : DbContext
             entity.ToTable("NgayKhoiHanh");
 
             entity.Property(e => e.IdNkh).HasColumnName("IdNKH");
-            entity.Property(e => e.NgayKhoiHanh1).HasColumnName("NgayKhoiHanh");
+            entity.Property(e => e.NgayKetThuc).HasColumnType("datetime");
+            entity.Property(e => e.NgayKhoiHanh1)
+                .HasColumnType("datetime")
+                .HasColumnName("NgayKhoiHanh");
             entity.Property(e => e.SoChoConLai).HasDefaultValue(0);
 
             entity.HasOne(d => d.IdTourNavigation).WithMany(p => p.NgayKhoiHanhs)
@@ -177,6 +208,7 @@ public partial class TourDuLichContext : DbContext
 
             entity.Property(e => e.DiemDen).HasMaxLength(100);
             entity.Property(e => e.DiemKhoiHanh).HasMaxLength(100);
+            entity.Property(e => e.NgayTao).HasColumnType("datetime");
             entity.Property(e => e.TenTour).HasMaxLength(255);
             entity.Property(e => e.ThoiGian).HasMaxLength(50);
             entity.Property(e => e.TrangThai).HasMaxLength(100);

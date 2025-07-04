@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rJzkx17slpzIjKBNvcM1I7GPgeS26LGUUULOG+VuEdQ=",
+  "Hash": "EmOFCdabpL4LX+kKLSR4dHNyGNXYIyrnHdJc71+EcKc=",
   "Source": "VNTour",
   "BasePath": "_content/VNTour",
   "Mode": "Default",
@@ -1081,6 +1081,25 @@
       "OriginalItemSpec": "wwwroot\\fonts\\open-iconic\\open-iconic.woff"
     },
     {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\0df056a3-0890-4854-9a85-7689285a2733.jpg",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "hinhanh/0df056a3-0890-4854-9a85-7689285a2733.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\hinhanh\\0df056a3-0890-4854-9a85-7689285a2733.jpg"
+    },
+    {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\11b4c7db-c386-429b-a3ba-175fa0cf3707.jpg",
       "SourceId": "VNTour",
       "SourceType": "Discovered",
@@ -1098,6 +1117,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\hinhanh\\11b4c7db-c386-429b-a3ba-175fa0cf3707.jpg"
+    },
+    {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\13b0676c-7fae-42f0-9d46-795f92bb9e87.gif",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "hinhanh/13b0676c-7fae-42f0-9d46-795f92bb9e87.gif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\hinhanh\\13b0676c-7fae-42f0-9d46-795f92bb9e87.gif"
     },
     {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\1432287152-hon-thom-phu-quoc-02-750x460.jpg",
@@ -2846,6 +2884,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\hinhanh\\kham-pha-lang-co-cuu-phan-tai-dai-loan-750x460.jpg"
+    },
+    {
+      "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\logo.jpg",
+      "SourceId": "VNTour",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\",
+      "BasePath": "_content/VNTour",
+      "RelativePath": "hinhanh/logo.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\hinhanh\\logo.jpg"
     },
     {
       "Identity": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\malacca-malaysia-ivv-930x520.gif",

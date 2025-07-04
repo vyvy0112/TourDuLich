@@ -20,4 +20,6 @@ public partial class KhachHang
     public virtual ICollection<DanhGium> DanhGia { get; set; } = new List<DanhGium>();
 
     public virtual ICollection<DatTour> DatTours { get; set; } = new List<DatTour>();
+
+    public virtual ICollection<LienHe> LienHes { get; set; } = new List<LienHe>();
 }

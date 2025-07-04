@@ -73,5 +73,11 @@ namespace VNTour.ViewModel
 
         public virtual ICollection<TourHinhAnh> TourHinhAnhs { get; set; } = new List<TourHinhAnh>();
 
+
+        public int? IdNgayKhoiHanh { get; set; }
+
+
+        public bool ChoPhepDanhGia { get; set; } // ✅ để kiểm tra đã đặt chưa
+
     }
 }

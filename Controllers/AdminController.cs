@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Globalization;
+
 using VNTour.Data;
 using VNTour.Helpers;
 using VNTour.ViewModel;
@@ -92,7 +94,7 @@ namespace VNTour.Controllers
                         IdTour = tour.IdTour,
                         NgayKhoiHanh1 = item.NgayKhoiHanh,
                         NgayKetThuc = item.NgayKhoiHanh,
-                        SoChoConLai = item.SoCho
+                        SoChoConLai = item.SoChoConLai
                     };
                     _context.NgayKhoiHanhs.Add(ngayKhoiHanh);
                 }
@@ -125,168 +127,209 @@ namespace VNTour.Controllers
         }
 
 
-        //public async Task<IActionResult> CreateTour(Tour model, IFormFile? HinhAnhFile, List<IFormFile> HinhAnhPhu)
-        //{
-        //    if (ModelState.IsValid)
+        //    [HttpGet]
+        //    public async Task<IActionResult> EditTour(int id)
         //    {
-        //        // Xử lý upload hình ảnh
-        //        if (HinhAnhFile != null && HinhAnhFile.Length > 0)
+        //        var tour = await _context.Tours.FindAsync(id);
+        //        if (tour == null)
         //        {
-        //            //var hinhPath = MyUtil.UploadHinh(HinhAnhFile, "Tour"); // ví dụ lưu vào wwwroot/hinhanh/Tour
-        //            var hinhPath = MyUtil.UploadHinh(HinhAnhFile, "");
-        //            if (!string.IsNullOrEmpty(hinhPath))
-        //            {
-        //                model.HinhAnh = hinhPath;
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError("", "Không thể upload hình ảnh");
-        //                ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc");
-        //                return View(model);
-        //            }
+        //            return NotFound();
         //        }
-
-        //        var tour = new Tour
+        //        ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", tour.IdDanhMuc);
+        //        ViewBag.TrangThaiList = new List<SelectListItem>
         //        {
-        //            TenTour = model.TenTour,
-        //            MoTa = model.MoTa,
-        //            GiaNguoiLon = model.GiaNguoiLon,
-        //            GiaTreEm = model.GiaTreEm,
-        //            TrangThai = "Hoạt Động",
-        //            IdDanhMuc = model.IdDanhMuc,
-        //            HinhAnh = model.HinhAnh,
-        //            DiemDen = model.DiemDen,
-        //            DiemKhoiHanh = model.DiemKhoiHanh,
-        //            ThoiGian = model.ThoiGian,
-
+        //            new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động" },
+        //            new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động" }
         //        };
 
-        //        _context.Tours.Add(tour);
-        //        await _context.SaveChangesAsync();
-
-        //        if (HinhAnhPhu != null && HinhAnhPhu.Count > 0)
-        //        {
-        //            foreach (var file in HinhAnhPhu)
-        //            {
-        //                var url = MyUtil.UploadHinh(file, "");
-        //                if (!string.IsNullOrEmpty(url))
-        //                {
-        //                    var hinhanh = new TourHinhAnh
-        //                    {
-        //                        IdTour = tour.IdTour,
-        //                        UrlHinhAnh = url,
-        //                    };
-        //                    _context.TourHinhAnhs.Add(hinhanh);
-        //                }
-        //            }
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        return RedirectToAction("ListTour");
+        //        ViewBag.NgayKhoiHanh = await _context.NgayKhoiHanhs
+        //            .Where(n => n.IdTour == id)
+        //            .OrderByDescending(n => n.NgayKhoiHanh1)
+        //            .ToListAsync();
+        //        return View(tour);
         //    }
 
-        //    ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc");
-        //    return View(model);
-        //}
+
+        //    [HttpPost]
+        //    public async Task<IActionResult> EditTour(Tour model, IFormFile? HinhAnhFile, List<IFormFile> HinhAnhPhu)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var tour = await _context.Tours.FindAsync(model.IdTour);
+        //            if (tour == null)
+        //            {
+        //                return NotFound();
+        //            }
+
+        //            // Xử lý upload hình ảnh
+        //            if (HinhAnhFile != null && HinhAnhFile.Length > 0)
+        //            {
+        //                var hinhPath = MyUtil.UploadHinh(HinhAnhFile, "");
+        //                if (!string.IsNullOrEmpty(hinhPath))
+        //                {
+        //                    tour.HinhAnh = hinhPath;
+        //                }
+        //                else
+        //                {
+        //                    ModelState.AddModelError("", "Không thể upload hình ảnh");
+        //                    ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", tour.IdDanhMuc);
+        //                    return View(model);
+        //                }
+        //            }
+
+        //            // Cập nhật thông tin tour
+        //            tour.TenTour = model.TenTour;
+        //            tour.MoTa = model.MoTa;
+        //            tour.GiaNguoiLon = model.GiaNguoiLon;
+        //            tour.GiaTreEm = model.GiaTreEm;
+        //            tour.TrangThai = model.TrangThai;
+
+        //            tour.IdDanhMuc = model.IdDanhMuc;
+        //            tour.DiemDen = model.DiemDen;
+        //            tour.DiemKhoiHanh = model.DiemKhoiHanh;
+        //            tour.ThoiGian = model.ThoiGian;
+
+        //            _context.Tours.Update(tour);
+        //            await _context.SaveChangesAsync();
+        //            if (HinhAnhPhu != null && HinhAnhPhu.Count > 0)
+        //            {
+        //                foreach (var file in HinhAnhPhu)
+        //                {
+        //                    var url = MyUtil.UploadHinh(file, "");
+        //                    if (!string.IsNullOrEmpty(url))
+        //                    {
+        //                        var hinhanh = new TourHinhAnh
+        //                        {
+        //                            IdTour = tour.IdTour,
+        //                            UrlHinhAnh = url,
+        //                        };
+        //                        _context.TourHinhAnhs.Update(hinhanh);
+        //                    }
+        //                }
+        //                await _context.SaveChangesAsync();
+        //            }
+
+        //            return RedirectToAction("ListTour");
+        //        }
+        //        // Trường hợp model lỗi validation
+        //        ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours, "IdDanhMuc", "TenDanhMuc", model.IdDanhMuc);
+        //        ViewBag.TrangThaiList = new List<SelectListItem>
+        //{
+        //    new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động", Selected = model.TrangThai == "Hoạt động" },
+        //    new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động", Selected = model.TrangThai == "Ngưng Hoạt Động" }
+        //};
+        //        ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", model.IdDanhMuc);
+        //        return View(model);
+        //    }
+
+
 
 
 
         [HttpGet]
         public async Task<IActionResult> EditTour(int id)
         {
-            var tour = await _context.Tours.FindAsync(id);
+            var tour = await _context.Tours
+                .Include(t => t.NgayKhoiHanhs)
+                .FirstOrDefaultAsync(t => t.IdTour == id);
+
             if (tour == null)
-            {
                 return NotFound();
-            }
+
             ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", tour.IdDanhMuc);
             ViewBag.TrangThaiList = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động" },
-                new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động" }
-            };
+    {
+        new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động" },
+        new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động" }
+    };
 
-            ViewBag.NgayKhoiHanh = await _context.NgayKhoiHanhs
-                .Where(n => n.IdTour == id)
-                .OrderByDescending(n => n.NgayKhoiHanh1)
-                .ToListAsync();
-            return View(tour);
+            return View(tour); // tour chứa cả NgayKhoiHanhs
         }
-
 
         [HttpPost]
         public async Task<IActionResult> EditTour(Tour model, IFormFile? HinhAnhFile, List<IFormFile> HinhAnhPhu)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var tour = await _context.Tours.FindAsync(model.IdTour);
-                if (tour == null)
-                {
-                    return NotFound();
-                }
-
-                // Xử lý upload hình ảnh
-                if (HinhAnhFile != null && HinhAnhFile.Length > 0)
-                {
-                    var hinhPath = MyUtil.UploadHinh(HinhAnhFile, "");
-                    if (!string.IsNullOrEmpty(hinhPath))
-                    {
-                        tour.HinhAnh = hinhPath;
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Không thể upload hình ảnh");
-                        ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", tour.IdDanhMuc);
-                        return View(model);
-                    }
-                }
-
-                // Cập nhật thông tin tour
-                tour.TenTour = model.TenTour;
-                tour.MoTa = model.MoTa;
-                tour.GiaNguoiLon = model.GiaNguoiLon;
-                tour.GiaTreEm = model.GiaTreEm;
-                tour.TrangThai = model.TrangThai;
-                
-                tour.IdDanhMuc = model.IdDanhMuc;
-                tour.DiemDen = model.DiemDen;
-                tour.DiemKhoiHanh = model.DiemKhoiHanh;
-                tour.ThoiGian = model.ThoiGian;
-
-                _context.Tours.Update(tour);
-                await _context.SaveChangesAsync();
-                if (HinhAnhPhu != null && HinhAnhPhu.Count > 0)
-                {
-                    foreach (var file in HinhAnhPhu)
-                    {
-                        var url = MyUtil.UploadHinh(file, "");
-                        if (!string.IsNullOrEmpty(url))
-                        {
-                            var hinhanh = new TourHinhAnh
-                            {
-                                IdTour = tour.IdTour,
-                                UrlHinhAnh = url,
-                            };
-                            _context.TourHinhAnhs.Update(hinhanh);
-                        }
-                    }
-                    await _context.SaveChangesAsync();
-                }
-
-                return RedirectToAction("ListTour");
+                ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", model.IdDanhMuc);
+                ViewBag.TrangThaiList = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động", Selected = model.TrangThai == "Hoạt Động" },
+            new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động", Selected = model.TrangThai == "Ngưng Hoạt Động" }
+        };
+                return View(model);
             }
-            // Trường hợp model lỗi validation
-            ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours, "IdDanhMuc", "TenDanhMuc", model.IdDanhMuc);
-            ViewBag.TrangThaiList = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động", Selected = model.TrangThai == "Hoạt động" },
-        new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động", Selected = model.TrangThai == "Ngưng Hoạt Động" }
-    };
-            ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", model.IdDanhMuc);
-            return View(model);
+
+            var tour = await _context.Tours
+                .Include(t => t.NgayKhoiHanhs)
+                .FirstOrDefaultAsync(t => t.IdTour == model.IdTour);
+
+            if (tour == null) return NotFound();
+
+            // Cập nhật thông tin Tour
+            tour.TenTour = model.TenTour;
+            tour.MoTa = model.MoTa;
+            tour.GiaNguoiLon = model.GiaNguoiLon;
+            tour.GiaTreEm = model.GiaTreEm;
+            tour.TrangThai = model.TrangThai;
+            tour.IdDanhMuc = model.IdDanhMuc;
+            tour.DiemDen = model.DiemDen;
+            tour.DiemKhoiHanh = model.DiemKhoiHanh;
+            tour.ThoiGian = model.ThoiGian;
+
+            // Cập nhật hình chính
+            if (HinhAnhFile != null && HinhAnhFile.Length > 0)
+            {
+                var path = MyUtil.UploadHinh(HinhAnhFile, "");
+                if (!string.IsNullOrEmpty(path))
+                    tour.HinhAnh = path;
+            }
+
+            // ✅ Xử lý cập nhật Ngày Khởi Hành
+            foreach (var item in model.NgayKhoiHanhs)
+            {
+                var existing = tour.NgayKhoiHanhs.FirstOrDefault(x => x.IdTour == item.IdTour);
+                if (existing != null)
+                {
+                    // Cập nhật
+                    existing.NgayKhoiHanh1 = item.NgayKhoiHanh1;
+                    existing.NgayKetThuc = item.NgayKetThuc;
+                    existing.SoChoConLai = item.SoChoConLai;
+                }
+                else
+                {
+                    // Thêm mới
+                    tour.NgayKhoiHanhs.Add(new NgayKhoiHanh
+                    {
+                        IdTour = tour.IdTour,
+                        NgayKhoiHanh1 = item.NgayKhoiHanh1,
+                        NgayKetThuc = item.NgayKetThuc,
+                        SoChoConLai = item.SoChoConLai
+                    });
+                }
+            }
+
+            // Hình phụ
+            if (HinhAnhPhu != null && HinhAnhPhu.Count > 0)
+            {
+                foreach (var file in HinhAnhPhu)
+                {
+                    var url = MyUtil.UploadHinh(file, "");
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        _context.TourHinhAnhs.Add(new TourHinhAnh
+                        {
+                            IdTour = tour.IdTour,
+                            UrlHinhAnh = url
+                        });
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("ListTour");
         }
 
-
-        // GET: Hiển thị giao diện xác nhận xóa
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -611,7 +654,8 @@ namespace VNTour.Controllers
         {
             var khachhang = await _context.KhachHangs.FindAsync(id);
             if (khachhang == null)
-                return NotFound();
+                return NotFound(); // ✅ đúng phương thức có sẵn trong ASP.NET Core
+
 
             _context.KhachHangs.Remove(khachhang);
             await _context.SaveChangesAsync();
@@ -647,5 +691,18 @@ namespace VNTour.Controllers
         //    await _context.SaveChangesAsync();
         //    return RedirectToAction(nameof(ListTour));
         //}
+
+
+        [Route("Admin/ThongKe")]
+        public IActionResult ThongKe()
+        {
+            var totalRevenue = _context.DatTours
+                .Where(b => b.TrangThai == "Hoàn Tất" || b.TrangThai == "Đã Thanh Toán") // Hoặc dùng enum PaymentStatus.Paid
+                .Sum(b => b.TongTien); // Sum tổng tiền của các booking đã thanh toán
+
+            return View(totalRevenue);
+        }
+
+
     }
 }

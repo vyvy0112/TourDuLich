@@ -573,23 +573,32 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
             <div class="bg-light rounded p-4 mt-4">
                 <h4 class="text-primary">Chi tiết Tour</h4>
                 <ul class="list-unstyled">
-                    @{
-                        var ngayGanNhat = Model.NgayKhoiHanhs?
-                        .Where(x => x.NgayKhoiHanh1 >= DateOnly.FromDateTime(DateTime.Today))
-                        .OrderBy(x => x.NgayKhoiHanh1)
-                        .FirstOrDefault();
-                    }
+                 
                     <li>
-                        <strong>Ngày khởi hành:</strong>
-                        @if (ngayGanNhat != null)
+                        <strong>Danh sách ngày khởi hành:</strong>
+                        @if (Model.NgayKhoiHanhs != null && Model.NgayKhoiHanhs.Any(x => x.NgayKhoiHanh1.Date >= DateTime.Today))
                         {
-                            @ngayGanNhat.NgayKhoiHanh1.ToString("dd/MM/yyyy")
+                            <ul class="list-unstyled mt-2">
+                                @foreach (var item in Model.NgayKhoiHanhs
+                               .Where(x => x.NgayKhoiHanh1.Date >= DateTime.Today)
+                               .OrderBy(x => x.NgayKhoiHanh1))
+                                {
+                                    <li>
+                                        <i class="bi bi-calendar-event me-1 text-primary"></i>
+                                        @item.NgayKhoiHanh1.ToString("dd/MM/yyy")
+                                    </li>
+                                }
+                            </ul>
                         }
                         else
                         {
-                            <span class="text-muted">Chưa có lịch</span>
+                            <span class="text-muted">Chưa có lịch khởi hành</span>
                         }
                     </li>
+
+
+
+
                     <li><strong>Thời gian:</strong> @Model.ThoiGian</li>
                     <li><strong>Phương tiện:</strong> Máy bay khứ hồi + Xe du lịch</li>
                     <li><strong>Mô tả:</strong> @Model.MoTa</li>
@@ -599,6 +608,7 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
             </div>
 
             <!-- Reviews -->
+
             <div class="mt-4">
                 <h4 class="mb-3">Đánh giá khách hàng</h4>
                 @if (ViewBag.DanhGias != null && ((List<VNTour.Data.DanhGium>)ViewBag.DanhGias).Count > 0)
@@ -646,7 +656,7 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                     <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                 </form>
             </div>
-        </div>       
+        </div>
         <div class="col-lg-4">
             <div class="p-4 rounded shadow">
                 <h5 class="mb-3 text-primary fw-bold text-uppercase">Thông tin khởi hành</h5>
@@ -655,20 +665,20 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                 <div class="d-flex flex-wrap gap-3 mb-3">
                     @if (Model.NgayKhoiHanhs != null && Model.NgayKhoiHanhs.Any())
                     {
-                        foreach (var ngay in Model.NgayKhoiHanhs
-                        .Where(x => x.NgayKhoiHanh1 >= DateOnly.FromDateTime(DateTime.Today))
-                        .OrderBy(x => x.NgayKhoiHanh1))
+
+                        @foreach (var ngay in Model.NgayKhoiHanhs)
                         {
                             <div class="text-center">
-                                <button type="button" class="btn btn-outline-danger btn-sm btn-ngay" onclick="chonNgay(this)">
-    @ngay.NgayKhoiHanh1.ToString("dd/MM")
-</button>
-
-                                <div class="mt-1 text-muted small">
-                                    Còn @ngay.SoChoConLai chỗ
-                                </div>
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-sm btn-ngay"
+                                        data-id="@ngay.IdNkh"
+                                        onclick="chonNgay(this)">
+                                    @ngay.NgayKhoiHanh1.ToString("dd/MM")
+                                </button>
+                                <div class="mt-1 text-muted small">Còn @ngay.SoChoConLai chỗ</div>
                             </div>
-                        }
+                        }                      
+
 
                         <div class="text-center">
                             <button class="btn btn-outline-secondary btn-sm">Tất cả</button>
@@ -691,19 +701,45 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                     </li>
                 </ul>
 
-                <a asp-action="Index" asp-controller="DatTour">
-                    <button class="btn btn-danger w-100 fw-semibold py-2">
-                        <i class="fas fa-ticket-alt me-2"></i> Yêu cầu đặt tour
-                    </button>
-                </a>
-                
+              
+                @* <a asp-controller="DatTour" asp-action="DatTour" asp-route-id="@Model.IdTour" class="btn btn-primary btn-lg w-100">
+                    Đặt Tour
+                </a> *@
+                @* <div class="text-center mt-3">
+                    <form id="formDatTour" method="get" action="/DatTour/DatTour">
+                        <input type="hidden" name="idNgayKhoiHanh" id="idNgayKhoiHanhInput" />
+                        <button type="submit" class="btn btn-primary">Đặt tour</button>
+                    </form>
+                </div> *@
+                @* <div> 
+                    <a asp-controller="DatTour"
+                       asp-action="DatTour"
+                       asp-route-id="@Model.IdTour"
+                       asp-route-idNgayKhoiHanh="@Model.IdNgayKhoiHanh"
+                       class="btn btn-primary">
+                        Đặt tour
+                    </a>
+
+
+                </div> *@
+
+                <form method="get" action="@Url.Action("DatTour", "DatTour")" id="formDatTour">
+                    <input type="hidden" name="id" value="@Model.IdTour" />
+                    <input type="hidden" name="idNgayKhoiHanh" id="idNgayKhoiHanhInput" />
+
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">Đặt tour</button>
+                    </div>
+                </form>
+
+               
             </div>
         </div>
     </div>
 </div>
 
 
-<script>
+@* <script>
     let currentIndex = 0;
     let thumbnails = [];
     let interval = null;
@@ -730,15 +766,44 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
         currentIndex = (currentIndex + 1) % thumbnails.length;
         changeMainImage(thumbnails[currentIndex]);
     }
-     function chonNgay(button) {
-        // Bỏ class 'active' khỏi tất cả các nút ngày
-        document.querySelectorAll('.btn-ngay').forEach(btn => {
-            btn.classList.remove('active');
-        });
+    // function chonNgay(button) {
+    //     Loại bỏ active của các nút khác
+    //     document.querySelectorAll('.btn-ngay').forEach(btn => btn.classList.remove('active'));
 
-        // Thêm class 'active' cho nút được chọn
+    //     Active nút đang chọn
+    //     button.classList.add('active');
+
+    //     Lấy ID ngày khởi hành
+    //     const id = button.getAttribute('data-id');
+
+    //     Gán vào input hidden
+    //     document.getElementById('idNgayKhoiHanhInput').value = id;
+    // }
+
+        function chonNgay(button) {
+            // Loại bỏ 'active' khỏi các nút khác
+            document.querySelectorAll('.btn-ngay').forEach(b => b.classList.remove('active'));
+
+            // Thêm 'active' vào nút được chọn
+            button.classList.add('active');
+
+            // Gán giá trị idNgayKhoiHanh đã chọn vào input ẩn
+            const idNgay = button.getAttribute("data-id");
+            document.getElementById("idNgayKhoiHanhInput").value = idNgay;
+        }
+</script> *@
+
+
+<script>
+    function chonNgay(button) {
+        // Bỏ active khỏi tất cả các nút
+        document.querySelectorAll('.btn-ngay').forEach(b => b.classList.remove('active'));
+
+        // Thêm active cho nút được chọn
         button.classList.add('active');
+
+        // Gán giá trị idNgayKhoiHanh vào input ẩn trong form
+        const idNgay = button.getAttribute("data-id");
+        document.getElementById("idNgayKhoiHanhInput").value = idNgay;
     }
 </script>
-
-

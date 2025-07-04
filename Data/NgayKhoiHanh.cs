@@ -9,11 +9,13 @@ public partial class NgayKhoiHanh
 
     public int IdTour { get; set; }
 
-    public DateOnly NgayKhoiHanh1 { get; set; }
+    public DateTime NgayKhoiHanh1 { get; set; }
 
-    public DateOnly NgayKetThuc { get; set; }
+    public DateTime NgayKetThuc { get; set; }
 
     public int? SoChoConLai { get; set; }
+
+    public virtual ICollection<DatTour> DatTours { get; set; } = new List<DatTour>();
 
     public virtual Tour IdTourNavigation { get; set; } = null!;
 }

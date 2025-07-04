@@ -13,11 +13,13 @@ public partial class MaGiamGium
 
     public double? PhanTramGiam { get; set; }
 
-    public DateOnly? NgayBatDau { get; set; }
+    public DateTime? NgayBatDau { get; set; }
 
-    public DateOnly? NgayKetThuc { get; set; }
+    public DateTime? NgayKetThuc { get; set; }
 
     public int? SoLuong { get; set; }
+
+    public string? TrangThai { get; set; }
 
     public virtual ICollection<DatTour> DatTours { get; set; } = new List<DatTour>();
 }

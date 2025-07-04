@@ -3,8 +3,8 @@
     public class NgayKhoiHanhVM
     {
         public int IdTour { get; set; }
-        public DateOnly NgayKhoiHanh { get; set; }
-        public DateOnly NgayKetThuc { get; set; }
-        public int SoCho { get; set; }
+        public DateTime NgayKhoiHanh { get; set; }
+        public DateTime NgayKetThuc { get; set; }
+        public int SoChoConLai { get; set; }
     }
 }

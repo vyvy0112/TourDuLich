@@ -1,0 +1,17 @@
+﻿@model double
+@{
+    ViewData["Title"] = "Thống kê doanh thu";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Thống kê doanh thu tổng cộng</h2>
+
+    <div class="card shadow p-4">
+        <h4>Tổng doanh thu:</h4>
+        <p class="display-6 text-success fw-bold">
+            @String.Format("{0:N0} đ", Model)
+        </p>
+    </div>
+
+    <a class="btn btn-primary mt-4" href="@Url.Action("Index", "Home")">Quay về trang chính</a>
+</div>

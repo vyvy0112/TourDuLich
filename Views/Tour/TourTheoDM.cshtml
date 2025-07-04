@@ -254,7 +254,7 @@
                                             <p>
                                                 <i class="fas fa-calendar-alt me-2"></i>
                                                 <strong>Khởi hành gần nhất:</strong>
-                                                @{
+                                                @* @{
                                                     var ngayGanNhat = item.NgayKhoiHanhs?
                                                     .Where(x => x.NgayKhoiHanh1 >= DateOnly.FromDateTime(DateTime.Today))
                                                     .OrderBy(x => x.NgayKhoiHanh1)
@@ -269,7 +269,24 @@
                                                 else
                                                 {
                                                     <span class="ms-2 text-muted">Chưa có lịch</span>
+                                                } *@
+                                                @{
+                                                    var ngayGanNhat = item.NgayKhoiHanhs?
+                                                    .Where(x => x.NgayKhoiHanh1 >= DateTime.Today)
+                                                    .OrderBy(x => x.NgayKhoiHanh1)
+                                                    .FirstOrDefault();
                                                 }
+                                                @if (ngayGanNhat != null)
+                                                {
+                                                    <span class="ms-2 text-success">
+                                                        @ngayGanNhat.NgayKhoiHanh1.ToString("dd/MM/yyyy")
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="ms-2 text-muted">Chưa có lịch</span>
+                                                }
+
                                             </p>
                                            
                                             <p><strong>Danh mục:</strong> @item.IdDanhMucNavigation.TenDanhMuc</p>

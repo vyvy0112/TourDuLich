@@ -39,7 +39,7 @@
         margin-right: 8px;
     }
 
-    
+
     .form-row {
         display: flex;
         flex-wrap: wrap;
@@ -62,9 +62,7 @@
         display: block;
     }
 
-    /* ========================
-           Form Controls
-        ======================== */
+
     .form-control,
     .form-select {
         width: 60%;
@@ -131,6 +129,10 @@
 </style>
 
 
+
+
+
+
 <div class="container">
     <div class="form-wrapper">
         <h2 class="form-title">Chỉnh sửa Tour</h2>
@@ -163,26 +165,11 @@
                         <input asp-for="DiemDen" class="form-control" />
                         <span asp-validation-for="DiemDen" class="text-danger"></span>
                     </div>
-@* 
-                    <div class="form-group">
-                        <label asp-for="NgayVe" class="form-label"></label>
-                        <input asp-for="NgayVe" class="form-control" />
-                        <span asp-validation-for="NgayVe" class="text-danger"></span>
-                    </div>
 
-                    <div class="form-group">
-                        <label asp-for="SoCho" class="form-label"></label>
-                        <input asp-for="SoCho" class="form-control" />
-                        <span asp-validation-for="SoCho" class="text-danger"></span>
-                    </div> *@
                 </div>
 
                 <div class="form-col">
-                    @* <div class="form-group">
-                        <label asp-for="MoTa" class="form-label"></label>
-                        <input asp-for="MoTa" class="form-control" />
-                        <span asp-validation-for="MoTa" class="text-danger"></span>
-                    </div> *@
+
                     <div class="form-group">
                         <label asp-for="MoTa" class="form-label"></label>
                         <textarea asp-for="MoTa" class="form-control" rows="5"></textarea>
@@ -202,11 +189,6 @@
                         <span asp-validation-for="DiemKhoiHanh" class="text-danger"></span>
                     </div>
 
-                   @*  <div class="form-group">
-                        <label asp-for="NgayKhoiHanh" class="form-label"></label>
-                        <input asp-for="NgayKhoiHanh" class="form-control" />
-                        <span asp-validation-for="NgayKhoiHanh" class="text-danger"></span>
-                    </div> *@
 
                     <div class="form-group">
                         <label class="form-label">Ảnh hiện tại</label><br />
@@ -219,6 +201,10 @@
                             <span>Chưa có hình ảnh</span>
                         }
                     </div>
+           
+
+                   
+
 
                     <div class="form-group">
                         <label class="form-label">Chọn ảnh mới (nếu có):</label>
@@ -232,6 +218,83 @@
                     </div>
                 </div>
             </div>
+          @*   @{
+                var ngayKhoiHanhList = Model.NgayKhoiHanhs?.ToList() ?? new List<VNTour.Data.NgayKhoiHanh>();
+            }
+
+            @if (ngayKhoiHanhList.Any())
+            {
+                for (int i = 0; i < ngayKhoiHanhList.Count; i++)
+                {
+                    <div class="border p-3 mb-3 rounded shadow-sm">
+                        <input type="hidden" name="NgayKhoiHanhs[@i].Id" value="@ngayKhoiHanhList[i].IdTour" />
+                        <input type="hidden" name="NgayKhoiHanhs[@i].IdTour" value="@Model.IdTour" />
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Ngày khởi hành</label>
+                                <input type="date" name="NgayKhoiHanhs[@i].NgayKhoiHanh1"
+                                       value="@ngayKhoiHanhList[i].NgayKhoiHanh1.ToString("yyyy-MM-dd")"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label>Ngày kết thúc</label>
+                                <input type="date" name="NgayKhoiHanhs[@i].NgayKetThuc"
+                                       value="@ngayKhoiHanhList[i].NgayKetThuc.ToString("yyyy-MM-dd")"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label>Số chỗ còn lại</label>
+                                <input type="number" name="NgayKhoiHanhs[@i].SoChoConLai"
+                                       value="@ngayKhoiHanhList[i].SoChoConLai"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">Chưa có ngày khởi hành.</p>
+            }
+ *@
+
+         @*    @{
+                var ngayKhoiHanhList = Model.NgayKhoiHanhs?.ToList() ?? new List<VNTour.Data.NgayKhoiHanh>();
+            }
+
+
+            <div id="ngayKhoiHanhContainer">
+               
+                @for (int i = 0; i < ngayKhoiHanhList.Count; i++)
+                {
+                    <div class="form-row mb-3">
+                        <input type="hidden" name="NgayKhoiHanhs[@i].Id" value="@ngayKhoiHanhList[i].IdTour" />
+                        <input type="hidden" name="NgayKhoiHanhs[@i].IdTour" value="@Model.IdTour" />
+                        <div class="form-group col-md-4">
+                            <label>Ngày khởi hành</label>
+                            <input type="date" name="NgayKhoiHanhs[@i].NgayKhoiHanh1" value="@ngayKhoiHanhList[i].NgayKhoiHanh1.ToString("yyyy-MM-dd")" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Ngày kết thúc</label>
+                            <input type="date" name="NgayKhoiHanhs[@i].NgayKetThuc" value="@ngayKhoiHanhList[i].NgayKetThuc.ToString("yyyy-MM-dd")" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Số chỗ còn lại</label>
+                            <input type="number" name="NgayKhoiHanhs[@i].SoChoConLai" value="@ngayKhoiHanhList[i].SoChoConLai" class="form-control" />
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <button type="button" class="btn btn-secondary mb-3" onclick="addNgayKhoiHanh()">+ Thêm ngày khởi hành</button>
+
+
+            <button>
+                <input type="submit" value="Cập Nhật" class="btn-submit"/>
+            </button> *@
 
             <div class="form-group">
                 <label asp-for="TrangThai" class="form-label">Trạng thái</label>
@@ -245,11 +308,47 @@
                 <span asp-validation-for="IdDanhMuc" class="text-danger"></span>
             </div>
 
+            
+
             <div class="form-actions">
                 <input type="submit" value="Lưu" class="btn-submit" />
                 <a asp-action="ListTour" class="btn-cancel">Quay lại</a>
             </div>
         </form>
+
     </div>
 
 </div>
+
+@* @section Scripts {
+    <script>
+        let index = @ngayKhoiHanhList.Count; // bắt đầu index tiếp theo
+
+        function addNgayKhoiHanh() {
+            const container = document.getElementById("ngayKhoiHanhContainer");
+
+            const html = `
+                        <div class="form-row mb-3">
+                            <input type="hidden" name="NgayKhoiHanhs[${index}].Id" value="0" />
+                            <input type="hidden" name="NgayKhoiHanhs[${index}].IdTour" value="@Model.IdTour" />
+                            <div class="form-group col-md-4">
+                                <label>Ngày khởi hành</label>
+                                <input type="date" name="NgayKhoiHanhs[${index}].NgayKhoiHanh1" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Ngày kết thúc</label>
+                                <input type="date" name="NgayKhoiHanhs[${index}].NgayKetThuc" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Số chỗ còn lại</label>
+                                <input type="number" name="NgayKhoiHanhs[${index}].SoChoConLai" class="form-control" />
+                            </div>
+                        </div>
+                    `;
+
+            container.insertAdjacentHTML("beforeend", html);
+            index++;
+        }
+    </script>
+}
+ *@

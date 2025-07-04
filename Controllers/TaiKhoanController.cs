@@ -157,46 +157,32 @@ namespace VNTour.Controllers
             HttpContext.Session.Clear(); // Xóa session
             return Redirect("/");
         }
-             //public IActionResult ThongTin()
-             //{
-             //   int maKh = int.Parse(User.FindFirst(MySetting.CLAIM_STAFFID).Value);
+            
 
-             //   var kh = _context.KhachHangs.FirstOrDefault(k => k.IdKhachHang == maKh);
-             //   if (kh == null)
-             //     return NotFound();
+        public async Task<IActionResult> ThongTin(int id)
+        {
+            var user = User.FindFirst(MySetting.CLAIM_CUSTOMERID);
+            if (user == null)
+            {
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+            int idKhachHang = int.Parse(user.Value);
 
-             //    return View(kh);
-             //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> QuenMatKhau(string email)
-        //{
-        //   var kh = await _context.KhachHangs.FirstOrDefaultAsync(x => x.Email == email);
-        //    if (kh == null)
-        //    {
-        //        // Không tiết lộ email không tồn tại (bảo mật)
-        //        TempData["Message"] = "Nếu email hợp lệ, liên kết đặt lại mật khẩu đã được gửi.";
-        //        return RedirectToAction("DangNhap");
-        //    }
-        //    var token = Guid.NewGuid().ToString();
-
-        //    // Lưu token vào DB (thêm cột ResetToken vào KhachHang hoặc bảng riêng)
-        //    kh.ResetToken = token;
-        //    kh.ResetTokenExpiry = DateTime.Now.AddMinutes(30); // token hết hạn sau 30 phút
-        //    await _context.SaveChangesAsync();
-
-        //    // Tạo link reset
-        //    var resetLink = Url.Action("DatLaiMatKhau", "TaiKhoan", new { token = token }, Request.Scheme);
-
-        //    // Gửi email (bạn cần cấu hình SMTP, tạm ghi ra log)
-        //    Console.WriteLine($"Link reset: {resetLink}");
-
-        //    TempData["Message"] = "Nếu email hợp lệ, liên kết đặt lại mật khẩu đã được gửi.";
-        //    return RedirectToAction("DangNhap");
-        //    return View(kh);
-        //}
-
+            var khachHang = await _context.KhachHangs.FindAsync(idKhachHang);
+            if (khachHang == null)
+            {
+                return NotFound();
+            }
+            var model = new KhachHangVM
+            {
+                IdKhachHang = khachHang.IdKhachHang,
+                HoTenKh = khachHang.HoTenKh,
+                Sdt = khachHang.Sdt,
+                Email = khachHang.Email,
+                DiaChi = khachHang.DiaChi
+            };
+            return View(model);
+        }
 
     }
 }
-
