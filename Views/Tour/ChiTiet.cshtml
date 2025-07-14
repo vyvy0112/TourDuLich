@@ -568,7 +568,6 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                     }
                 }
             </div>
-
             <!-- Tour Detail -->
             <div class="bg-light rounded p-4 mt-4">
                 <h4 class="text-primary">Chi tiết Tour</h4>
@@ -595,10 +594,6 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                             <span class="text-muted">Chưa có lịch khởi hành</span>
                         }
                     </li>
-
-
-
-
                     <li><strong>Thời gian:</strong> @Model.ThoiGian</li>
                     <li><strong>Phương tiện:</strong> Máy bay khứ hồi + Xe du lịch</li>
                     <li><strong>Mô tả:</strong> @Model.MoTa</li>
@@ -665,24 +660,27 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                 <div class="d-flex flex-wrap gap-3 mb-3">
                     @if (Model.NgayKhoiHanhs != null && Model.NgayKhoiHanhs.Any())
                     {
-
-                        @foreach (var ngay in Model.NgayKhoiHanhs)
+                        @if (Model.NgayKhoiHanhs != null && Model.NgayKhoiHanhs.Any(x => x.SoChoConLai > 0))
                         {
-                            <div class="text-center">
-                                <button type="button"
-                                        class="btn btn-outline-danger btn-sm btn-ngay"
-                                        data-id="@ngay.IdNkh"
-                                        onclick="chonNgay(this)">
-                                    @ngay.NgayKhoiHanh1.ToString("dd/MM")
-                                </button>
-                                <div class="mt-1 text-muted small">Còn @ngay.SoChoConLai chỗ</div>
-                            </div>
-                        }                      
-
-
-                        <div class="text-center">
-                            <button class="btn btn-outline-secondary btn-sm">Tất cả</button>
-                        </div>
+                            @foreach (var ngay in Model.NgayKhoiHanhs
+                           .Where(x => x.SoChoConLai > 0)
+                           .OrderBy(x => x.NgayKhoiHanh1))
+                            {
+                                <div class="text-center">
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-sm btn-ngay"
+                                            data-id="@ngay.IdNkh"
+                                            onclick="chonNgay(this)">
+                                        @ngay.NgayKhoiHanh1.ToString("dd/MM")
+                                    </button>
+                                    <div class="mt-1 text-muted small">Còn @ngay.SoChoConLai chỗ</div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted">Chưa có lịch khởi hành</span>
+                        }
                     }
                     else
                     {
@@ -699,29 +697,7 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                         <strong>Giá trẻ em:</strong>
                         <span>@Model.GiaTreEm.ToString("N0") vnđ</span>
                     </li>
-                </ul>
-
-              
-                @* <a asp-controller="DatTour" asp-action="DatTour" asp-route-id="@Model.IdTour" class="btn btn-primary btn-lg w-100">
-                    Đặt Tour
-                </a> *@
-                @* <div class="text-center mt-3">
-                    <form id="formDatTour" method="get" action="/DatTour/DatTour">
-                        <input type="hidden" name="idNgayKhoiHanh" id="idNgayKhoiHanhInput" />
-                        <button type="submit" class="btn btn-primary">Đặt tour</button>
-                    </form>
-                </div> *@
-                @* <div> 
-                    <a asp-controller="DatTour"
-                       asp-action="DatTour"
-                       asp-route-id="@Model.IdTour"
-                       asp-route-idNgayKhoiHanh="@Model.IdNgayKhoiHanh"
-                       class="btn btn-primary">
-                        Đặt tour
-                    </a>
-
-
-                </div> *@
+                </ul>                
 
                 <form method="get" action="@Url.Action("DatTour", "DatTour")" id="formDatTour">
                     <input type="hidden" name="id" value="@Model.IdTour" />
@@ -730,69 +706,11 @@ h1, h3, h4, h5, label, .text-primary, .fw-semibold {
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-primary">Đặt tour</button>
                     </div>
-                </form>
-
-               
+                </form>               
             </div>
         </div>
     </div>
 </div>
-
-
-@* <script>
-    let currentIndex = 0;
-    let thumbnails = [];
-    let interval = null;
-
-    window.addEventListener("DOMContentLoaded", () => {
-        thumbnails = document.querySelectorAll('.thumbnail-img');
-        if (thumbnails.length > 0) {
-            changeMainImage(thumbnails[0]);
-            interval = setInterval(nextImage, 3000);
-        }
-    });
-
-    function changeMainImage(imgElement) {
-        const mainImage = document.getElementById('mainImage');
-        if (mainImage && imgElement) {
-            mainImage.src = imgElement.src;
-            currentIndex = Array.from(thumbnails).indexOf(imgElement);
-            clearInterval(interval);
-        }
-    }
-
-    function nextImage() {
-        if (thumbnails.length === 0) return;
-        currentIndex = (currentIndex + 1) % thumbnails.length;
-        changeMainImage(thumbnails[currentIndex]);
-    }
-    // function chonNgay(button) {
-    //     Loại bỏ active của các nút khác
-    //     document.querySelectorAll('.btn-ngay').forEach(btn => btn.classList.remove('active'));
-
-    //     Active nút đang chọn
-    //     button.classList.add('active');
-
-    //     Lấy ID ngày khởi hành
-    //     const id = button.getAttribute('data-id');
-
-    //     Gán vào input hidden
-    //     document.getElementById('idNgayKhoiHanhInput').value = id;
-    // }
-
-        function chonNgay(button) {
-            // Loại bỏ 'active' khỏi các nút khác
-            document.querySelectorAll('.btn-ngay').forEach(b => b.classList.remove('active'));
-
-            // Thêm 'active' vào nút được chọn
-            button.classList.add('active');
-
-            // Gán giá trị idNgayKhoiHanh đã chọn vào input ẩn
-            const idNgay = button.getAttribute("data-id");
-            document.getElementById("idNgayKhoiHanhInput").value = idNgay;
-        }
-</script> *@
-
 
 <script>
     function chonNgay(button) {

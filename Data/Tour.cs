@@ -35,6 +35,8 @@ public partial class Tour
 
     public virtual DanhMucTour? IdDanhMucNavigation { get; set; }
 
+    public virtual ICollection<MaGiamGium> MaGiamGia { get; set; } = new List<MaGiamGium>();
+
     public virtual ICollection<NgayKhoiHanh> NgayKhoiHanhs { get; set; } = new List<NgayKhoiHanh>();
 
     public virtual ICollection<TourHinhAnh> TourHinhAnhs { get; set; } = new List<TourHinhAnh>();

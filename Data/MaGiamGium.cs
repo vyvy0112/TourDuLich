@@ -21,5 +21,9 @@ public partial class MaGiamGium
 
     public string? TrangThai { get; set; }
 
+    public int? IdTour { get; set; }
+
     public virtual ICollection<DatTour> DatTours { get; set; } = new List<DatTour>();
+
+    public virtual Tour? IdTourNavigation { get; set; }
 }

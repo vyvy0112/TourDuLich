@@ -1,0 +1,157 @@
+﻿@* @model VNTour.Data.DatTour
+
+@{
+    ViewData["Title"] = "Chi tiết đặt tour";
+    var tour = Model;
+}
+
+
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    dd {
+        margin-bottom: 1rem;
+    }
+</style>
+
+<div class="container py-4">
+    <h2 class="text-primary mb-4">Chi tiết đặt tour</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            Mã đặt tour: @tour.IdDatTour
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@tour.IdTourNavigation?.TenTour</h5>
+
+            <dl class="row">
+
+                <dt class="col-sm-4">Khách hàng</dt>
+                <dd class="col-sm-8">@tour.IdKhachHangNavigation?.HoTenKh</dd>
+
+                <dt class="col-sm-4">Email</dt>
+                <dd class="col-sm-8">@tour.IdKhachHangNavigation?.Email</dd>
+
+                <dt class="col-sm-4">Địa chỉ</dt>
+                <dd class="col-sm-8">@tour.DiaChi</dd>
+
+                <dt class="col-sm-4">Ngày đặt</dt>
+                <dd class="col-sm-8">@tour.NgayDat</dd>
+
+                <dt class="col-sm-4">Ngày khởi hành</dt>
+                <dd class="col-sm-8">@tour.IdNkhNavigation.NgayKhoiHanh1</dd>
+
+                <dt class="col-sm-4">Số người lớn</dt>
+                <dd class="col-sm-8">@tour.SoNguoiLon</dd>
+
+                <dt class="col-sm-4">Số trẻ em</dt>
+                <dd class="col-sm-8">@tour.SoTreEm</dd>
+
+                <dt class="col-sm-4">Phương thức thanh toán</dt>
+                <dd class="col-sm-8">@tour.PtthanhToan</dd>
+
+                <dt class="col-sm-4">Trạng thái</dt>
+                <dd class="col-sm-8">@tour.TrangThai</dd>
+
+                <dt class="col-sm-4">Mã giảm giá</dt>
+                <dd class="col-sm-8">@tour.IdGiamGiaNavigation?.MaCode</dd>
+
+                <dt class="col-sm-4">Tổng tiền</dt>
+                <dd class="col-sm-8">@((tour.TongTien ?? 0).ToString("N0")) VNĐ</dd>
+
+                <dt class="col-sm-4">Ghi chú</dt>
+                <dd class="col-sm-8">@tour.GhiChu</dd>
+            </dl>
+
+            <a asp-action="LichSuDatTour" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </div>
+</div>
+ *@
+
+
+
+ @model VNTour.Data.DatTour
+
+@{
+    ViewData["Title"] = "Chi tiết đặt tour";
+    var tour = Model;
+}
+
+<div class="container py-4">
+    <h2 class="text-primary mb-4 text-center">Chi tiết đặt tour</h2>
+
+    <div class="card shadow border-0">
+        <div class="row g-0">
+            <!-- Hình ảnh tour -->
+            <div class="col-md-5">
+                <img src="~/hinhanh/@Model.IdTourNavigation.HinhAnh" alt="@Model.IdTourNavigation.TenTour" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;" />
+            </div>
+
+            <!-- Thông tin tour -->
+            <div class="col-md-7">
+                <div class="card-body p-4">
+                    <h4 class="card-title text-primary mb-3">@tour.IdTourNavigation?.TenTour</h4>
+
+                    <dl class="row">
+                        <dt class="col-sm-5">Mã đặt tour</dt>
+                        <dd class="col-sm-7 fw-semibold">@tour.IdDatTour</dd>
+
+                        <dt class="col-sm-5">Khách hàng</dt>
+                        <dd class="col-sm-7">@tour.IdKhachHangNavigation?.HoTenKh</dd>
+
+                        <dt class="col-sm-5">Email</dt>
+                        <dd class="col-sm-7">@tour.IdKhachHangNavigation?.Email</dd>
+
+                        <dt class="col-sm-5">Địa chỉ</dt>
+                        <dd class="col-sm-7">@tour.DiaChi</dd>
+
+                        <dt class="col-sm-5">Ngày đặt</dt>
+                        <dd class="col-sm-7">@tour.NgayDat</dd>
+
+                        <dt class="col-sm-5">Ngày khởi hành</dt>
+                        <dd class="col-sm-7">@tour.IdNkhNavigation?.NgayKhoiHanh1.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-sm-5">Số người lớn</dt>
+                        <dd class="col-sm-7">@tour.SoNguoiLon</dd>
+
+                        <dt class="col-sm-5">Số trẻ em</dt>
+                        <dd class="col-sm-7">@tour.SoTreEm</dd>
+
+                        <dt class="col-sm-5">Phương thức thanh toán</dt>
+                        <dd class="col-sm-7">@tour.PtthanhToan</dd>
+
+                        <dt class="col-sm-5">Trạng thái</dt>
+                        <dd class="col-sm-7">@tour.TrangThai</dd>
+
+                        <dt class="col-sm-5">Mã giảm giá</dt>
+                        <dd class="col-sm-7">@tour.IdGiamGiaNavigation?.MaCode</dd>
+
+                        <dt class="col-sm-5">Tổng tiền</dt>
+                        <dd class="col-sm-7 text-danger fw-bold">@((tour.TongTien ?? 0).ToString("N0")) VNĐ</dd>
+
+                        <dt class="col-sm-5">Ghi chú</dt>
+                        <dd class="col-sm-7">@tour.GhiChu</dd>
+                    </dl>
+
+                    <div class="text-end mt-4">
+                        <a asp-action="LichSuDatTour" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left-circle"></i> Quay lại
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

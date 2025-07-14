@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using System.ComponentModel;
 using VNTour.Data;
 using VNTour.Helpers;
+using VNTour.Services;
+
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IVnPayService, VnPayService>();
 
 
 // Add services to the container.

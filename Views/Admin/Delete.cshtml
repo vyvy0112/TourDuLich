@@ -90,6 +90,10 @@
         .btn-back:hover {
             background-color: #5a6268;
         }
+
+    td, th {
+        text-align: center;
+    }
 </style>
 
 <div class="delete-wrapper">
@@ -125,22 +129,35 @@
             <dt>Điểm Đến </dt>
             <dd>@Html.DisplayFor(model => model.DiemDen)</dd>
         </div>
-       @*  <div class="dl-row">
-            <dt>Ngày Khởi Hành</dt>
-            <dd>@Html.DisplayFor(model => model.NgayKhoiHanh)</dd>
-        </div>
-        <div class="dl-row">
-            <dt>Ngày Về</dt>
-            <dd>@Html.DisplayFor(model => model.NgayVe)</dd>
-        </div>
-        <div class="dl-row">
-            <dt>Số Chỗ</dt>
-            <dd>@Html.DisplayFor(model => model.SoCho)</dd>
-        </div> *@
+       
         <div class="dl-row">
             <dt>Trạng Thái</dt>
             <dd>@Html.DisplayFor(model => model.TrangThai)</dd>
         </div>
+
+        @if (Model.NgayKhoiHanhs != null && Model.NgayKhoiHanhs.Any())
+        {
+            <h4>Danh sách Ngày Khởi Hành: </h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class ="text-center">Ngày khởi hành</th>
+                        <th class="text-center">Ngày kết thúc</th>
+                        <th class="text-center">Số chỗ còn lại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ngay in Model.NgayKhoiHanhs)
+                    {
+                        <tr>
+                            <td class="text-center">@ngay.NgayKhoiHanh1.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@ngay.NgayKetThuc.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@ngay.SoChoConLai</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </dl>
 
 

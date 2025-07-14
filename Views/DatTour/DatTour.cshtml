@@ -1,923 +1,423 @@
-﻿@* 
-@model VNTour.ViewModel.DatTourVM
-@{
-    ViewData["Title"] = "Đặt Tour";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
-}
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"]</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-    <style>
-        .container {
-            max-width: 1200px;
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-
-        input[type="text"], input[type="email"], .form-control {
-            border-radius: 6px;
-            border: 1px solid #ced4da;
-            transition: border 0.2s ease;
-        }
-
-        input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
-        }
-
-        .input-group button {
-            width: 38px;
-            height: 38px;
-        }
-
-        .input-group input {
-            width: 60px;
-        }
-
-        .img-thumbnail {
-            width: 100px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: none;
-        }
-
-        .form-check-label a {
-            color: #007bff;
-            text-decoration: underline;
-        }
-
-            .form-check-label a:hover {
-                color: #0056b3;
-            }
-
-        .btn-danger {
-            background-color: #e74c3c;
-            border: none;
-            padding: 12px 0;
-            font-size: 1rem;
-        }
-
-            .btn-danger:hover {
-                background-color: #c0392b;
-            }
-
-        .input-group .btn-outline-secondary {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .input-group button, .input-group input {
-            height: 32px !important;
-            padding: 4px 8px;
-            font-size: 0.9rem;
-        }
-
-        .input-group .btn-outline-secondary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .alert-info {
-            background-color: #eaf4ff;
-            color: #0c63e4;
-            border-left: 5px solid #0c63e4;
-            font-size: 0.95rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-md-7 px-3">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">THÔNG TIN LIÊN LẠC</div>
-                    <div class="card-body">
-                        <div class="alert alert-info">
-                            <i class="fas fa-user-circle me-2"></i>
-                            <a href="/Account/Login" class="fw-bold">Đăng nhập</a> để nhận ưu đãi và quản lý đơn hàng dễ dàng hơn!
-                        </div>
-                        <form asp-action="DatTour" method="post">
-                            @Html.AntiForgeryToken()
-                            <div asp-validation-summary="All" class="text-danger"></div>
-
-                            <input type="hidden" asp-for="IdTour" />
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label asp-for="HoTen">Họ tên *</label>
-                                    <input asp-for="HoTen" class="form-control" placeholder="Nguyễn Văn A" />
-                                    <span asp-validation-for="HoTen" class="text-danger"></span>
-                                </div>
-                             
-                            </div>
-                            <div class="row mb-3">
-                                
-                                <div class="col-md-6">
-                                    <label asp-for="DiaChi">Địa chỉ</label>
-                                    <input asp-for="DiaChi" class="form-control" placeholder="123 Đường ABC, Quận X" />
-                                    <span asp-validation-for="DiaChi" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <input type="hidden" asp-for="GiaNguoiLon" id="GiaNguoiLon" />
-                            <input type="hidden" asp-for="GiaTreEm" id="GiaTreEm" />
-                            <h5 class="fw-bold">HÀNH KHÁCH</h5>
-                            <div class="row text-center">
-                                <div class="col-md-4 mb-3">
-                                    <label>Người lớn (≥12)</label>
-                                    <div class="input-group justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongNguoiLon', -1)">-</button>
-                                        <input asp-for="SoLuongNguoiLon" id="SoLuongNguoiLon" class="form-control text-center" readonly />
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongNguoiLon', 1)">+</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Trẻ em (2-11)</label>
-                                    <div class="input-group justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', -1)">-</button>
-                                        <input asp-for="SoLuongTreEm" id="SoLuongTreEm" class="form-control text-center" readonly />
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', 1)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="GhiChu">Ghi chú</label>
-                                <textarea asp-for="GhiChu" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label>Phương thức thanh toán</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="payment" value="COD" checked>
-                                    <label class="form-check-label">Thanh toán khi nhận vé (COD)</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="payment" value="VNPay">
-                                    <label class="form-check-label">Thanh toán qua VNPay</label>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="IdGiamGia">Chọn mã giảm giá</label>
-                                <select asp-for="IdGiamGia" asp-items="ViewBag.MaGiamGias" class="form-select" onchange="apDungMaTuSelect()" id="IdGiamGia">
-                                    <option value="">-- Không áp dụng --</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-3">
-                                <button type="submit" class="btn btn-primary w-100">Đặt Tour</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5 px-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-dark text-white">TÓM TẮT CHUYẾN ĐI</div>
-                    <div class="card-body">
-                        <div class="d-flex mb-3">
-                            <img src="~/hinhanh/@Model.HinhAnh" class="img-thumbnail me-3" />
-                            <div>
-                                <h5 class="fw-bold">@Model.TenTour</h5>
-                                <p>Giá người lớn: @Model.GiaNguoiLon.ToString("N0") đ</p>
-                                <p>Giá trẻ em: @Model.GiaTreEm.ToString("N0") đ</p>
-                            </div>
-                        </div>
-               
-                        <hr />
-                        <p>Tổng tiền gốc: <strong id="tongTienGoc"></strong></p>
-                        <p class="text-success">Giảm giá: -<strong id="tienGiam">0 đ</strong></p>
-                        <p>Tổng thanh toán: <strong class="text-danger" id="tongTien">0 đ</strong></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        function formatVND(n) {
-            return n.toLocaleString('vi-VN') + ' đ';
-        }
-        function changeQuantity(id, delta) {
-            const input = document.getElementById(id);
-            let value = parseInt(input.value);
-            value = Math.max(0, value + delta);
-            input.value = value;
-            apDungMaTuSelect();
-        }
-        function apDungMaTuSelect() {
-            const giaNL = parseFloat(document.getElementById("GiaNguoiLon").value);
-            const giaTE = parseFloat(document.getElementById("GiaTreEm").value);
-            const slNL = parseInt(document.getElementById("SoLuongNguoiLon").value);
-            const slTE = parseInt(document.getElementById("SoLuongTreEm").value);
-            const tongTienGoc = (giaNL * slNL) + (giaTE * slTE);
-            let tienGiam = 0;
-            const select = document.getElementById("IdGiamGia");
-            const selectedText = select.options[select.selectedIndex].text;
-            const match = selectedText.match(/(\d+)%/);
-            if (match) {
-                const percent = parseInt(match[1]);
-                tienGiam = tongTienGoc * percent / 100;
-            }
-            document.getElementById("tongTienGoc").innerText = formatVND(tongTienGoc);
-            document.getElementById("tienGiam").innerText = formatVND(tienGiam);
-            document.getElementById("tongTien").innerText = formatVND(tongTienGoc - tienGiam);
-        }
-        document.addEventListener("DOMContentLoaded", apDungMaTuSelect);
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
- *@
-@* 
-@model VNTour.ViewModel.DatTourVM
-@{
-    ViewData["Title"] = "Đặt Tour";
-}
- <style>
-        .container {
-            max-width: 1200px;
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-
-        input[type="text"], input[type="email"], .form-control {
-            border-radius: 6px;
-            border: 1px solid #ced4da;
-            transition: border 0.2s ease;
-        }
-
-        input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
-        }
-
-        .input-group button {
-            width: 38px;
-            height: 38px;
-        }
-
-        .input-group input {
-            width: 60px;
-        }
-
-        .img-thumbnail {
-            width: 100px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: none;
-        }
-
-        .form-check-label a {
-            color: #007bff;
-            text-decoration: underline;
-        }
-
-            .form-check-label a:hover {
-                color: #0056b3;
-            }
-
-        .btn-danger {
-            background-color: #e74c3c;
-            border: none;
-            padding: 12px 0;
-            font-size: 1rem;
-        }
-
-            .btn-danger:hover {
-                background-color: #c0392b;
-            }
-
-        .input-group .btn-outline-secondary {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .input-group button, .input-group input {
-            height: 32px !important;
-            padding: 4px 8px;
-            font-size: 0.9rem;
-        }
-
-        .input-group .btn-outline-secondary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .alert-info {
-            background-color: #eaf4ff;
-            color: #0c63e4;
-            border-left: 5px solid #0c63e4;
-            font-size: 0.95rem;
-        }
-    </style>
-<h2 class="text-center">ĐẶT TOUR</h2>
-
-<form asp-action="DatTour" method="post">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="IdTour" />
-
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <label class="form-label fw-bold">Tên tour:</label>
-            <p>@Model.TenTour</p>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label fw-bold">Hình ảnh:</label><br />
-            <img src="@Model.HinhAnh" alt="Tour image" style="max-width:200px" />
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="IdNkh" class="form-label fw-bold">Ngày khởi hành:</label>
-        <select asp-for="IdNkh" asp-items="ViewBag.NgayKhoiHanhList" class="form-select"></select>
-        <span asp-validation-for="IdNkh" class="text-danger"></span>
-    </div>
-
-    <div class="form-group mb-3">
-        <label asp-for="IdGiamGia">Chọn mã giảm giá</label>
-        <select asp-for="IdGiamGia" asp-items="ViewBag.MaGiamGias" class="form-select" onchange="apDungMaTuSelect()" id="IdGiamGia">
-            <option value="">-- Không áp dụng --</option>
-        </select>
-    </div>
-
-    <div class="form-check mb-3">
-        <input class="form-check-input" asp-for="giongkhachhang" type="checkbox" />
-        <label class="form-check-label" asp-for="giongkhachhang">Dùng thông tin khách hàng đã đăng nhập</label>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="HoTen" class="form-label fw-bold">Tên người đặt:</label>
-        <input asp-for="HoTen" class="form-control" />
-        <span asp-validation-for="HoTen" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="DiaChi" class="form-label fw-bold">Địa chỉ:</label>
-        <input asp-for="DiaChi" class="form-control" />
-        <span asp-validation-for="DiaChi" class="text-danger"></span>
-    </div>
-
-    <input type="hidden" asp-for="GiaNguoiLon" id="GiaNguoiLon" />
-                            <input type="hidden" asp-for="GiaTreEm" id="GiaTreEm" />
-                            <h5 class="fw-bold">HÀNH KHÁCH</h5>
-                            <div class="row text-center">
-                                <div class="col-md-4 mb-3">
-                                    <label>Người lớn (≥12)</label>
-                                    <div class="input-group justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongNguoiLon', -1)">-</button>
-                                        <input asp-for="SoLuongNguoiLon" id="SoLuongNguoiLon" class="form-control text-center" readonly />
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongNguoiLon', 1)">+</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Trẻ em (2-11)</label>
-                                    <div class="input-group justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', -1)">-</button>
-                                        <input asp-for="SoLuongTreEm" id="SoLuongTreEm" class="form-control text-center" readonly />
-                                        <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', 1)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-    <div class="mb-3">
-        <label asp-for="GhiChu" class="form-label fw-bold">Ghi chú:</label>
-        <textarea asp-for="GhiChu" class="form-control"></textarea>
-    </div>
-     <div class="col-md-5 px-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-dark text-white">TÓM TẮT CHUYẾN ĐI</div>
-                    <div class="card-body">
-                        <div class="d-flex mb-3">
-                            <img src="~/hinhanh/@Model.HinhAnh" class="img-thumbnail me-3" />
-                            <div>
-                                <h5 class="fw-bold">@Model.TenTour</h5>
-                                <p>Giá người lớn: @Model.GiaNguoiLon.ToString("N0") đ</p>
-                                <p>Giá trẻ em: @Model.GiaTreEm.ToString("N0") đ</p>
-                            </div>
-                        </div>
-               
-                        <hr />
-                        <p>Tổng tiền gốc: <strong id="tongTienGoc"></strong></p>
-                        <p class="text-success">Giảm giá: <strong id="tienGiam">0 đ</strong></p>
-                        <p>Tổng thanh toán: <strong class="text-danger" id="tongTien">0 đ</strong></p>
-                    </div>
-                </div>
-            </div>
-           
-
-    <div class="mb-3">
-        <label class="form-label fw-bold">Phương thức thanh toán:</label><br />
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="payment" value="COD" checked />
-            <label class="form-check-label">Thanh toán khi nhận tour (COD)</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="payment" value="VNPAY" />
-            <label class="form-check-label">Thanh toán qua VNPAY</label>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary w-100">Xác nhận đặt tour</button>
-</form>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-                    function formatVND(n) {
-                    return n.toLocaleString('vi-VN') + ' đ';
-                }
-                function changeQuantity(id, delta) {
-                    const input = document.getElementById(id);
-                        let value = parseInt(input.value);
-                    value = Math.max(0, value + delta);
-                    input.value = value;
-                    apDungMaTuSelect();
-                }
-                    function apDungMaTuSelect() {
-                    const giaNL = parseFloat(document.getElementById("GiaNguoiLon").value);
-                    const giaTE = parseFloat(document.getElementById("GiaTreEm").value);
-                    const slNL = parseInt(document.getElementById("SoLuongNguoiLon").value);
-                    const slTE = parseInt(document.getElementById("SoLuongTreEm").value);
-                        const tongTienGoc = (giaNL * slNL) + (giaTE * slTE);
-                    let tienGiam = 0;
-                    const select = document.getElementById("IdGiamGia");
-                    const selectedText = select.options[select.selectedIndex].text;
-                    const match = selectedText.match(/(\d+)%/);
-                        if (match) {
-                        const percent = parseInt(match[1]);
-                        tienGiam = tongTienGoc * percent / 100;
-                    }
-                    document.getElementById("tongTienGoc").innerText = formatVND(tongTienGoc);
-            document.getElementById("tienGiam").innerText = formatVND(tienGiam);
-            document.getElementById("tongTien").innerText = formatVND(tongTienGoc - tienGiam);
-        }
-        document.addEventListener("DOMContentLoaded", apDungMaTuSelect);
-    </script>
-}
-
- *@
+﻿@using VNTour.Data
  @model VNTour.ViewModel.DatTourVM
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"]</title>
+ @using System.Text.Json
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
-    <style>
-        .container {
-            max-width: 1200px;
+<style>
+    .container {
+        max-width: 1200px;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    input[type="text"], input[type="email"], input[type="date"], .form-control {
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        transition: border 0.2s ease;
+    }
+
+    input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+    }
+
+    .input-group button {
+        width: 38px;
+        height: 38px;
+    }
+
+    .input-group input {
+        width: 60px;
+    }
+
+    .img-thumbnail {
+        width: 100px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: none;
+    }
+
+    .form-check-label a {
+        color: #007bff;
+        text-decoration: underline;
+    }
+
+        .form-check-label a:hover {
+            color: #0056b3;
         }
 
-        .card-header {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+    .fs-5 {
+        font-size: 1.2rem;
+    }
+
+    .fs-4 {
+        font-size: 1.6rem;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+        padding: 12px 0;
+        font-size: 1rem;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
         }
 
-        input[type="text"], input[type="email"], input[type="date"], .form-control {
-            border-radius: 6px;
-            border: 1px solid #ced4da;
-            transition: border 0.2s ease;
+    .input-group .btn-outline-secondary {
+        background-color: #007bff; /* Xanh nước biển */
+        color: white;
+        border-color: #007bff;
+    }
+
+    .input-group button,
+    .input-group input {
+        height: 32px !important; /* Hoặc 30px nếu muốn ngắn hơn nữa */
+        padding: 4px 8px;
+        font-size: 0.9rem;
+    }
+
+    .input-group .btn-outline-secondary:hover {
+        background-color: #0056b3; /* Màu xanh đậm khi hover */
+        border-color: #0056b3;
+    }
+
+    .alert-info {
+        background-color: #eaf4ff;
+        color: #0c63e4;
+        border-left: 5px solid #0c63e4;
+        font-size: 0.95rem;
+    }
+
+    .discount-code-box {
+        border: 1px dashed #aaa;
+        border-radius: 6px;
+        padding: 10px;
+        background: #f9f9f9;
+        margin-bottom: 15px;
+    }
+
+
+    h5.fw-bold {
+        font-size: 1.1rem;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+
+    .payment-summary {
+        max-width: 400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+        .summary-item:last-child {
+            border-bottom: none;
         }
 
-        input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
-        }
+    .item-label {
+        font-size: 16px;
+        color: #495057;
+    }
 
-        .input-group button {
-            width: 38px;
-            height: 38px;
-        }
+    .item-value {
+        font-size: 16px;
+        font-weight: 500;
+    }
 
-        .input-group input {
-            width: 60px;
-        }
+    .discount-label {
+        color: #20c997;
+        font-size: 14px;
+    }
 
-        .img-thumbnail {
-            width: 100px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: none;
-        }
+    .discount-value {
+        color: #20c997;
+        font-size: 16px;
+        font-weight: 500;
+    }
 
-        .form-check-label a {
-            color: #007bff;
-            text-decoration: underline;
-        }
+    .total-label {
+        font-size: 18px;
+        font-weight: 600;
+    }
 
-            .form-check-label a:hover {
-                color: #0056b3;
-            }
+    .total-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #dc3545;
+    }
 
-        .fs-5 {
-            font-size: 1.2rem;
-        }
-
-        .fs-4 {
-            font-size: 1.6rem;
-        }
-
-        .btn-danger {
-            background-color: #e74c3c;
-            border: none;
-            padding: 12px 0;
-            font-size: 1rem;
-        }
-
-            .btn-danger:hover {
-                background-color: #c0392b;
-            }
-
-        .input-group .btn-outline-secondary {
-            background-color: #007bff; /* Xanh nước biển */
-            color: white;
-            border-color: #007bff;
-        }
-
-        .input-group button,
-        .input-group input {
-            height: 32px !important; /* Hoặc 30px nếu muốn ngắn hơn nữa */
-            padding: 4px 8px;
-            font-size: 0.9rem;
-        }
-
-        .input-group .btn-outline-secondary:hover {
-            background-color: #0056b3; /* Màu xanh đậm khi hover */
-            border-color: #0056b3;
-        }
-
-        .alert-info {
-            background-color: #eaf4ff;
-            color: #0c63e4;
-            border-left: 5px solid #0c63e4;
-            font-size: 0.95rem;
-        }
-
-        .discount-code-box {
-            border: 1px dashed #aaa;
-            border-radius: 6px;
-            padding: 10px;
-            background: #f9f9f9;
-            margin-bottom: 15px;
-        }
+    .divider {
+        margin: 12px 0;
+        border-top: 1px dashed #dee2e6;
+    }
 
 
-        h5.fw-bold {
-            font-size: 1.1rem;
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
+    .form-group label[asp-for="IdGiamGia"] {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 6px;
+    }
+
+    #IdGiamGia {
+    /*     border: 1px solid; */
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        appearance: none;
+     
+    }
+
+       
+
+      
 
 
-        .payment-summary {
-            max-width: 400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-            .summary-item:last-child {
-                border-bottom: none;
-            }
-
-        .item-label {
-            font-size: 16px;
-            color: #495057;
-        }
-
-        .item-value {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .discount-label {
-            color: #20c997;
-            font-size: 14px;
-        }
-
-        .discount-value {
-            color: #20c997;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .total-label {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .total-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: #dc3545;
-        }
-
-        .divider {
-            margin: 12px 0;
-            border-top: 1px dashed #dee2e6;
-        }
-
-    </style>
-</head>
-<body>
-
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-md-7 px-3">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">THÔNG TIN LIÊN LẠC</div>
-                    <div class="card-body">
-                        <div class="alert alert-info">
-                            <i class="fas fa-user-circle me-2"></i>
-                            <a href="/Account/Login" class="fw-bold">Đăng nhập</a> để nhận ưu đãi và quản lý đơn hàng dễ dàng hơn!
-                        </div>
-                        <form asp-controller="DatTour" asp-action="DatTour" method="post">
-
-                            @if (!ViewData.ModelState.IsValid)
-                            {
-                                <div class="alert alert-danger">
-                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                                    {
-                                        <p>@error.ErrorMessage</p>
-                                    }
-                                </div>
-                            }
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" asp-for="IdTour" />
-                            <input type="hidden" asp-for="IdNkh" />
-                            <input type="hidden" asp-for="TenTour" />
-                            <input type="hidden" asp-for="HinhAnh" />
-                            <input type="hidden" asp-for="GiaNguoiLon" id="GiaNguoiLon" />
-                            <input type="hidden" asp-for="GiaTreEm" id="GiaTreEm" />
+</style>
 
 
-
-
-
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="useAccount" onchange="dienThongTinCaNhan()" />
-                                <label class="form-check-label fw-bold" for="useAccount">
-                                    Sử dụng thông tin từ tài khoản đăng nhập
-                                </label>
-                            </div>                          
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label asp-for="HoTen" class="form-label">Tên người đặt:</label>
-                                        <input asp-for="HoTen" class="form-control" placeholder="Nhập họ tên" id="HoTen" name="HoTen" value="@Model.HoTen" />
-                                        <span asp-validation-for="HoTen" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label asp-for="DiaChi" class="form-label">Địa chỉ:</label>
-                                        <input asp-for="DiaChi" class="form-control" placeholder="Nhập địa chỉ" />
-                                        <span asp-validation-for="DiaChi" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label>Email *</label>
-                                        <input type="email" class="form-control" placeholder="email@example.com" id="Email" name="Email" value="@Model.Email" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Địa chỉ</label>
-                                        <input type="text" class="form-control" placeholder="123 Đường ABC, Quận X" id="DiaChi" name="DiaChi" value="@Model.DiaChi" />
-                                    </div>
-                                </div>
-                            <div class="mb-3">
-                                <label asp-for="DienThoai" class="form-label">Số điện thoại</label>
-                                <input asp-for="DienThoai" class="form-control" placeholder="Nhập số điện thoại" />
-                                <span asp-validation-for="DienThoai" class="text-danger"></span>
-                            </div>
-
-                                <h5 class="fw-bold">HÀNH KHÁCH</h5>
-                                <div class="row text-center">
-                                    <div class="col-md-4 mb-3 d-flex flex-column align-items-center">
-                                        <label>Người lớn (≥12)</label>
-                                        <div class="input-group justify-content-center">
-                                            <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity('SoLuongNguoiLon', -1)">-</button>
-                                            <input asp-for="SoLuongNguoiLon" id="SoLuongNguoiLon"  type="text" class="form-control text-center" value="1" readonly />
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongNguoiLon', 1)">+</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3 d-flex flex-column align-items-center">
-                                        <label>Trẻ em (2-11)</label>
-                                        <div class="input-group justify-content-center">
-                                            <button type ="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', -1)"> -</button>
-                                             <input asp-for ="SoLuongTreEm" id="SoLuongTreEm" class="form-control text-center" readonly />
-                                             <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', 1)">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="GhiChu" class="form-label">Ghi chú:</label>
-                                    <textarea asp-for="GhiChu" class="form-control"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Phương thức thanh toán:</label><br />
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="payment" value="COD" checked />
-                                        <label class="form-check-label">Thanh toán khi nhận tour (COD)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="payment" value="VNPAY" />
-                                        <label class="form-check-label">Thanh toán qua VNPAY</label>
-                                    </div>
-                                </div>
-
-                            <div class="mb-3">
-                                <label asp-for="IdGiamGia" class="form-label">Mã giảm giá:</label>
-                                <select asp-for="IdGiamGia" asp-items="ViewBag.MaGiamGias" class="form-select" onchange="apDungMaTuSelect()" id="IdGiamGia">
-                                    <option value="">-- Không áp dụng --</option>
-                                </select>
-                            </div>
-                                <button type="submit" class="btn btn-primary w-100">Xác nhận đặt tour</button>                  
-                            </form>
-
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-7 px-3">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">THÔNG TIN LIÊN LẠC</div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <a href="/Account/Login" class="fw-bold">Đăng nhập</a> để nhận ưu đãi và quản lý đơn hàng dễ dàng hơn!
                     </div>
+                    <form asp-controller="DatTour" asp-action="DatTour" method="post">
+
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <p>@error.ErrorMessage</p>
+                                }
+                            </div>
+                        }
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="IdTour" />
+                        <input type="hidden" asp-for="IdNkh" />
+                        <input type="hidden" asp-for="TenTour" />
+                        <input type="hidden" asp-for="HinhAnh" />
+                        <input type="hidden" asp-for="GiaNguoiLon" id="GiaNguoiLon" />
+                        <input type="hidden" asp-for="GiaTreEm" id="GiaTreEm" />
+
+
+
+
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="useAccount" onchange="dienThongTinCaNhan()" />
+                            <label class="form-check-label fw-bold" for="useAccount">
+                                Sử dụng thông tin từ tài khoản đăng nhập
+                            </label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="HoTen" class="form-label">Tên người đặt:</label>
+                                <input asp-for="HoTen" class="form-control" placeholder="Nhập họ tên" id="HoTen" name="HoTen" value="@Model.HoTen" />
+                                <span asp-validation-for="HoTen" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="DiaChi" class="form-label">Địa chỉ:</label>
+                                <input asp-for="DiaChi" class="form-control" placeholder="Nhập địa chỉ" />
+                                <span asp-validation-for="DiaChi" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label>Email *</label>
+                                <input type="email" class="form-control" placeholder="email@example.com" id="Email" name="Email" value="@Model.Email" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Địa chỉ</label>
+                                <input type="text" class="form-control" placeholder="123 Đường ABC, Quận X" id="DiaChi" name="DiaChi" value="@Model.DiaChi" />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DienThoai" class="form-label">Số điện thoại</label>
+                            <input asp-for="DienThoai" class="form-control" placeholder="Nhập số điện thoại" />
+                            <span asp-validation-for="DienThoai" class="text-danger"></span>
+                        </div>
+
+                        <h5 class="fw-bold">HÀNH KHÁCH</h5>
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3 d-flex flex-column align-items-center">
+                                <label>Người lớn (≥12)</label>
+                                <div class="input-group justify-content-center">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity('SoLuongNguoiLon', -1)">-</button>
+                                    <input asp-for="SoLuongNguoiLon" id="SoLuongNguoiLon" type="text" class="form-control text-center" value="1" readonly />
+                                    <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongNguoiLon', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3 d-flex flex-column align-items-center">
+                                <label>Trẻ em (2-11)</label>
+                                <div class="input-group justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', -1)"> -</button>
+                                    <input asp-for="SoLuongTreEm" id="SoLuongTreEm" class="form-control text-center" readonly />
+                                    <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity('SoLuongTreEm', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="GhiChu" class="form-label">Ghi chú:</label>
+                            <textarea asp-for="GhiChu" class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phương thức thanh toán:</label><br />
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment" value="COD" checked />
+                                <label class="form-check-label">Thanh toán khi nhận tour (COD)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment" value="VNPay" />
+                                <label class="form-check-label">Thanh toán qua VNPAY</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="IdGiamGia">Chọn mã giảm giá</label>
+                            <select asp-for="IdGiamGia" asp-items="ViewBag.MaGiamGias" class="form-select" onchange="apDungMaTuSelect()" id="IdGiamGia">
+                                <option value="">-- Không áp dụng --</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" id="IdTour" value="@Model.IdTour" />
+                        <button type="submit" class="btn btn-primary w-100">Xác nhận đặt tour</button>
+                    </form>
+
                 </div>
             </div>
+        </div>
 
-            <!-- ==== Cột phải: Tóm tắt chuyến đi ==== -->
-            <div class="col-md-5 px-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-dark text-white">TÓM TẮT CHUYẾN ĐI</div>
-                    <div class="card-body">
-                        <div class="d-flex mb-3">
-                            <img src="~/hinhanh/@Model.HinhAnh" class="img-thumbnail me-3" alt="@Model.TenTour" />
-                            <div>
-                                <h6 class="fw-bold mb-1">@Model.TenTour</h6>
-                                <small class="text-muted">Mã tour: <strong>NNSGN221-036-090725VN-D</strong></small>
-                            </div>
+        <!-- ==== Cột phải: Tóm tắt chuyến đi ==== -->
+        <div class="col-md-5 px-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">TÓM TẮT CHUYẾN ĐI</div>
+                <div class="card-body">
+                    <div class="d-flex mb-3">
+                        <img src="~/hinhanh/@Model.HinhAnh" class="img-thumbnail me-3" alt="@Model.TenTour" />
+                        <div>
+                            <h6 class="fw-bold mb-1">@Model.TenTour</h6>
+                            <small class="text-muted">
+                                Mã tour: <strong>
+                                    @Model.IdTour
+                                </strong>
+                            </small>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mt-3">✈️ THÔNG TIN CHUYẾN BAY</h6>
+                    <p class="mb-1">Ngày đi: <strong>@Model.NgayKhoiHanh.ToString("dd/MM/yyyy")</strong></p>
+                    <div class="discount-code-box">
+
+
+
+                        <div class="summary-item">
+                            <span class="item-label">Tổng tiền gốc:</span>
+
+                            <span class="item-value" id="tongTienGoc">0 đ</span>
                         </div>
 
-                        <h6 class="fw-bold mt-3">✈️ THÔNG TIN CHUYẾN BAY</h6>
-                        <p class="mb-1">Ngày đi: <strong>@Model.NgayKhoiHanh.ToString("dd/MM/yyyy")</strong></p>
-
-
-                        <p class="mb-1">SGN → SIN: 09:05 - 12:15</p>
-                        <p class="mb-3">KUL → SGN: 19:10 - 20:15</p>
-
-                      
-
-                        <div class="discount-code-box">
-                            <label>Mã giảm giá</label>
-                            <div class="input-group mb-2">
-                                <input type="text" class="form-control" id="maCodeText" placeholder="Nhập mã giảm giá..." />
-                                <button class="btn btn-outline-primary" type="button" onclick="apDungMaGiamGia()">Áp dụng</button>
-                            </div>
-                          
-                            <div class="summary-item">
-                                <span class="item-label">Tổng tiền gốc</span>
-                                <p>Tổng tiền gốc: <strong id="tongTienGoc">0 đ</strong></p>
-                                <span class="item-value" id="tongTienGoc">0 đ</span>
-                            </div>
-
-                            <div class="summary-item">
-                                <span class="discount-label">Giảm giá</span>
-                                <p class="text-success">Giảm giá: -<strong id="tienGiam">0 đ</strong></p>
-                                <span class="discount-value" id="tienGiam">0 đ</span>
-                            </div>
-
-                            <div class="divider"></div>
-
-                            <div class="summary-item">
-                                <span class="total-label">Tổng tiền</span>
-                                <p class="text-danger fw-bold">
-                                    Tổng thanh toán: <strong id="tongTien">
-                                        0
-                                <span class="total-value" id="tongTien">0 đ</span>
-                            </div>
-                            
-                          
-                            
-
-
+                        <div class="summary-item">
+                            <span class="discount-label">Giảm giá</span>
+                            @* <p class="text-success">Giảm giá: -<strong id="tienGiam">0 đ</strong></p> *@
+                            <span class="discount-value" id="tienGiam">0 đ</span>
                         </div>
+
+                        <div class="divider"></div>
+
+                        <div class="summary-item">
+                            <span class="total-label">Tổng tiền</span>
+                            @* <p class="text-danger fw-bold">
+                            Tổng thanh toán: <strong id="tongTien">
+                            0 *@
+                            <span class="total-value" id="tongTien">0 đ</span>
+                        </div>
+
+
+
+
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+</div>
+<script>
+    function formatVND(n) {
+        return n.toLocaleString('vi-VN') + ' vnđ';
     }
-    <script>
-        function formatVND(n) {
-            return n.toLocaleString('vi-VN') + ' đ';
+
+    function changeQuantity(id, delta) {
+        const input = document.getElementById(id);
+        let value = parseInt(input.value);
+        value = Math.max(0, value + delta);
+        input.value = value;
+        apDungMaTuSelect();
+    }
+    function apDungMaTuSelect() {
+        const giaNL = parseFloat(document.getElementById("GiaNguoiLon").value);
+        const giaTE = parseFloat(document.getElementById("GiaTreEm").value);
+        const slNL = parseInt(document.getElementById("SoLuongNguoiLon").value);
+        const slTE = parseInt(document.getElementById("SoLuongTreEm").value);
+        const tongTienGoc = (giaNL * slNL) + (giaTE * slTE);
+        let tienGiam = 0;
+        const select = document.getElementById("IdGiamGia");
+        const selectedText = select.options[select.selectedIndex].text;
+        const match = selectedText.match(/(\d+)%/);
+        if (match) {
+            const percent = parseInt(match[1]);
+            tienGiam = tongTienGoc * percent / 100;
         }
-        function changeQuantity(id, delta) {
-            const input = document.getElementById(id);
-            let value = parseInt(input.value);
-            value = Math.max(0, value + delta);
-            input.value = value;
-            apDungMaTuSelect();
-        }
-        function apDungMaTuSelect() {
-            const giaNL = parseFloat(document.getElementById("GiaNguoiLon").value);
-            const giaTE = parseFloat(document.getElementById("GiaTreEm").value);
-            const slNL = parseInt(document.getElementById("SoLuongNguoiLon").value);
-            const slTE = parseInt(document.getElementById("SoLuongTreEm").value);
-            const tongTienGoc = (giaNL * slNL) + (giaTE * slTE);
-            let tienGiam = 0;
-            const select = document.getElementById("IdGiamGia");
-            const selectedText = select.options[select.selectedIndex].text;
-            const match = selectedText.match(/(\d+)%/);
-            if (match) {
-                const percent = parseInt(match[1]);
-                tienGiam = tongTienGoc * percent / 100;
-            }
-            document.getElementById("tongTienGoc").innerText = formatVND(tongTienGoc);
-            document.getElementById("tienGiam").innerText = formatVND(tienGiam);
-            document.getElementById("tongTien").innerText = formatVND(tongTienGoc - tienGiam);
-        }
-        document.addEventListener("DOMContentLoaded", apDungMaTuSelect);
+        document.getElementById("tongTienGoc").innerText = formatVND(tongTienGoc);
+        document.getElementById("tienGiam").innerText = formatVND(tienGiam);
+        document.getElementById("tongTien").innerText = formatVND(tongTienGoc - tienGiam);
+    }
+    document.addEventListener("DOMContentLoaded", apDungMaTuSelect);
 
 
 
-        ///////// điền thông tin đăng nhập
-        // function apDungMaGiamGia() {
-        //     const code = $("#maCodeText").val();
-        //     const tongTienGoc = parseFloat($("#tongTienGoc").data("value"));
 
-        //     if (!code) {
-        //         alert("Vui lòng nhập mã giảm giá.");
-        //         return;
-        //     }
+    const thongTin = @Html.Raw(Json.Serialize(new
+        {
+            HoTen = Model.HoTen,
+            Email = Model.Email,
+            DienThoai = Model.DienThoai,
+            DiaChi = Model.DiaChi
+        }));
+    function dienThongTinCaNhan() {
+        document.getElementById('HoTen').value = thongTin.HoTen;
+        document.getElementById('Email').value = thongTin.Email;
+        document.getElementById('DienThoai').value = thongTin.DienThoai;
+        document.getElementById('DiaChi').value = thongTin.DiaChi;
+    }
 
-        //     $.get("/api/GiamGia/ApDung", { maCode: code })
-        //         .done(function (res) {
-        //             $("#idGiamGia").val(res.idGiamGia);
+</script>
 
-        //             const phanTram = res.phanTramGiam || 0;
-        //             const tienGiam = tongTienGoc * phanTram / 100;
-        //             const tongTienSauGiam = tongTienGoc - tienGiam;
-
-        //             $("#tienGiam").text(tienGiam.toLocaleString("vi-VN"));
-        //             $("#tongTienSauGiam").text(tongTienSauGiam.toLocaleString("vi-VN"));
-        //         })
-        //         .fail(function (xhr) {
-        //             const err = xhr.responseJSON?.message || "Không thể áp dụng mã.";
-        //             alert(err);
-        //             $("#idGiamGia").val("");
-        //             $("#tienGiam").text("0");
-        //             $("#tongTienSauGiam").text(tongTienGoc.toLocaleString("vi-VN"));
-        //         });
-        // }
-        function dienThongTinCaNhan() {
-            const checked = document.getElementById('useAccount').checked;
-
-            if (checked) {
-                // Gán dữ liệu từ server (Model) vào ô nhập
-                document.getElementById('HoTen').value = '@Model.HoTen';
-                document.getElementById('Email').value = '@Model.Email';
-                document.getElementById('DienThoai').value = '@Model.DienThoai';
-                document.getElementById('DiaChi').value = '@Model.DiaChi';
-            } else {
-                // Nếu bỏ check, xóa dữ liệu
-                document.getElementById('HoTen').value = '';
-                document.getElementById('Email').value = '';
-                document.getElementById('DienThoai').value = '';
-                document.getElementById('DiaChi').value = '';
-            }
-        }
-        
-    </script>
-}

@@ -1,8 +1,215 @@
-﻿@{
-    ViewData["Title"] = "Đặt tour thành công";
-}
-<div class="container text-center mt-5">
-    <h2 class="text-success">🎉 Đặt tour thành công!</h2>
-    <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
-    <a href="/" class="btn btn-primary mt-3">Quay về trang chủ</a>
-</div>
+﻿@model VNTour.ViewModel.DatTourVM
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Tour Thành Công | COD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .success-animation {
+            animation: bounceIn 0.8s ease-out;
+        }
+        
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+         
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .steps li.completed::before {
+            background-color: #10b981;
+        }
+        
+      
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col">
+       
+
+        <!-- Main Content -->
+        <main class="flex-grow py-10">
+            <div class="container mx-auto px-4">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Success Message -->
+                    <div class="text-center mb-12 success-animation">
+                        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-check-circle text-green-500 text-5xl"></i>
+                        </div>
+                        <h1 class="text-4xl font-bold mb-4 gradient-text">Đặt Tour Thành Công!</h1>
+                        <p class="text-xl text-slate-600 mb-6">Cảm ơn bạn đã tin tưởng và đặt tour với chúng tôi. Đơn hàng của bạn đã được xác nhận.</p>
+                        <div class="inline-flex items-center bg-green-50 text-green-700 px-4 py-2 rounded-full">
+                            <i class="fas fa-money-bill-wave mr-2"></i>
+                            <span>Phương thức thanh toán: COD (Thanh toán khi nhận tour)</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <!-- Booking Details -->
+                        <div class="flex-1">
+                            <div class="bg-white rounded-xl shadow-md overflow-hidden info-card">
+                                <div class="bg-gradient-to-r from-green-500 to-green-700 p-12">
+                                    <h2 class="text-2xl font-semibold text-white">Thông tin Tour</h2>
+                                </div>
+                                <div class="p-8">
+                                    <div class="mb-6">
+                                        <img src="~/hinhanh/@Model.HinhAnh" alt="@Model.TenTour" class="w-full rounded-lg mb-4">
+                                        <h3 class="text-2xl font-bold mb-2">@Model.TenTour</h3>
+                                        <div class="flex items-center text-yellow-500 mb-3">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <span class="text-slate-600 ml-2">4.7 (128 đánh giá)</span>
+                                        </div>
+                                        <p class="text-slate-600 mb-4">Khám phá vẻ đẹp kỳ vĩ của Vịnh Hạ Long - Di sản thiên nhiên thế giới với hành trình ấn tượng nhất.</p>
+                                    </div>
+                                    
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between py-3 border-b border-slate-100">
+                                            <span class="font-medium text-slate-600">Ngày đặt:</span>
+                                            <span class="font-semibold">@Model.NgayDat</span>
+                                        </div>
+                                        <div class="flex justify-between py-3 border-b border-slate-100">
+                                            <span class="font-medium text-slate-600">Số lượng người lớn:</span>
+                                            <span class="font-semibold">@Model.SoLuongNguoiLon</span>
+                                        </div>
+                                        <div class="flex justify-between py-3 border-b border-slate-100">
+                                            <span class="font-medium text-slate-600">Số lượng trẻ em:</span>
+                                            <span class="font-semibold">@Model.SoLuongTreEm</span>
+                                        </div>
+                                        <div class="flex justify-between py-3 border-b border-slate-100">
+                                            <span class="font-medium text-slate-600">Tổng tiền:</span>
+                                            <span class="font-semibold text-red-500">@Model.TongTien.ToString("N0") vnđ</span>
+                                        </div>
+                                        <div class="flex justify-between py-3 border-b border-slate-100">
+                                            <span class="font-medium text-slate-600">Mã đơn hàng:</span>
+                                            <span class="font-semibold">@Model.IdDatTour</span>
+                                        </div>
+                                        <div class="flex justify-between py-3">
+                                            <span class="font-medium text-slate-600">Tình trạng:</span>
+                                            <span class="font-semibold text-green-500">@Model.TrangThai</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Customer & COD Info -->
+                        <div class="flex-1">
+                            <div class="bg-white rounded-xl shadow-md overflow-hidden info-card mb-6">
+                                <div class="bg-gradient-to-r from-green-500 to-green-700 p-8">
+                                    <h2 class="text-2xl font-semibold text-white">Thông tin Khách Hàng</h2>
+                                </div>
+                                <div class="p-8">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <p class="text-sm text-slate-500 mb-1">Họ tên</p>
+                                            <p class="font-medium">@Model.HoTen</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-slate-500 mb-1">Số điện thoại</p>
+                                            <p class="font-medium">@Model.DienThoai</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-slate-500 mb-1">Email</p>
+                                            <p class="font-medium">@Model.Email</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-slate-500 mb-1">Địa chỉ</p>
+                                            <p class="font-medium">@Model.DiaChi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl shadow-md overflow-hidden info-card">
+                                <div class="bg-gradient-to-r from-green-500 to-green-700 p-8">
+                                    <h2 class="text-2xl font-semibold text-white">Hướng dẫn Thanh toán COD</h2>
+                                </div>
+                                <div class="p-8">
+                                    <ol class="steps space-y-6">
+                                        <li class="relative pl-8 pb-6 border-l-2 border-green-100">
+                                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500"></div>
+                                            <h3 class="font-medium text-slate-800 mb-1">Bước 1: Xác nhận thông tin</h3>
+                                            <p class="text-slate-600 text-sm">Nhân viên sẽ liên hệ xác nhận thông tin tour của bạn trong vòng 24h sau khi đặt.</p>
+                                        </li>
+                                        <li class="relative pl-8 pb-6 border-l-2 border-green-100">
+                                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500"></div>
+                                            <h3 class="font-medium text-slate-800 mb-1">Bước 2: Chuẩn bị trước ngày đi</h3>
+                                            <p class="text-slate-600 text-sm">Nhận email hướng dẫn chi tiết và danh sách chuẩn bị trước ngày khởi hành 3 ngày.</p>
+                                        </li>
+                                        <li class="relative pl-8 pb-6 border-l-2 border-green-100">
+                                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500"></div>
+                                            <h3 class="font-medium text-slate-800 mb-1">Bước 3: Thanh toán khi nhận tour</h3>
+                                            <p class="text-slate-600 text-sm">Thanh toán toàn bộ số tiền cho hướng dẫn viên khi tập trung khởi hành tour.</p>
+                                        </li>
+                                        <li class="relative pl-8">
+                                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500"></div>
+                                            <h3 class="font-medium text-slate-800 mb-1">Bước 4: Nhận hoá đơn</h3>
+                                            <p class="text-slate-600 text-sm">Nhận hoá đơn VAT (nếu có nhu cầu) từ hướng dẫn viên sau khi hoàn tất thanh toán.</p>
+                                        </li>
+                                    </ol>
+                                    
+                                    <div class="mt-8 bg-blue-50 p-4 rounded-lg">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-info-circle text-green-500 text-xl mt-1"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <h3 class="text-sm font-medium text-green-800">Lưu ý quan trọng</h3>
+                                                <div class="mt-2 text-sm text-green-700">
+                                                    <p>• Vui lòng giữ lại mã đơn hàng để đối chiếu khi thanh toán</p>
+                                                    <p>• Quý khách sẽ nhận voucher điện tử qua email trước ngày khởi hành 2 ngày</p>
+                                                    <p>• Liên hệ hotline 1900 1234 nếu cần hỗ trợ thêm</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4">
+                       @*  <a asp-controller="DatTour" asp-action="XemChiTiet" asp-route-id="@Model.IdDatTour" href="#" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-file-invoice-dollar mr-2"></i> Xem chi tiết hoá đơn
+                        </a> *@
+
+                      
+                        <a href="#" class="px-6 py-3 bg-white hover:bg-slate-100 text-blue-600 font-medium rounded-lg shadow-md transition duration-300 flex items-center justify-center border border-slate-200">
+                            <i class="fas fa-map-marked-alt mr-2"></i> Xem thêm Tour khác
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+ 
+</body>
+</html>
+

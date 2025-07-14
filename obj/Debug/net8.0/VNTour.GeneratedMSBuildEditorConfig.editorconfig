@@ -34,6 +34,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlS0guY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/CreateMaGiamGia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlTWFHaWFtR2lhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/CreateTour.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlVG91ci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -50,12 +54,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlS0guY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/DeleteMaGiamGia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlTWFHaWFtR2lhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/EditDMTour.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdERNVG91ci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/EditKH.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdEtILmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/EditMaGiamGia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdE1hR2lhbUdpYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/EditTour.cshtml]
@@ -66,12 +78,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdERhbmhNdWNUb3VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ListGiamGia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEdpYW1HaWEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ListKH.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEtILmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ListTour.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdFRvdXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/QuanLyDatTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUXVhbkx5RGF0VG91ci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ThongKe.cshtml]
@@ -82,8 +102,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0VG91clxEYXRUb3VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Nam4/doan3/VNTour/VNTour/Views/DatTour/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0VG91clxJbmRleC5jc2h0bWw=
+[D:/Nam4/doan3/VNTour/VNTour/Views/DatTour/LichSuDatTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0VG91clxMaWNoU3VEYXRUb3VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/DatTour/PaymentCallBack.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0VG91clxQYXltZW50Q2FsbEJhY2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/DatTour/PaymentSuccess.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0VG91clxQYXltZW50U3VjY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/DatTour/ThanhCong.cshtml]
@@ -92,6 +120,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/DatTour/XacNhanDatTour.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0VG91clxYYWNOaGFuRGF0VG91ci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/DatTour/XemChiTiet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0VG91clxYZW1DaGlUaWV0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Home/Index.cshtml]
@@ -132,6 +164,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/TaiKhoan/DangNhap.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFpS2hvYW5cRGFuZ05oYXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/TaiKhoan/QuenMatKhau.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFpS2hvYW5cUXVlbk1hdEtoYXUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/TaiKhoan/ThongTin.cshtml]

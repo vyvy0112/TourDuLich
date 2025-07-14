@@ -12,4 +12,15 @@ namespace VNTour.ViewModel
         [DataType(DataType.Password)]
         public string MatKhau { get; set; }
     }
+
+
+
+
+        public class QuenMatKhauVM
+        {
+            [Required(ErrorMessage = "Vui lòng nhập email.")]
+            [EmailAddress(ErrorMessage = "Email không hợp lệ.")]
+            public string Email { get; set; }
+        }
+    
 }

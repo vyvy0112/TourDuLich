@@ -1,115 +1,4 @@
-﻿@* @model IEnumerable<VNTour.Data.Tour>
-
-@{
-    ViewData["Title"] = "ListTour";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
-
-<h1>ListTour</h1>
-
-<p>
-    <a asp-action="CreateTour">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenTour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MoTa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GiaNguoiLon)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GiaTreEm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThoiGian)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiemKhoiHanh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiemDen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HinhAnh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayTao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDanhMucNavigation)
-            </th>
-            <th>kh</th>
-     
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenTour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoTa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiaNguoiLon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiaTreEm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThoiGian)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiemKhoiHanh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiemDen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HinhAnh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayTao)
-            </td>
-                <td>
-                    <ul>
-                        @foreach (var ngay in item.NgayKhoiHanhs)
-                        {
-                            <li>@ngay.NgayKhoiHanh1.ToString("dd/MM/yyyy")</li>
-                        }
-                    </ul>
-                </td>
-
-
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDanhMucNavigation.IdDanhMuc)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTour">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdTour">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdTour">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
- *@
-
-
+﻿
  @model IEnumerable<VNTour.Data.Tour>
 
 @{
@@ -285,7 +174,7 @@
 <div class="page-container">
     <div class="page-header">
         <h2>📋 Danh Sách Tour Du Lịch</h2>
-        <a asp-action="CreateTour" class="btn-add">+ Thêm Tour</a>
+        <a asp-action="CreateMaGiamGia" class="btn-add">+ Thêm Tour</a>
     </div>
 
 

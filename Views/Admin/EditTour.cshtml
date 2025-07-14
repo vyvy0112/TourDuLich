@@ -218,61 +218,21 @@
                     </div>
                 </div>
             </div>
-          @*   @{
-                var ngayKhoiHanhList = Model.NgayKhoiHanhs?.ToList() ?? new List<VNTour.Data.NgayKhoiHanh>();
-            }
-
-            @if (ngayKhoiHanhList.Any())
-            {
-                for (int i = 0; i < ngayKhoiHanhList.Count; i++)
-                {
-                    <div class="border p-3 mb-3 rounded shadow-sm">
-                        <input type="hidden" name="NgayKhoiHanhs[@i].Id" value="@ngayKhoiHanhList[i].IdTour" />
-                        <input type="hidden" name="NgayKhoiHanhs[@i].IdTour" value="@Model.IdTour" />
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Ngày khởi hành</label>
-                                <input type="date" name="NgayKhoiHanhs[@i].NgayKhoiHanh1"
-                                       value="@ngayKhoiHanhList[i].NgayKhoiHanh1.ToString("yyyy-MM-dd")"
-                                       class="form-control" />
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <label>Ngày kết thúc</label>
-                                <input type="date" name="NgayKhoiHanhs[@i].NgayKetThuc"
-                                       value="@ngayKhoiHanhList[i].NgayKetThuc.ToString("yyyy-MM-dd")"
-                                       class="form-control" />
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <label>Số chỗ còn lại</label>
-                                <input type="number" name="NgayKhoiHanhs[@i].SoChoConLai"
-                                       value="@ngayKhoiHanhList[i].SoChoConLai"
-                                       class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-            else
-            {
-                <p class="text-muted">Chưa có ngày khởi hành.</p>
-            }
- *@
-
-         @*    @{
+            @{
                 var ngayKhoiHanhList = Model.NgayKhoiHanhs?.ToList() ?? new List<VNTour.Data.NgayKhoiHanh>();
             }
 
 
+            <h4 class="form-title mt-4">Ngày Khởi Hành</h4>
             <div id="ngayKhoiHanhContainer">
-               
                 @for (int i = 0; i < ngayKhoiHanhList.Count; i++)
                 {
                     <div class="form-row mb-3">
-                        <input type="hidden" name="NgayKhoiHanhs[@i].Id" value="@ngayKhoiHanhList[i].IdTour" />
+                        <!-- THÊM DÒNG NÀY -->
+                        <input type="hidden" name="NgayKhoiHanhs[@i].IdNkh" value="@ngayKhoiHanhList[i].IdNkh" />
+
                         <input type="hidden" name="NgayKhoiHanhs[@i].IdTour" value="@Model.IdTour" />
+
                         <div class="form-group col-md-4">
                             <label>Ngày khởi hành</label>
                             <input type="date" name="NgayKhoiHanhs[@i].NgayKhoiHanh1" value="@ngayKhoiHanhList[i].NgayKhoiHanh1.ToString("yyyy-MM-dd")" class="form-control" />
@@ -287,14 +247,11 @@
                         </div>
                     </div>
                 }
+
             </div>
 
             <button type="button" class="btn btn-secondary mb-3" onclick="addNgayKhoiHanh()">+ Thêm ngày khởi hành</button>
 
-
-            <button>
-                <input type="submit" value="Cập Nhật" class="btn-submit"/>
-            </button> *@
 
             <div class="form-group">
                 <label asp-for="TrangThai" class="form-label">Trạng thái</label>
@@ -320,35 +277,27 @@
 
 </div>
 
-@* @section Scripts {
-    <script>
-        let index = @ngayKhoiHanhList.Count; // bắt đầu index tiếp theo
+<script>
+    function addNgayKhoiHanh() {
+        var index = document.querySelectorAll('#ngayKhoiHanhContainer .form-row').length;
 
-        function addNgayKhoiHanh() {
-            const container = document.getElementById("ngayKhoiHanhContainer");
+        var html = `
+                <div class="form-row mb-3">
+                    <input type="hidden" name="NgayKhoiHanhs[${index}].IdTour" value="@Model.IdTour" />
+                    <div class="form-group col-md-4">
+                        <label>Ngày khởi hành</label>
+                        <input type="date" name="NgayKhoiHanhs[${index}].NgayKhoiHanh1" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Ngày kết thúc</label>
+                        <input type="date" name="NgayKhoiHanhs[${index}].NgayKetThuc" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Số chỗ còn lại</label>
+                        <input type="number" name="NgayKhoiHanhs[${index}].SoChoConLai" class="form-control" />
+                    </div>
+                </div>`;
 
-            const html = `
-                        <div class="form-row mb-3">
-                            <input type="hidden" name="NgayKhoiHanhs[${index}].Id" value="0" />
-                            <input type="hidden" name="NgayKhoiHanhs[${index}].IdTour" value="@Model.IdTour" />
-                            <div class="form-group col-md-4">
-                                <label>Ngày khởi hành</label>
-                                <input type="date" name="NgayKhoiHanhs[${index}].NgayKhoiHanh1" class="form-control" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Ngày kết thúc</label>
-                                <input type="date" name="NgayKhoiHanhs[${index}].NgayKetThuc" class="form-control" />
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Số chỗ còn lại</label>
-                                <input type="number" name="NgayKhoiHanhs[${index}].SoChoConLai" class="form-control" />
-                            </div>
-                        </div>
-                    `;
-
-            container.insertAdjacentHTML("beforeend", html);
-            index++;
-        }
-    </script>
-}
- *@
+        document.getElementById("ngayKhoiHanhContainer").insertAdjacentHTML("beforeend", html);
+    }
+</script>

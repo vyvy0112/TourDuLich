@@ -1,17 +1,407 @@
-﻿@model double
+﻿@model VNTour.ViewModel.ThongKeVM
+
 @{
     ViewData["Title"] = "Thống kê doanh thu";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<!-- Flatpickr CSS -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
 
-<div class="container mt-5">
-    <h2 class="mb-4">Thống kê doanh thu tổng cộng</h2>
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
 
-    <div class="card shadow p-4">
-        <h4>Tổng doanh thu:</h4>
-        <p class="display-6 text-success fw-bold">
-            @String.Format("{0:N0} đ", Model)
-        </p>
+<style>
+    .dashboard-container {
+        max-width: 12480px; 
+        margin: auto;
+        padding: 20px 30px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* card to hơn */
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        background-color: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        transition: 0.3s;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .stat-card h3 {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+    .charts-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .chart-box {
+        background-color: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    canvas {
+        width: 100% !important;
+        height: 350px !important; /* tăng chiều cao */
+    }
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .filter-form label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .filter-form input[type="week"] {
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .filter-form button {
+        padding: 10px 20px;
+        background-color: #3b82f6; /* xanh dương */
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .filter-form button:hover {
+        background-color: #2563eb;
+    }
+
+</style>
+
+<div class="dashboard-container">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">📊 Thống kê doanh thu</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Doanh thu hôm nay</h3>
+            <p>@Model.TongDoanhThuTheoNgay.ToString("N0") ₫</p>
+        </div>
+        <div class="stat-card">
+            <h3>Doanh thu tháng</h3>
+            <p>@Model.DoanhThuTheoThang.ToString("N0") ₫</p>
+        </div>
+        <div class="stat-card">
+            <h3>Tour đã đặt hôm nay</h3>
+            <p>@Model.SoDonHomNay</p>
+        </div>
+        <div class="stat-card">
+            <h3>Tổng khách hàng</h3>
+            <p>@Model.TongKhachHang</p>
+        </div>
     </div>
 
-    <a class="btn btn-primary mt-4" href="@Url.Action("Index", "Home")">Quay về trang chính</a>
+    <div class="charts-grid">
+        <div class="chart-box">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">📈 Doanh thu 7 ngày qua</h2>
+            <canvas id="revenueChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">🏷️ Doanh thu theo tour</h2>
+            <canvas id="tourRevenueChart"></canvas>
+        </div>
+    </div>
+@*      <form method="get" asp-action="ThongKe">
+         <div class="row mb-3">
+             <div class="col-md-4">
+                 <label for="tuan" class="form-label">Chọn tuần:</label>
+                 <input type="week" class="form-control" id="tuan" name="tuan" value="@Model.TuanSelected" />
+             </div>
+             <div class="col-md-2 d-flex align-items-end">
+                 <button type="submit" class="btn btn-primary">Lọc theo tuần</button>
+             </div>
+         </div>
+     </form>
+ *@
+    <form method="get" asp-action="ThongKe" class="filter-form">
+        <div class="filter-item">
+            <label for="tuan">📅 Chọn tuần:</label>
+            <input type="text" id="tuanDisplay" class="form-control" placeholder="Chọn tuần..." readonly />
+            <input type="hidden" name="tuan" id="tuan" value="@Model.TuanSelected" />
+        </div>
+        <div class="filter-item">
+            <button type="submit" class="btn btn-primary">🔍 Lọc theo tuần</button>
+        </div>
+    </form>
+
+
+    @if (!string.IsNullOrEmpty(Model.TuanSelected))
+    {
+        <p class="text-muted">Tuần đang xem: <strong>@Model.TuanSelected</strong></p>
+    }
+
+
+    <a asp-action="XuatExcel" class="btn btn-success" style="margin-bottom: 20px;">
+        📥 Xuất Excel doanh thu theo tour
+    </a>
+
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+
+    flatpickr("#tuanDisplay", {
+        locale: "vn",
+        disableMobile: true,
+        weekNumbers: true,
+        dateFormat: "Y-m-d", // xử lý ngày chính xác
+        // onChange: function (selectedDates, dateStr, instance) {
+        //     if (selectedDates.length > 0) {
+        //         const selectedDate = selectedDates[0];
+
+        //         Lấy ngày đầu tuần (thứ 2)
+        //         const startOfWeek = new Date(selectedDate);
+        //         const day = startOfWeek.getDay();
+        //         const diff = (day === 0 ? -6 : 1 - day); chỉnh chủ nhật
+        //         startOfWeek.setDate(startOfWeek.getDate() + diff);
+
+        //         Lấy ngày cuối tuần (chủ nhật)
+        //         const endOfWeek = new Date(startOfWeek);
+        //         endOfWeek.setDate(endOfWeek.getDate() + 6);
+
+        //         const toDateStr = (d) =>
+        //             `${d.getDate().toString().padStart(2, '0')}/` +
+        //             `${(d.getMonth() + 1).toString().padStart(2, '0')}/` +
+        //             `${d.getFullYear()}`;
+
+        //         Hiển thị: dd/MM/yyyy – dd/MM/yyyy
+        //         document.getElementById("tuanDisplay").value = `${toDateStr(startOfWeek)} – ${toDateStr(endOfWeek)}`;
+
+        //         Set hidden input giá trị yyyy-Www
+        //         const week = getISOWeek(startOfWeek);
+        //         const year = startOfWeek.getFullYear();
+        //         document.getElementById("tuan").value = `${year}-W${week.toString().padStart(2, '0')}`;
+        //     }
+        // }
+        onChange: function (selectedDates, dateStr, instance) {
+            if (selectedDates.length > 0) {
+                const selectedDate = selectedDates[0];
+
+                // Lấy ngày đầu tuần (thứ 2)
+                const startOfWeek = new Date(selectedDate);
+                const day = startOfWeek.getDay();
+                const diff = (day === 0 ? -6 : 1 - day); // nếu chủ nhật thì -6
+                startOfWeek.setDate(startOfWeek.getDate() + diff);
+
+                // Lấy ngày cuối tuần
+                const endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(endOfWeek.getDate() + 6);
+
+                const toDateStr = (d) =>
+                    `${d.getDate().toString().padStart(2, '0')}/` +
+                    `${(d.getMonth() + 1).toString().padStart(2, '0')}/` +
+                    `${d.getFullYear()}`;
+
+                document.getElementById("tuanDisplay").value = `${toDateStr(startOfWeek)} – ${toDateStr(endOfWeek)}`;
+
+                const week = getISOWeek(startOfWeek);
+                const year = startOfWeek.getFullYear();
+                document.getElementById("tuan").value = `${year}-W${week.toString().padStart(2, '0')}`;
+
+                // ✅ Submit form tự động sau khi chọn tuần
+                document.querySelector("form.filter-form").submit();
+            }
+        }
+
+    });
+
+    // Tính ISO Week number (theo chuẩn)
+    function getISOWeek(date) {
+        const temp = new Date(date.getTime());
+        temp.setHours(0, 0, 0, 0);
+        temp.setDate(temp.getDate() + 3 - (temp.getDay() + 6) % 7);
+        const week1 = new Date(temp.getFullYear(), 0, 4);
+        return 1 + Math.round(((temp - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+    }
+
+
+    function chonKhoangNgay() {
+        const today = new Date();
+        const tuNgayInput = document.querySelector('input[name="tuNgay"]');
+        const denNgayInput = document.querySelector('input[name="denNgay"]');
+        const option = document.getElementById("quickFilter").value;
+
+        let from, to = new Date();
+
+        if (option === "7ngay") {
+            from = new Date();
+            from.setDate(today.getDate() - 6);
+        } else if (option === "thangnay") {
+            from = new Date(today.getFullYear(), today.getMonth(), 1);
+        }
+
+        tuNgayInput.value = from.toISOString().split("T")[0];
+        denNgayInput.value = to.toISOString().split("T")[0];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+
+    const revenueChart = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: [
+    @foreach (var item in Model.DoanhThuTuan)
+    {
+        <text>"@item.Ngay.ToString("dd/MM")",</text>
+    }
+                ],
+            datasets: [{
+                label: 'Doanh thu (VNĐ)',
+                data: [
+    @foreach (var item in Model.DoanhThuTuan)
+    {
+        <text>@item.TongTien,</text>
+    }
+                    ],
+                fill: true,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                tension: 0.4,
+                pointBackgroundColor: '#3b82f6',
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'nearest',
+                intersect: false // hover gần cũng hiện tooltip
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        title: function (context) {
+                            return 'Ngày: ' + context[0].label;
+                        },
+                        label: function (context) {
+                            const value = context.parsed.y || 0;
+                            return 'Doanh thu: ' + value.toLocaleString('vi-VN') + ' ₫';
+                        }
+                    }
+                }
+            },
+            onClick: (e, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const datasetIndex = elements[0].datasetIndex;
+
+                    revenueChart.setActiveElements([{ datasetIndex, index }]);
+                    revenueChart.tooltip.setActiveElements([{ datasetIndex, index }], { x: 0, y: 0 });
+                    revenueChart.update();
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: (value) => value.toLocaleString('vi-VN') + ' ₫'
+                    }
+                }
+            }
+        }
+    });
+
+    const tourNames = [
+    @foreach (var item in Model.DoanhThuTheoTour)
+    {
+        @Html.Raw($"\"{item.TenTour}\",")
+    }
+    ];
+
+
+    const tourRevenueData = [
+    @foreach (var item in Model.DoanhThuTheoTour)
+    {
+        <text>@item.TongTien,</text>
+    }
+        ];
+
+    const tourRevenueCtx = document.getElementById('tourRevenueChart').getContext('2d');
+    new Chart(tourRevenueCtx, {
+        type: 'bar',
+        data: {
+            labels: tourNames,
+            datasets: [{
+                label: 'Tổng doanh thu (VNĐ)',
+                data: tourRevenueData,
+                backgroundColor: '#34d399',
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return 'Doanh thu: ' + context.parsed.y.toLocaleString('vi-VN') + ' ₫';
+                        }
+                    }
+                },
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => value.toLocaleString('vi-VN') + ' ₫'
+                    }
+                }
+            }
+        }
+    });
+</script>
+

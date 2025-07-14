@@ -1,0 +1,243 @@
+﻿@model VNTour.ViewModel.VnPaymentResponseModel
+
+
+@{
+    ViewData["Title"] = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNPAY Payment Success</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00b14f;
+            --secondary-color: #0056b3;
+            --success-color: #28a745;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 2rem;
+        }
+
+        .header {
+            background: var(--primary-color);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .header img {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .success-icon {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .success-icon:before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            border: 4px solid var(--success-color);
+            border-right: none;
+            border-top: none;
+            transform: rotate(-45deg);
+            top: 32px;
+            left: 22px;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .message {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .message h2 {
+            color: var(--success-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message p {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .transaction-details {
+            background: var(--light-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #008e43;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 177, 79, 0.1);
+        }
+
+        .thank-you {
+            text-align: center;
+            color: #6c757d;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+      
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0ec2bbc9-73c5-4862-b85e-7acebc789587.png" alt="VNPAY logo with blue background and white text" />
+            <h1>Thanh toán thành công</h1>
+            <div class="success-icon"></div>
+        </div>
+
+        <div class="content">
+            <div class="message">
+                <h2>Cảm ơn bạn đã thanh toán !</h2>
+                <p>Giao dịch của bạn đã hoàn tất một cách thành công.</p>
+            </div>
+
+            <div class="transaction-details">
+                <div class="detail-row">
+                    <span class="detail-label">Mã giao dịch: </span>
+                    <span class="detail-value">@Model.VnPayResponseCode</span>
+                </div>
+              
+
+                <div class="detail-row">
+                    <span class="detail-label">Mô Tả:</span>
+                    <span class="detail-value">@Model.OrderDescription VNĐ</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Phương thức thanh toán:</span>
+                    <span class="detail-value">@Model.PaymentMethod</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Ngày và Giờ:</span>
+                    <span class="detail-value">@Model.CreateDate</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value" style="color: var(--success-color);">Đã Thanh Toán</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" asp-controller="Home" asp-action="Index">Trang Chủ</button>
+            </div>
+
+            <p class="thank-you">Cảm ơn bạn sử dụng dịch vụ VNPay</p>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+

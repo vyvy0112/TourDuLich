@@ -1,7 +1,4 @@
-﻿@* @{
-    var hoten = Context.Session.GetString("HoTenKh");
-}
- *@
+﻿
 
 
 @{
@@ -10,6 +7,28 @@
     var role = Context.Session.GetString("Role"); // 👈 Lấy Role từ Session
 }
 
+<style>
+    /* Tăng chiều cao và padding cho navbar */
+    .navbar {
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 17px; /* 👈 tăng cỡ chữ */
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .navbar-brand {
+        font-size: 24px; /* Tăng cỡ chữ cho logo */
+        font-weight: bold;
+    }
+
+    .dropdown-menu .dropdown-item {
+        font-size: 16px; /* Tăng cỡ chữ trong menu dropdown */
+    }
+</style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ftco_navbar ftco-navbar-dark" id="ftco-navbar">
     <div class="container">
@@ -36,11 +55,25 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Admin" asp-action="ListKH">Khách Hàng</a>
+
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Admin" asp-action="QuanLyDatTour">Quản Lý Đặt Tour</a>
+
+                </li>
+                
                
-                <li class="nav-item cta">
-                    <a class="nav-link" href="/contact.html"><span>Add listing</span></a>
-                </li>
+              @*   <li class="nav-item cta">
+                    <a class="nav-link"  asp-controller="Admin" asp-action="ThongKe"> Thống kê</a>
+                </li> *@
+                @if (User.Identity.IsAuthenticated && User.IsInRole("KhachHang"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="DatTour" asp-action="LichSuDatTour">
+                            <i class="fas fa-history mr-1"></i> Lịch sử đặt tour
+                        </a>
+                    </li>
+                }
                 @if (role == "Admin")
                 {
                     <li class="nav-item dropdown">

@@ -90,7 +90,7 @@ namespace VNTour.Controllers
             ViewBag.IdDanhMuc = id;
             var danhMucs = await _context.DanhMucTours
            .Where(x => x.TrangThai == "Hoạt Động")
-          
+           
            .ToListAsync();
             ViewBag.DanhMucList = new SelectList(danhMucs, "IdDanhMuc", "TenDanhMuc", id); // id nếu đã chọn
 
@@ -125,6 +125,15 @@ namespace VNTour.Controllers
                 ViewBag.GiaDen = giaDen;
             }
 
+            if (ngayBatDau.HasValue)
+            {
+                DateTime ngay = ngayBatDau.Value.Date;
+                query = query.Where(x =>
+                    x.NgayKhoiHanhs.Any(n => n.NgayKhoiHanh1.Date >= ngay));
+                ViewBag.NgayBatDau = ngayBatDau.Value.ToString("yyyy-MM-dd");
+            }
+
+
             var listTour = await query.OrderBy(x => x.TenTour).ToListAsync();
             var tours = new PagedList<Tour>(listTour, pageNumber, pageSize);
 
@@ -137,13 +146,14 @@ namespace VNTour.Controllers
         {           
             var queryTour = _context.Tours
              .Include(x => x.IdDanhMucNavigation) // Nếu cần lấy TenDanhMuc
+             .Include(x=>x.NgayKhoiHanhs) // Nếu cần lấy NgayKhoiHanh
              .Where(x => x.TrangThai == "Hoạt Động") // Nếu bạn chỉ muốn lấy tour hoạt động
              .AsQueryable();
             if (!string.IsNullOrEmpty(query))
             {
                 queryTour = queryTour.Where(x =>
                     x.TenTour.Contains(query) ||
-                    x.DiemDen.Contains(query) ||
+                    x.DiemDen.Contains(query) ||     
                     x.DiemKhoiHanh.Contains(query) ||
                     x.MoTa.Contains(query)
                 );
@@ -163,7 +173,12 @@ namespace VNTour.Controllers
             {
                 queryTour = queryTour.Where(x => x.IdDanhMuc == idDanhMuc.Value);
             }
-
+            if (ngayBatDau.HasValue)
+            {
+                DateTime ngay = ngayBatDau.Value.ToDateTime(TimeOnly.MinValue);
+                queryTour = queryTour.Where(x =>
+                    x.NgayKhoiHanhs.Any(n => n.NgayKhoiHanh1.Date >= ngay.Date));
+            }
             var lsttour = await queryTour.Select(p => new TourVM
             {
                 IdTour = p.IdTour,

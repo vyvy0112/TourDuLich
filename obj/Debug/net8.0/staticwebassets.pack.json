@@ -3785,6 +3785,10 @@
       "PackagePath": "staticwebassets\\fonts\\open-iconic\\open-iconic.woff"
     },
     {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\0c274c7d-789f-49c6-9db1-72b3f150c007.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\0c274c7d-789f-49c6-9db1-72b3f150c007.jpg"
+    },
+    {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\0df056a3-0890-4854-9a85-7689285a2733.jpg",
       "PackagePath": "staticwebassets\\hinhanh\\0df056a3-0890-4854-9a85-7689285a2733.jpg"
     },
@@ -3927,6 +3931,10 @@
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\cuoi-voi-suanthai-thai-lan-ivv-750x460.gif",
       "PackagePath": "staticwebassets\\hinhanh\\cuoi-voi-suanthai-thai-lan-ivv-750x460.gif"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\d73e994f-aff4-4d90-aed3-eab6f2e2241f.jpg",
+      "PackagePath": "staticwebassets\\hinhanh\\d73e994f-aff4-4d90-aed3-eab6f2e2241f.jpg"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\hinhanh\\da1f9939-5b79-4b29-8baa-d02f2e76ad7e.jpg",
@@ -4859,6 +4867,10 @@
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\scss\\style.scss",
       "PackagePath": "staticwebassets\\scss\\style.scss"
+    },
+    {
+      "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\thongke.html",
+      "PackagePath": "staticwebassets\\thongke.html"
     },
     {
       "Id": "D:\\Nam4\\doan3\\VNTour\\VNTour\\wwwroot\\tour.html",

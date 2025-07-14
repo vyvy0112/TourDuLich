@@ -124,6 +124,7 @@ namespace VNTour.Controllers
         {
             new Claim(ClaimTypes.Name, khachhang.HoTenKh),
             new Claim(ClaimTypes.Email, khachhang.Email),
+         new Claim(ClaimTypes.Role, "KhachHang"), // ← Gán role tĩnh "KhachHang"
             new Claim(MySetting.CLAIM_CUSTOMERID, khachhang.IdKhachHang.ToString())
         };
 
@@ -183,6 +184,60 @@ namespace VNTour.Controllers
             };
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult QuenMatKhau()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> QuenMatKhau(QuenMatKhauVM model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = _context.KhachHangs.FirstOrDefault(k => k.Email == model.Email);
+            if (user == null)
+            {
+                TempData["Error"] = "Email không tồn tại trong hệ thống.";
+                return View(model);
+            }
+
+            // Tạo mật khẩu mới
+            string newPassword = new Random().Next(100000, 999999).ToString();
+
+            // Mã hóa mật khẩu
+            user.MatKhau = newPassword.ToSHA256Hash("MatKhau");
+            _context.KhachHangs.Update(user);
+            await _context.SaveChangesAsync();
+
+            // Gửi email
+            try
+            {
+                await EmailService.SendEmailAsync(
+                    model.Email,
+                    "🔐 Mật khẩu mới từ VNTour",
+                    $"<p>Chào <strong>{user.HoTenKh}</strong>,</p>" +
+                    $"<p>Mật khẩu mới của bạn là: <strong>{newPassword}</strong></p>" +
+                    $"<p>Vui lòng đăng nhập và đổi mật khẩu ngay sau đó.</p><br/>" +
+                    "<p>-- VNTour Team</p>"
+                );
+
+                TempData["Success"] = "Mật khẩu mới đã được gửi đến email của bạn.";
+                return RedirectToAction("DangNhap");
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Lỗi khi gửi email: " + ex.Message;
+                return View(model);
+            }
+        }
+
+
+
+
+
 
     }
 }

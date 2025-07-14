@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Security.Claims;
 using VNTour.Data;
 using VNTour.Helpers;
+using VNTour.Services;
 using VNTour.ViewModel;
 
 namespace VNTour.Controllers
@@ -12,124 +14,19 @@ namespace VNTour.Controllers
     public class DatTourController : Controller
     {
         private readonly TourDuLichContext _context;
+        private readonly IVnPayService _vnPayService;
 
-        public DatTourController(TourDuLichContext context)
+        public DatTourController(TourDuLichContext context, IVnPayService vnPayService)
         {
             _context = context;
+            _vnPayService = vnPayService;
         }
 
 
 
-        //public List<CartItemVM> Cart => HttpContext.Session.Get<List<CartItemVM>>(MySetting.CART_KEY) ?? new List<CartItemVM>();
-
-        //public IActionResult Index()
-        //{
-        //    return View(Cart);
-        //}
-        //[Authorize]
-        //public IActionResult TourDat(int id, int quantity = 1)
-        //{
-        //    var gioHang = Cart;
-        //    var item = gioHang.SingleOrDefault(p => p.IdTour == id);
-        //    if (item == null)
-        //    {
-        //        var hangHoa = _context.Tours.SingleOrDefault(p => p.IdTour == id);
-        //        if (hangHoa == null)
-        //        {
-        //            TempData["Message"] = $"Không tìm thấy hàng hóa có mã {id}";
-        //            return Redirect("/404");
-        //        }
-        //        item = new CartItemVM
-        //        {
-        //            IdTour = hangHoa.IdTour,
-        //            TenTour = hangHoa.TenTour,
-        //            //GiaNguoiLon = hangHoa.GiaNguoiLon ?? 0,
-        //            //GiaTreEm = hangHoa.GiaTreEm ?? 0,
-        //            HinhAnh = hangHoa.HinhAnh,
-        //            SoNguoiLon = quantity,
-        //            SoTreEm = quantity
-        //        };
 
 
 
-        //        gioHang.Add(item);
-        //    }
-        //    else
-        //    {
-        //        item.SoNguoiLon += quantity;
-        //        item.SoTreEm += quantity;
-        //    }
-        //    HttpContext.Session.Set(MySetting.CART_KEY, gioHang);
-        //    return RedirectToAction("Index");
-
-        //}
-
-        //[HttpGet]
-        //public IActionResult KiemTraMaGiamGia(string code, int soNguoiLon, int soTreEm, int idTour)
-        //{
-        //    var tour = _context.Tours.FirstOrDefault(t => t.IdTour == idTour);
-        //    if (tour == null)
-        //        return Json(new { success = false, message = "Tour không tồn tại" });
-
-        //    var today = DateOnly.FromDateTime(DateTime.Now);
-        //    //var ma = _context.MaGiamGia
-        //    //    .FirstOrDefault(m => m.MaCode.ToUpper() == code.ToUpper()
-        //    //                      && m.NgayBatDau <= today && m.NgayKetThuc >= today
-        //    //                      && m.SoLuong > 0 && m.TrangThai == "Hoạt Động") ;
-
-        //    if (ma == null)
-        //    {
-        //        return Json(new { success = false, message = "Mã giảm giá không hợp lệ hoặc đã hết hạn." });
-        //    }
-
-        //    var tongTien = (tour.GiaNguoiLon) * soNguoiLon + (tour.GiaTreEm) * soTreEm;
-        //    var tienGiam = tongTien * ma.PhanTramGiam / 100;
-        //    var tongConLai = tongTien - tienGiam;
-
-        //    return Json(new
-        //    {
-        //        success = true,
-        //        tongTien = tongConLai,
-        //        tienGiam = tienGiam,
-        //        phanTram = ma.PhanTramGiam,
-        //        message = $"Áp dụng mã giảm {ma.PhanTramGiam}% thành công!"
-        //    });
-
-        //}
-
-
-
-
-
-
-
-        //[HttpGet]
-        //public async Task<IActionResult> DatTour(int id,int idNgayKhoiHanh)
-        //{
-        //    var tour = _context.Tours.SingleOrDefault(p => p.IdTour == id).;
-        //    if (tour == null) return NotFound();
-
-        //    var vm = new DatTourVM
-        //    {
-        //        IdTour = tour.IdTour,
-        //        TenTour = tour.TenTour,
-        //        HinhAnh = tour.HinhAnh,
-        //        GiaNguoiLon = tour.GiaNguoiLon,
-        //        GiaTreEm = tour.GiaTreEm,
-        //        SoLuongNguoiLon = 1,
-        //        SoLuongTreEm = 0
-        //    };
-
-        //    return View(vm);
-
-
-        //}
-
-
-
-
-
-        
 
         [Authorize]
         [HttpGet]  // thêm attribute này nếu chưa có
@@ -149,48 +46,6 @@ namespace VNTour.Controllers
                 sdt = khachHang.Sdt
             });
         }
-
-        //[HttpGet]
-        //public IActionResult DatTour(int id, int? idNgayKhoiHanh)
-        //{
-        //    var tour = _context.Tours.SingleOrDefault(p => p.IdTour == id);
-        //    if (tour == null) return NotFound();
-
-        //    DateTime ngayKhoiHanh = DateTime.MinValue;
-        //    if (idNgayKhoiHanh.HasValue)
-        //    {
-        //        var ngay = _context.NgayKhoiHanhs
-        //                    .FirstOrDefault(n => n.IdNkh == idNgayKhoiHanh.Value);
-        //        if (ngay != null)
-        //        {
-        //            ngayKhoiHanh = ngay.NgayKhoiHanh1;
-        //        }
-        //    }
-        //    ViewBag.MaGiamGias = _context.MaGiamGia
-        //     .Where(m => m.NgayBatDau.Value.Date <= DateTime.Today
-        //     && m.NgayKetThuc.Value.Date >= DateTime.Today
-        //     && m.SoLuong > 0)
-        //     .Select(m => new SelectListItem
-        //      {
-        //       Value = m.IdGiamGia.ToString(),
-        //       Text = $"{m.MaCode} - Giảm {m.PhanTramGiam}% (còn {m.SoLuong})"
-        //         }).ToList();
-
-        //    var vm = new DatTourVM
-        //    {
-        //        IdTour = tour.IdTour,
-        //        //IdNgayKhoiHanh = idNgayKhoiHanh ?? 0,
-        //        //NgayKhoiHanh = ngayKhoiHanh, // ⬅️ GÁN ĐÚNG NGÀY ĐÃ CHỌN
-        //        TenTour = tour.TenTour,
-        //        HinhAnh = tour.HinhAnh,
-        //        GiaNguoiLon = tour.GiaNguoiLon,
-        //        GiaTreEm = tour.GiaTreEm,
-        //        SoLuongNguoiLon = 1,
-        //        SoLuongTreEm = 0
-        //    };
-
-        //    return View(vm);
-        //}
 
 
         [HttpGet]
@@ -212,14 +67,15 @@ namespace VNTour.Controllers
 
             // Mã giảm giá còn hạn
             ViewBag.MaGiamGias = _context.MaGiamGia
-                .Where(m => m.NgayBatDau <= DateTime.Today &&
-                            m.NgayKetThuc >= DateTime.Today &&
-                            m.SoLuong > 0)
-                .Select(m => new SelectListItem
-                {
-                    Value = m.IdGiamGia.ToString(),
-                    Text = $"{m.MaCode} - Giảm {m.PhanTramGiam}% (còn {m.SoLuong})"
-                }).ToList();
+                    .Where(m => m.IdTour == id &&
+                  m.NgayBatDau <= DateTime.Today &&
+                  m.NgayKetThuc >= DateTime.Today &&
+                  m.SoLuong > 0)
+                    .Select(m => new SelectListItem
+                     {
+             Value = m.IdGiamGia.ToString(),
+                  Text = $"{m.MaCode} - Giảm {m.PhanTramGiam}%"
+                  }).ToList();
 
             // Nếu người dùng chọn ngày khởi hành
             DateTime? ngayKhoiHanhValue = null;
@@ -245,8 +101,7 @@ namespace VNTour.Controllers
                 GiaTreEm = tour.GiaTreEm,
                 SoLuongNguoiLon = 1,
                 SoLuongTreEm = 0,
-                //NgayKhoiHanh = ngayKhoiHanhValue // nếu cần hiển
-                // ✅ Gán vào ViewModel
+           
 
                 NgayKhoiHanh = (DateTime)ngayKhoiHanhValue
 
@@ -298,8 +153,7 @@ namespace VNTour.Controllers
                     model.DienThoai = khach.Sdt;
                 }
             }
-            // Kiểm tra ngày khởi hành
-            // Kiểm tra ngày khởi hành hợp lệ
+            
             var ngayKhoiHanh = _context.NgayKhoiHanhs
                 .FirstOrDefault(n => n.IdNkh == model.IdNkh && n.IdTour == model.IdTour);
 
@@ -327,30 +181,56 @@ namespace VNTour.Controllers
             double tongTienSauGiam = tongTienGoc;
             double? tienGiam = null;
 
-            // Kiểm tra nếu người dùng đã chọn mã giảm giá từ dropdown
-            if (model.IdGiamGia.HasValue)
+            // === Trường hợp: Nhập mã giảm giá thủ công ===
+            if (!string.IsNullOrEmpty(model.MaCode))
             {
-                var giamGia = _context.MaGiamGia.FirstOrDefault(m => m.IdGiamGia == model.IdGiamGia.Value);
-                if (giamGia != null &&
-                    giamGia.NgayBatDau <= DateTime.Today &&
-                    giamGia.NgayKetThuc >= DateTime.Today &&
-                    giamGia.SoLuong > 0 &&
-                    giamGia.PhanTramGiam.HasValue)
+                var giamGia = _context.MaGiamGia.FirstOrDefault(m =>
+                    m.MaCode == model.MaCode &&
+                    m.IdTour == model.IdTour &&
+                    m.NgayBatDau <= DateTime.Today &&
+                    m.NgayKetThuc >= DateTime.Today &&
+                    m.SoLuong > 0 &&
+                    m.PhanTramGiam.HasValue);
+
+                if (giamGia != null)
                 {
                     tienGiam = tongTienGoc * giamGia.PhanTramGiam.Value / 100.0;
                     tongTienSauGiam -= tienGiam.Value;
 
-                    // Trừ lượt sử dụng mã
+                    giamGia.SoLuong -= 1;
+                    _context.MaGiamGia.Update(giamGia);
+
+                    model.IdGiamGia = giamGia.IdGiamGia; // cập nhật lại ID
+                }
+                else
+                {
+                    model.IdGiamGia = null;
+                }
+            }
+            // === Trường hợp: Chọn từ dropdown ===
+            else if (model.IdGiamGia.HasValue)
+            {
+                var giamGia = _context.MaGiamGia.FirstOrDefault(m =>
+                    m.IdGiamGia == model.IdGiamGia &&
+                    m.IdTour == model.IdTour &&
+                    m.NgayBatDau <= DateTime.Today &&
+                    m.NgayKetThuc >= DateTime.Today &&
+                    m.SoLuong > 0 &&
+                    m.PhanTramGiam.HasValue);
+
+                if (giamGia != null)
+                {
+                    tienGiam = tongTienGoc * giamGia.PhanTramGiam.Value / 100.0;
+                    tongTienSauGiam -= tienGiam.Value;
+
                     giamGia.SoLuong -= 1;
                     _context.MaGiamGia.Update(giamGia);
                 }
                 else
                 {
-                    // Nếu không hợp lệ thì bỏ mã giảm giá
                     model.IdGiamGia = null;
                 }
             }
-
 
             // Tạo bản ghi đặt tour
             var datTour = new DatTour
@@ -369,20 +249,100 @@ namespace VNTour.Controllers
                 TongTien = tongTienSauGiam,
                 GhiChu = model.GhiChu,
                 PtthanhToan = payment == "COD" ? "COD" : "Thanh toán VnPay",
-                TrangThai = "Chờ Xác Nhận",
+                //TrangThai = "Chờ Xác Nhận",
+                TrangThai = (payment == "VNPay") ? "Đã thanh toán" : "Chờ Xác Nhận",
                 IdNhanVien = null
             };
-
-            try
+            if ((tongTienSauGiam * 100) < 5000)
             {
+                ModelState.AddModelError("", "Số tiền quá nhỏ để thanh toán qua VNPAY. Vui lòng chọn phương thức khác.");
+                return View(model);
+            }
+
+
+            //thanh toán VNPAY  
+            //if (payment == "VNPay")
+            //{
+            //    // Ghi tạm đơn hàng với trạng thái "Chờ thanh toán"
+            //    datTour.TrangThai = "Đã Thanh Toán";
+            //    _context.DatTours.Add(datTour);
+            //    await _context.SaveChangesAsync(); // ⚠️ Lúc này IdDatTour mới có giá trị
+
+            //    var vnpay = new VnPaymentRequestModel
+            //    {
+            //        Amount = (int)tongTienSauGiam,
+
+            //        CreatedDate = DateTime.Now,
+            //        Description = $"{model.HoTen} {model.DienThoai}",
+            //        FullName = model.HoTen,
+            //        OrderId = datTour.IdDatTour, // ✅ Đã có ID
+            //        ReturnUrl = Url.Action("PaymentCallBack", "DatTour", null, Request.Scheme)
+            //    };
+
+            //    return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnpay));
+            //}
+            if (payment == "VNPay")
+            {
+                datTour.TrangThai = "Đã Thanh Toán";
                 _context.Database.BeginTransaction();
 
                 _context.DatTours.Add(datTour);
+                await _context.SaveChangesAsync(); // Lúc này có datTour.IdDatTour
+
+                var chiTiet = new ChiTietDatTour
+                {
+                    IdDatTour = datTour.IdDatTour,
+                    SoLuong = model.SoLuongNguoiLon + model.SoLuongTreEm,
+                    DonGia = model.GiaNguoiLon,
+                    ThanhTien = tongTienSauGiam,
+                };
+
+                _context.ChiTietDatTours.Add(chiTiet);
                 _context.NgayKhoiHanhs.Update(ngayKhoiHanh);
 
                 await _context.SaveChangesAsync();
                 _context.Database.CommitTransaction();
-                return RedirectToAction("ThanhCong");
+
+                var vnpay = new VnPaymentRequestModel
+                {
+                    Amount = (int)tongTienSauGiam,
+                    CreatedDate = DateTime.Now,
+                    Description = $"{model.HoTen} {model.DienThoai}",
+                    FullName = model.HoTen,
+                    OrderId = datTour.IdDatTour,
+                    ReturnUrl = Url.Action("PaymentCallBack", "DatTour", null, Request.Scheme)
+                };
+
+                return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnpay));
+            }
+
+
+            try
+            {
+
+                _context.Database.BeginTransaction();
+
+                _context.DatTours.Add(datTour);
+
+                // 🟢 Lưu lại để EF sinh ra datTour.IdDatTour
+                await _context.SaveChangesAsync();
+
+                var chiTiet = new ChiTietDatTour
+                {
+                    IdDatTour = datTour.IdDatTour,
+                    SoLuong = model.SoLuongNguoiLon + model.SoLuongTreEm,
+                    DonGia = model.GiaNguoiLon,
+                    ThanhTien = tongTienSauGiam,
+                };
+
+                _context.ChiTietDatTours.Add(chiTiet);
+                _context.NgayKhoiHanhs.Update(ngayKhoiHanh);
+
+                // Lưu toàn bộ
+                await _context.SaveChangesAsync();
+                _context.Database.CommitTransaction();
+
+                return RedirectToAction("ThanhCong", new { id = datTour.IdDatTour });
             }
             catch (Exception ex)
             {
@@ -392,146 +352,174 @@ namespace VNTour.Controllers
             }
 
             TempData["Success"] = "Đặt tour thành công!";
-            return RedirectToAction("ThanhCong");
+            return RedirectToAction("ThanhCong", new { id = datTour.IdDatTour });
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DatTour(DatTourVM model, string payment = "COD")
+        //[HttpGet]
+        //public IActionResult PaymentCallBack(VnPaymentResponseModel model)
         //{
-        //    var claim = User.Claims.SingleOrDefault(p => p.Type == MySetting.CLAIM_CUSTOMERID);
-        //    if (claim == null || !int.TryParse(claim.Value, out int khachHangId))
-        //    {
-        //        return Unauthorized(); // Chưa đăng nhập hoặc không đúng loại tài khoản
-        //    }
-
-        //    var khachhang = _context.KhachHangs.SingleOrDefault(kh => kh.IdKhachHang == khachHangId);
-        //    if (khachhang == null) return NotFound();
-
-        //    if (model.giongkhachhang)
-        //    {
-        //        // Gợi ý: xử lý nếu claim không tồn tại hoặc giá trị không hợp lệ
-        //        khachhang = _context.KhachHangs.SingleOrDefault(kh => kh.IdKhachHang == khachHangId);
-        //    }
-
-
-        //    // Tính tổng tiền gốc chưa giảm
-        //    double tongTienGoc = (model.SoLuongNguoiLon * model.GiaNguoiLon) +
-        //                         (model.SoLuongTreEm * model.GiaTreEm);
-
-        //    double tongTienSauGiam = tongTienGoc;
-        //    double? tienGiam = null;
-
-        //    // Kiểm tra mã giảm giá nếu có chọn
-        //    if (model.IdGiamGia.HasValue)
-        //    {
-        //        var giamGia = _context.MaGiamGia.FirstOrDefault(m => m.IdGiamGia == model.IdGiamGia.Value);
-        //        if (giamGia != null &&
-        //            giamGia.NgayBatDau <= DateTime.Today &&
-        //            giamGia.NgayKetThuc >= DateTime.Today &&
-        //            giamGia.SoLuong > 0 &&
-        //            giamGia.PhanTramGiam.HasValue)
-        //        {
-        //            tienGiam = tongTienGoc * giamGia.PhanTramGiam.Value / 100.0;
-        //            tongTienSauGiam -= tienGiam.Value;
-
-        //            // Trừ mã giảm giá
-        //            giamGia.SoLuong -= 1;
-        //            _context.MaGiamGia.Update(giamGia);
-        //        }
-        //        else
-        //        {
-        //            // Nếu mã giảm không hợp lệ, hủy chọn
-        //            model.IdGiamGia = null;
-        //        }
-        //    }
-        //    // Tính tổng chưa giảm         
-        //    var datTour = new DatTour
-        //    {
-        //        IdTour = model.IdTour,
-        //        IdKhachHang = khachhang.IdKhachHang,
-        //        IdGiamGia = model.IdGiamGia,
-        //        TenNguoiDat = khachhang.HoTenKh ?? model.HoTen,
-        //        DiaChi = model.DiaChi ?? khachhang.DiaChi,               
-        //        NgayDat = DateTime.Now,
-        //        SoNguoiLon = model.SoLuongNguoiLon,
-        //        SoTreEm = model.SoLuongTreEm,
-        //        DonGia = model.GiaNguoiLon,
-        //        TongTien = tongTienSauGiam, // Đã trừ giảm giá
-        //        GhiChu = model.GhiChu,
-        //        PtthanhToan = payment == "COD" ? "COD" : "Thanh toán VnPay",
-        //        TrangThai = "Chờ Xác Nhận",
-
-        //    };
-        //    try
-        //    {
-        //        _context.Database.BeginTransaction();
-        //        _context.DatTours.Add(datTour);
-        //        await _context.SaveChangesAsync();
-        //        _context.Database.CommitTransaction();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _context.Database.RollbackTransaction();
-        //        ModelState.AddModelError("", "Lỗi khi đặt tour: " + ex.Message);
-        //        return RedirectToAction("ThanhCong");
-        //    }
-
-        //    TempData["Success"] = "Đặt tour thành công!";
-        //    return RedirectToAction("ThanhCong");
-
+        //    var reponse =  _vnPayService.PaymentExecute(Request.Query);
+        //    return RedirectToAction("PaymentCallBack", reponse);
         //}
 
-
-
-        [HttpGet("ApDung")]
-        public IActionResult ApDung(string maCode)
+        [HttpGet]
+        public IActionResult PaymentCallBack()
         {
-            if (string.IsNullOrWhiteSpace(maCode))
-            {
-                return BadRequest(new { isValid = false, message = "Vui lòng nhập mã giảm giá." });
-            }
+            var response = _vnPayService.PaymentExecute(Request.Query);
 
-            var giamGia = _context.MaGiamGia.FirstOrDefault(m => m.MaCode.ToLower() == maCode.ToLower());
+            // Kiểm tra kết quả thanh toán
+            if (response.Success)
+            {
+                // Có thể cập nhật trạng thái đơn hàng tại đây (nếu chưa làm)
+                return View("PaymentSuccess", response); // Trả về trang thanh toán thành công
+            }
+            else
+            {
+                return View("PaymentFailed", response); // Trả về trang thất bại
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult ApDungMaGiamGia(string maCode, double tongTienGoc)
+        {
+            if (string.IsNullOrEmpty(maCode))
+                return Json(new { success = false, message = "Vui lòng nhập mã giảm giá." });
+
+            var giamGia = _context.MaGiamGia.FirstOrDefault(m =>
+                m.MaCode == maCode &&
+                m.NgayBatDau <= DateTime.Today &&
+                m.NgayKetThuc >= DateTime.Today &&
+                m.SoLuong > 0 &&
+                m.PhanTramGiam.HasValue);
 
             if (giamGia == null)
-            {
-                return NotFound(new { isValid = false, message = "Mã giảm giá không tồn tại." });
-            }
+                return Json(new { success = false, message = "Mã giảm giá không hợp lệ hoặc đã hết hạn." });
 
-            if (giamGia.NgayBatDau > DateTime.Today)
-            {
-                return BadRequest(new { isValid = false, message = "Mã giảm giá chưa có hiệu lực." });
-            }
+            var tienGiam = tongTienGoc * giamGia.PhanTramGiam.Value / 100.0;
+            var tongTienSauGiam = tongTienGoc - tienGiam;
 
-            if (giamGia.NgayKetThuc < DateTime.Today)
+            return Json(new
             {
-                return BadRequest(new { isValid = false, message = "Mã giảm giá đã hết hạn." });
-            }
-
-            if (giamGia.SoLuong <= 0)
-            {
-                return BadRequest(new { isValid = false, message = "Mã giảm giá đã hết lượt sử dụng." });
-            }
-
-            return Ok(new
-            {
-                isValid = true,
-                message = "Áp dụng mã thành công.",
+                success = true,
+                tienGiam = tienGiam,
+                tongTienSauGiam = tongTienSauGiam,
                 idGiamGia = giamGia.IdGiamGia,
                 phanTramGiam = giamGia.PhanTramGiam
             });
         }
+      
 
-
-
-        public async Task<IActionResult> ThanhCong()
+        public async Task<IActionResult> ThanhCong(int id)
         {
-            // Hiển thị thông báo thành công
+            if (TempData["DatTourVM"] != null)
+            {
+                var model = JsonConvert.DeserializeObject<DatTourVM>(TempData["DatTourVM"].ToString());
+                ViewBag.Message = "Đặt tour thành công!";
+                return View(model);
+            }
+
+            // Trường hợp người dùng F5 → fallback lấy từ DB
+            var thongtin = await _context.DatTours
+                .Include(x => x.IdTourNavigation)
+                .Include(x => x.IdKhachHangNavigation)
+                .FirstOrDefaultAsync(x => x.IdDatTour == id);
+
+            if (thongtin == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new DatTourVM
+            {
+                IdDatTour = thongtin.IdDatTour,
+                HoTen = thongtin.TenNguoiDat,
+                DiaChi = thongtin.DiaChi,
+                SoLuongNguoiLon = (int)thongtin.SoNguoiLon,
+                SoLuongTreEm = (int)thongtin.SoTreEm,
+                DienThoai = thongtin.IdKhachHangNavigation.Sdt,
+                IdTour = (int)thongtin.IdTour,
+                Email = thongtin.IdKhachHangNavigation.Email,
+                NgayDat = DateTime.Now,
+                TrangThai = thongtin.TrangThai,
+                //NgayKhoiHanh = thongtin.NgayKhoiHanh,
+                HinhAnh = thongtin.IdTourNavigation.HinhAnh,
+                GiaNguoiLon = thongtin.IdTourNavigation.GiaNguoiLon,
+                GiaTreEm = thongtin.IdTourNavigation.GiaTreEm,
+                TongTienGoc = (double)thongtin.TongTien,
+                GhiChu = thongtin.GhiChu
+            };
+
             ViewBag.Message = "Đặt tour thành công!";
-            return View();
+            return View(vm);
         }
+
+        [Authorize]
+        public async Task<IActionResult> LichSuDatTour()
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID);
+            if (claim == null)
+            {
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+            int idKhachHang = int.Parse(claim.Value);
+
+            var lichSu = await _context.DatTours
+                .Where(x => x.IdKhachHang == idKhachHang)
+                 .Include(x => x.IdTourNavigation)
+                .Include(x => x.IdNkhNavigation) // Nếu bạn dùng thông tin từ bảng này
+                .OrderByDescending(x => x.NgayDat)
+                 .ToListAsync();
+            return View(lichSu); // truyền trực tiếp List<DatTour>
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> HuyTour(int id)
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID);
+            if (claim == null)
+            {
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+
+            int idKhachHang = int.Parse(claim.Value);
+            var datTour = await _context.DatTours
+                .FirstOrDefaultAsync(dt => dt.IdDatTour == id && dt.IdKhachHang == idKhachHang);
+
+            if (datTour == null)
+            {
+                return NotFound();
+            }           
+            datTour.TrangThai = "Đã Hủy";
+            _context.Update(datTour);
+            await _context.SaveChangesAsync();
+
+            TempData["ThongBao"] = $"Chỉnh mã tour {datTour.IdDatTour} thay đổi trạng thái {datTour.TrangThai}";
+            return RedirectToAction("LichSuDatTour");
+        }
+
+
+        public async Task<IActionResult> XemChiTiet(int id)
+        {
+            var datTour = await _context.DatTours
+                .Include(d => d.IdTourNavigation)
+                .Include(d => d.IdGiamGiaNavigation)
+                .Include(d => d.IdKhachHangNavigation)
+                .Include(d => d.IdNkhNavigation) // Bao gồm ngày khởi hành
+                .FirstOrDefaultAsync(d => d.IdDatTour == id);
+
+            if (datTour == null)
+            {
+                return NotFound();
+            }
+
+            return View(datTour);
+        }
+
+
 
     }
 }

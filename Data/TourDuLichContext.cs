@@ -161,6 +161,10 @@ public partial class TourDuLichContext : DbContext
             entity.Property(e => e.NgayBatDau).HasColumnType("datetime");
             entity.Property(e => e.NgayKetThuc).HasColumnType("datetime");
             entity.Property(e => e.TrangThai).HasMaxLength(100);
+
+            entity.HasOne(d => d.IdTourNavigation).WithMany(p => p.MaGiamGia)
+                .HasForeignKey(d => d.IdTour)
+                .HasConstraintName("FK_MaGiamGia_Tour");
         });
 
         modelBuilder.Entity<NgayKhoiHanh>(entity =>
