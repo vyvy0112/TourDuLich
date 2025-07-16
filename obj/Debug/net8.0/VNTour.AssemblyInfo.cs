@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VNTour")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+216fa3dcb0a041af6a675b7b72b33a667a51a60c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd6103c30ff58c9b20622098587b02669020b894")]
 [assembly: System.Reflection.AssemblyProductAttribute("VNTour")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VNTour")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -143,12 +143,96 @@
         .btn-secondary:hover {
             background-color: #5a6268;
         }
+
+
+    /* Vùng ngày khởi hành */
+    #ngay-khoi-hanh-wrapper .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 16px;
+        background-color: #f1f3f5;
+        padding: 20px;
+        border: 1px solid #ccc; /* dùng nét liền */
+        border-radius: 12px;
+    }
+
+        #ngay-khoi-hanh-wrapper .form-row .form-group {
+            flex: 1 1 30%;
+            min-width: 200px;
+        }
+
+    #ngay-khoi-hanh-wrapper label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 6px;
+        display: inline-block;
+    }
+
+    #ngay-khoi-hanh-wrapper .form-control {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+        font-size: 15px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+        #ngay-khoi-hanh-wrapper .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 4px rgba(13, 110, 253, 0.3);
+            outline: none;
+        }
+
+    /* Nút thêm ngày */
+    .btn-secondary {
+        background-color: #0d6efd;
+        color: #fff;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    input[type="date"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        background-color: #fff;
+        color: #495057;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        input[type="date"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 6px rgba(0,123,255,0.25);
+            outline: none;
+        }
+
+        /* Biểu tượng lịch trong Chrome, Edge */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            color: #007bff;
+            font-size: 18px;
+            cursor: pointer;
+            filter: invert(0.4); /* Đổi màu biểu tượng */
+        }
+
+
 </style>
 
 <div class="form-wrapper">
-    <div class="form-title"><span class="icon-title">➕</span> Thêm Tour Du Lịch</div>
+    <div class="form-title"><span class="icon-title"></span> Thêm Tour Du Lịch</div>
     <div class="page-container">
-        <div class="page-header">➕ Thêm Tour Du Lịch</div>
 
         <form asp-action="CreateTour" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -196,6 +280,7 @@
                 <select asp-for="TrangThai" asp-items="ViewBag.TrangThaiList" class="form-select">
                     <option value="">-- Chọn trạng thái --</option>
                 </select>
+
                 <span asp-validation-for="TrangThai" class="text-danger"></span>
             </div>
 
@@ -214,6 +299,35 @@
                 <label class="form-label">Ảnh phụ (có thể chọn nhiều)</label>
                 <input type="file" name="HinhAnhPhu" multiple class="form-control" />
             </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
+
+
+          
+         @*    <div id="ngay-khoi-hanh-wrapper">
+                <div class="form-row" data-index="0">
+                    <div class="form-group">
+                        <label>Ngày khởi hành</label>
+                        <input type="date" name="NgayKhoiHanhs[0].NgayKhoiHanh" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày kết thúc</label>
+                        <input type="date" name="NgayKhoiHanhs[0].NgayKetThuc" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Số chỗ</label>
+                        <input type="number" name="NgayKhoiHanhs[0].SoCho" class="form-control" />
+                    </div>
+                </div>
+            </div> *@
             <div id="ngay-khoi-hanh-wrapper">
                 <div class="form-row" data-index="0">
                     <div class="form-group">
@@ -231,7 +345,7 @@
                 </div>
             </div>
 
-            <button type="button" class="btn btn-secondary mt-2" onclick="addNgayKhoiHanh()">➕ Thêm ngày</button>
+            <button type="button" class="btn btn-secondary mt-2" onclick="addNgayKhoiHanh()">Thêm ngày</button>
 
 
             <div class="form-actions">

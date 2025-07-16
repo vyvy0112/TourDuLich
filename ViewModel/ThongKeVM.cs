@@ -10,13 +10,11 @@
         public double TongTien { get; set; }
         public int TongKhachHang { get; set; }
 
-        //public List<DoanhThuNgayVM> DoanhThuTuan { get; set; }
-        /////thống kê theo tour
-        //public List<DoanhThuTheoTourVM> DoanhThuTheoTour { get; set; }
-        public string? TuanSelected { get; set; } // <-- thêm dòng này
+        public string? TuanSelected { get; set; } 
 
         public List<ThongKeTheoNgayVM> DoanhThuTuan { get; set; }
         public List<ThongKeTheoTourVM> DoanhThuTheoTour { get; set; }
+        public double? TongDoanhThuNe { get;  set; }
     }
 
     public class ThongKeTheoNgayVM

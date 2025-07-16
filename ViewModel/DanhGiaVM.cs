@@ -19,5 +19,6 @@ namespace VNTour.ViewModel
         public int IdTour { get; set; }
 
         public virtual Tour IdTourNavigation { get; set; } = null!;
+        public int IdKhachHang { get; set; }
     }
 }

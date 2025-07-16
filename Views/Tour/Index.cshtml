@@ -11,12 +11,11 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 
-
 <div class="hero-wrap js-fullheight position-relative">
     <!-- Ảnh nền -->
     <img src="~/hinhanh/Tổng-quan-du-lịch-Vũng-Tàu-ivivu.jpg" alt="Background" class="img-fluid w-100 h-100 position-absolute" style="object-fit: cover; z-index: -2;">
-@*      kích thước ảnh 1349 x 736 *@    
- <!-- Lớp overlay mờ -->
+    @*      kích thước ảnh 1349 x 736 *@
+    <!-- Lớp overlay mờ -->
     <div class="overlay position-absolute w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: -1;"></div>
 
     <div class="container">
@@ -35,11 +34,9 @@
 
 
 <section class="ftco-section ftco-degree-bg">
-    <div class="container-fluid px-0">
+    <div class="container-fluid px-5">
         <div class="row no-gutters">
    
-
-
             <div class="row">
                 <div class="col-lg-3 sidebar ftco-animate">
                     <div class="sidebar-wrap bg-light ftco-animate">
@@ -57,20 +54,15 @@
                                 <label for="tuKhoa">Từ khóa</label>
                                 <input type="text" class="form-control" id="tuKhoa" name="tuKhoa" value="@ViewBag.TuKhoa" />
                             </div>
-@* 
-                             <div class="form-group">
-                                 <label for="ngayBatDau">Ngày khởi hành từ</label>
-                                 <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" value="@ViewBag.NgayBatDau" />
-                             </div> *@
 
                             <div class="form-group">
                                 <label for="ngayBatDau">Ngày khởi hành từ</label>
                                 <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau"
-                                       value="@ViewBag.NgayBatDau" />
+                                       value="@(((DateTime?)ViewBag.NgayBatDau)?.ToString("yyyy-MM-dd"))" />
                             </div>
 
-                           
 
+                           
                             <div class="form-group">
                                 <label>Khoảng giá</label>
                                 <div class="d-flex align-items-center">

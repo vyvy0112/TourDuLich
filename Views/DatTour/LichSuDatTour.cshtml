@@ -265,10 +265,7 @@
             color: #2e7d32;
         }
 
-        .status-pending {
-            background-color: #fff3e0;
-            color: #e65100;
-        }
+      
 
         .status-cancelled {
             background-color: #ffebee;
@@ -341,11 +338,6 @@
             color: #e65100;
         }
 
-        .status-pending {
-            background-color: #fff3e0;
-            color: #e65100;
-        }
-
         .status-paid {
             background-color: #d0f8ce;
             color: #388e3c;
@@ -360,6 +352,7 @@
             background-color: #e3f2fd;
             color: #1565c0;
         }
+
 
       
     </style>
@@ -446,6 +439,8 @@
                                 </div>
 
 
+                               
+
                                 @{
                                     var statusClass = tour.TrangThai switch
                                     {
@@ -456,12 +451,8 @@
                                         _ => "status-default"
                                     };
                                 }
-                                <div class="meta-item">
-                                    <span class="meta-label">Trạng Thái </span>
-                                    <span class="meta-value">@tour.TrangThai</span>
-                                </div>
+                                <span class="tour-status @statusClass">@tour.TrangThai</span>
 
-                                                         
 
                                 @{
                                     var isVnpay = tour.PtthanhToan == "Thanh toán VnPay";
@@ -480,8 +471,9 @@
                                
                             </div>
 
+                            
                             <div class="tour-actions">
-                              
+
                                 <a asp-controller="DatTour" asp-action="XemChiTiet" asp-route-id="@tour.IdDatTour" class="btn btn-primary">
                                     Xem chi tiết
                                 </a>
@@ -493,8 +485,12 @@
                                     </button>
                                 </form>
 
-                                <button class="btn btn-secondary">Đánh giá</button>
+                                <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@tour.IdTour" class="btn btn-secondary">
+                                    Đánh giá
+                                </a>
+
                             </div>
+
                         </div>
                     </div>
                 }

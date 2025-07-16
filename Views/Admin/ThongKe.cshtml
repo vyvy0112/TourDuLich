@@ -1,4 +1,4 @@
-﻿@model VNTour.ViewModel.ThongKeVM
+﻿ @model VNTour.ViewModel.ThongKeVM
 
 @{
     ViewData["Title"] = "Thống kê doanh thu";
@@ -67,51 +67,69 @@
         width: 100% !important;
         height: 350px !important; /* tăng chiều cao */
     }
+
     .filter-form {
         display: flex;
-        flex-wrap: wrap;
-        align-items: flex-end;
+        align-items: center;
         gap: 16px;
-        margin-bottom: 30px;
+        margin: 30px 0;
+        flex-wrap: wrap;
     }
 
-    .filter-form label {
-        font-weight: 600;
-        margin-bottom: 6px;
-        display: block;
+    .filter-item {
+        display: flex;
+        flex-direction: column;
+        min-width: 200px;
     }
 
-    .filter-form input[type="week"] {
-        padding: 10px 14px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-        width: 100%;
+        .filter-item label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+
+        .filter-item input.form-control {
+            padding: 10px 14px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .filter-item .btn {
+            padding: 10px 22px;
+            font-weight: 500;
+            border-radius: 8px;
+            border: none;
+        }
+
+    .btn-primary {
+        background-color: #3b82f6;
+        color: #fff;
     }
 
-    .filter-form button {
-        padding: 10px 20px;
-        background-color: #3b82f6; /* xanh dương */
-        color: white;
-        font-weight: 600;
-        border: none;
-        border-radius: 8px;
-        transition: background-color 0.2s ease-in-out;
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+    .btn-success {
+        background-color: #10b981;
+        color: #fff;
     }
 
-    .filter-form button:hover {
-        background-color: #2563eb;
-    }
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
 
 </style>
 
 <div class="dashboard-container">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">📊 Thống kê doanh thu</h1>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Thống kê doanh thu</h1>
 
     <div class="stats-grid">
         <div class="stat-card">
             <h3>Doanh thu hôm nay</h3>
-            <p>@Model.TongDoanhThuTheoNgay.ToString("N0") ₫</p>
+            <p>@Model.TongDoanhThuTheoNgay.ToString("N0") đ</p>
         </div>
         <div class="stat-card">
             <h3>Doanh thu tháng</h3>
@@ -129,47 +147,39 @@
 
     <div class="charts-grid">
         <div class="chart-box">
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">📈 Doanh thu 7 ngày qua</h2>
+            <h2 class="text-lg font-semibold text-gray-700 mb-4"> Doanh thu 7 ngày qua</h2>
             <canvas id="revenueChart"></canvas>
         </div>
         <div class="chart-box">
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">🏷️ Doanh thu theo tour</h2>
+            <h2 class="text-lg font-semibold text-gray-700 mb-4"> Doanh thu theo tour</h2>
             <canvas id="tourRevenueChart"></canvas>
         </div>
     </div>
-@*      <form method="get" asp-action="ThongKe">
-         <div class="row mb-3">
-             <div class="col-md-4">
-                 <label for="tuan" class="form-label">Chọn tuần:</label>
-                 <input type="week" class="form-control" id="tuan" name="tuan" value="@Model.TuanSelected" />
-             </div>
-             <div class="col-md-2 d-flex align-items-end">
-                 <button type="submit" class="btn btn-primary">Lọc theo tuần</button>
-             </div>
-         </div>
-     </form>
- *@
+
     <form method="get" asp-action="ThongKe" class="filter-form">
         <div class="filter-item">
-            <label for="tuan">📅 Chọn tuần:</label>
+            <label for="tuan"> Chọn tuần:</label>
             <input type="text" id="tuanDisplay" class="form-control" placeholder="Chọn tuần..." readonly />
-            <input type="hidden" name="tuan" id="tuan" value="@Model.TuanSelected" />
+
+             <input type="hidden" name="tuan" id="tuan" value="@ViewBag.TuanSelected" /> 
+ 
+
         </div>
-        <div class="filter-item">
-            <button type="submit" class="btn btn-primary">🔍 Lọc theo tuần</button>
+        <div class="filter-item" style="margin-top: 30px;">
+            <button type="submit" class="btn btn-primary">Lọc theo tuần</button>
         </div>
+
     </form>
 
 
-    @if (!string.IsNullOrEmpty(Model.TuanSelected))
-    {
-        <p class="text-muted">Tuần đang xem: <strong>@Model.TuanSelected</strong></p>
-    }
+
+    <form asp-action="XuatExcel" method="get">
+        <button type="submit" style="margin-top: 14px;">
+            Xuất Excel doanh thu theo tour
+        </button>
+    </form>
 
 
-    <a asp-action="XuatExcel" class="btn btn-success" style="margin-bottom: 20px;">
-        📥 Xuất Excel doanh thu theo tour
-    </a>
 
 </div>
 
@@ -182,46 +192,19 @@
         locale: "vn",
         disableMobile: true,
         weekNumbers: true,
-        dateFormat: "Y-m-d", // xử lý ngày chính xác
-        // onChange: function (selectedDates, dateStr, instance) {
-        //     if (selectedDates.length > 0) {
-        //         const selectedDate = selectedDates[0];
-
-        //         Lấy ngày đầu tuần (thứ 2)
-        //         const startOfWeek = new Date(selectedDate);
-        //         const day = startOfWeek.getDay();
-        //         const diff = (day === 0 ? -6 : 1 - day); chỉnh chủ nhật
-        //         startOfWeek.setDate(startOfWeek.getDate() + diff);
-
-        //         Lấy ngày cuối tuần (chủ nhật)
-        //         const endOfWeek = new Date(startOfWeek);
-        //         endOfWeek.setDate(endOfWeek.getDate() + 6);
-
-        //         const toDateStr = (d) =>
-        //             `${d.getDate().toString().padStart(2, '0')}/` +
-        //             `${(d.getMonth() + 1).toString().padStart(2, '0')}/` +
-        //             `${d.getFullYear()}`;
-
-        //         Hiển thị: dd/MM/yyyy – dd/MM/yyyy
-        //         document.getElementById("tuanDisplay").value = `${toDateStr(startOfWeek)} – ${toDateStr(endOfWeek)}`;
-
-        //         Set hidden input giá trị yyyy-Www
-        //         const week = getISOWeek(startOfWeek);
-        //         const year = startOfWeek.getFullYear();
-        //         document.getElementById("tuan").value = `${year}-W${week.toString().padStart(2, '0')}`;
-        //     }
-        // }
+        dateFormat: "Y-m-d", 
+     
         onChange: function (selectedDates, dateStr, instance) {
             if (selectedDates.length > 0) {
                 const selectedDate = selectedDates[0];
 
-                // Lấy ngày đầu tuần (thứ 2)
+            
                 const startOfWeek = new Date(selectedDate);
                 const day = startOfWeek.getDay();
-                const diff = (day === 0 ? -6 : 1 - day); // nếu chủ nhật thì -6
+                const diff = (day === 0 ? -6 : 1 - day);
                 startOfWeek.setDate(startOfWeek.getDate() + diff);
 
-                // Lấy ngày cuối tuần
+              
                 const endOfWeek = new Date(startOfWeek);
                 endOfWeek.setDate(endOfWeek.getDate() + 6);
 
@@ -236,14 +219,14 @@
                 const year = startOfWeek.getFullYear();
                 document.getElementById("tuan").value = `${year}-W${week.toString().padStart(2, '0')}`;
 
-                // ✅ Submit form tự động sau khi chọn tuần
+              
                 document.querySelector("form.filter-form").submit();
             }
         }
 
     });
 
-    // Tính ISO Week number (theo chuẩn)
+   
     function getISOWeek(date) {
         const temp = new Date(date.getTime());
         temp.setHours(0, 0, 0, 0);
@@ -317,7 +300,7 @@
             responsive: true,
             interaction: {
                 mode: 'nearest',
-                intersect: false // hover gần cũng hiện tooltip
+                intersect: false 
             },
             plugins: {
                 tooltip: {

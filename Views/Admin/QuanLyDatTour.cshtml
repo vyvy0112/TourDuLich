@@ -88,48 +88,73 @@
                             <span class="block sm:inline">@TempData["Success"]</span>
                         </div>
                     }
-
-                </div>
-                <div class="mt-6 bg-gray-50 p-4 rounded-lg">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div class="flex flex-col md:flex-row md:items-center gap-3">
-                          
-                            <div class="flex flex-col md:flex-row gap-4 w-full">
-                                <!-- Ô tìm kiếm -->
-                                <!-- Tìm kiếm lớn hơn -->
-                                <div class="relative flex-1">
-                                    <input type="text" placeholder="Tìm kiếm đơn đặt tour..."
-                                           class="pl-12 pr-4 py-3 border rounded-lg w-full text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <i class="fas fa-search absolute left-4 top-3.5 text-gray-400 text-lg"></i>
-                                </div>
-
-                                <!-- Dropdown trạng thái lớn hơn -->
-                                <div class="relative flex-1">
-                                    <select id="statusFilter"
-                                            class="pl-4 pr-4 py-3 border rounded-lg w-full text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                        <option value="all">Tất cả trạng thái</option>
-                                        <option value="pending">Chờ xác nhận</option>
-                                        <option value="confirmed">Đã xác nhận</option>
-                                        <option value="deposit">Đã đặt cọc</option>
-                                        <option value="processing">Đang xử lý</option>
-                                        <option value="completed">Đã hoàn thành</option>
-                                    </select>
-                                </div>
-
-
-                                <div>
-                                    <button onclick="filterBookings()"
-                                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg text-sm w-full md:w-auto">
-                                        <i class="fas fa-search mr-2"></i> Tìm kiếm
-                                    </button>
-                                </div>
-                            </div>                         
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4">
+                            <strong class="font-bold">Thông báo:</strong>
+                            <span class="block sm:inline">@TempData["Message"]</span>
                         </div>
-                     
-                       
+                    }
 
-                    </div>
+
                 </div>
+
+                <form asp-action="LocDatTour" asp-controller="Admin" method="get">
+                    <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div class="flex flex-col md:flex-row md:items-center gap-3">
+
+                                <div class="flex flex-col md:flex-row gap-4 w-full">
+                                    <!-- Ô tìm kiếm -->
+                                    <!-- Tìm kiếm lớn hơn -->
+
+
+                                    <div class="relative basis-1/2 flex-grow">
+                                        <input type="text" name="keyword" placeholder="Tìm kiếm "
+                                               class="pl-12 pr-4 py-3 border roundedc-lg w-full text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400 text-lg"></i>
+                                    </div>
+
+                                    <!-- Dropdown trạng thái lớn hơn -->
+                                    
+                                    <div class="relative basis-1/2 flex-grow">
+                                        <select id="statusFilter"
+                                                name="trangthai"
+                                                class="pl-4 pr-4 py-3 border rounded-lg w-full text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                            <option value="Tất Cả">Tất cả trạng thái</option>
+                                            <option value="Chờ Xác Nhận">Chờ Xác Nhận</option>
+                                            <option value="Đã Hủy">Đã Hủy</option>
+                                            <option value="Đã Thanh Toán">Đã Thanh Toán</option>
+                                            <option value="Đã Hoàn Thành">Đã Hoàn Thành</option>
+                                        </select>
+                                    </div>
+                                    <div class="relative basis-1/2 flex-grow">
+                                         <select name="ptthanhtoan" class="form-control">
+                                        <option value="Tất Cả">Tất Cả thanh toán</option>
+                                        <option value="COD">COD</option>
+                                        <option value="Thanh Toán VnPay">Thanh toán VNPAY</option>
+                                             </select>
+                                    </div>
+                                    <div>
+                                        @* <button onclick="filterBookings()"
+                                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg text-sm w-full md:w-full">
+                                            <i class="fas fa-search mr-2"></i> Tìm kiếm
+                                        </button> *@
+                                        <button type="submit"
+                                                class="bg-indigo-600 hover:bg-indigo-700 text-white text-base px-6 py-3 rounded-lg font-semibold w-[200px]">
+                                            <i class="fas fa-search mr-2"></i> Tìm kiếm
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        
+
+
+
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -146,6 +171,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tour</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày đi</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Số khách</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phương Thức</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tổng tiền</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
@@ -192,12 +218,17 @@
                 @(item.SoNguoiLon + item.SoTreEm) người
             </td>
 
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        @item.PtthanhToan
+                                    </td>
+
+
             <!-- Tổng tiền -->
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 @item.TongTien vnđ
             </td>
 
-
+                            
                                    
             <td>
                 <div class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -218,22 +249,41 @@
                             
                    </div>
             </td>
-            <td>
-                                        @if (item.TrangThai != "Đã Hủy" && item.TrangThai != "Đã Hoàn Thành")
-                                        {
-                                            <form asp-action="HuyDatTour" asp-route-id="@item.IdDatTour" method="post" class="inline-block"
-                                                  onsubmit="return confirm('Bạn có chắc muốn hủy đơn đặt tour này không?');">
-                                                <button type="submit"
-                                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm">
-                                                    <i class="fas fa-ban mr-2"></i> Hủy tour
-                                                </button>
-                                            </form>
-                                        }
+           
+                                    @* <td>
+                                        <button type="button"
+                                                onclick="openStatusModal(@item.IdDatTour, '@item.TrangThai')"
+                                                class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm ml-2">
+                                            Sửa 
+                                        </button>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button>
+                                            <a asp-action="ChiTietDatTour" asp-route-id="@item.IdDatTour"
+                                               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm ml-2">
+                                                Chi tiết
+                                            </a>
+                                        </button>
+                                    </td> *@
 
 
-            </td>
+                                    <td>
+                                        <button type="button"
+                                                onclick="openStatusModal(@item.IdDatTour, '@item.TrangThai')"
+                                                class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm mr-2 inline-block">
+                                            Sửa
+                                        </button>
+
+                                        <a asp-action="ChiTietDatTour" asp-route-id="@item.IdDatTour"
+                                           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm inline-block">
+                                            Chi tiết
+                                        </a>
+                                    </td>
+
               
-                   
   
 
                      
@@ -243,17 +293,7 @@
 
                     </table>
                 </div>
-
-                <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
-                    <div class="text-sm text-gray-500">Hiển thị <span class="font-medium">1</span> đến <span class="font-medium">5</span> trên <span class="font-medium">23</span> kết quả</div>
-                    <div class="flex space-x-2">
-                        <button class="px-3 py-1 border rounded-md text-sm font-medium">Trước</button>
-                        <button class="px-3 py-1 border rounded-md bg-indigo-600 text-white text-sm font-medium">1</button>
-                        <button class="px-3 py-1 border rounded-md text-sm font-medium">2</button>
-                        <button class="px-3 py-1 border rounded-md text-sm font-medium">3</button>
-                        <button class="px-3 py-1 border rounded-md text-sm font-medium">Sau</button>
-                    </div>
-                </div>
+            
             </div>
         </div>
 
@@ -261,6 +301,44 @@
 
 </body>
 
+<div id="statusModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Cập nhật trạng thái đơn đặt tour</h3>
+        <form id="statusForm" method="post" asp-action="CapNhatTrangThai">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="idDatTour" id="modal-idDatTour" />
+
+            <label for="trangThaiMoi" class="block mb-2 font-medium text-gray-700">Chọn trạng thái mới</label>
+            <select name="trangThaiMoi" id="modal-trangThaiMoi" class="w-full border rounded-lg px-4 py-2 mb-4">
+                <option value="Chờ Xác Nhận">Chờ Xác Nhận</option>
+                <option value="Đã Thanh Toán">Đã Thanh Toán</option>
+                <option value="Đã Hoàn Thành">Đã Hoàn Thành</option>
+                <option value="Đã Hủy">Đã Hủy</option>
+            </select>
+
+            <div class="flex justify-end gap-3">
+                <button type="button" onclick="closeStatusModal()"
+                        class="bg-gray-400 text-white px-4 py-2 rounded-md">
+                    Hủy
+                </button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md">Lưu</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function openStatusModal(id, currentStatus) {
+        document.getElementById('modal-idDatTour').value = id;
+        document.getElementById('modal-trangThaiMoi').value = currentStatus;
+        document.getElementById('statusModal').classList.remove('hidden');
+    }
+
+    function closeStatusModal() {
+        document.getElementById('statusModal').classList.add('hidden');
+    }
+</script>
 
 
 </html>

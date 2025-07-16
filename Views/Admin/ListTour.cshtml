@@ -169,17 +169,53 @@
     .btn-detail:hover {
         background-color: #138496;
     }
+
+    .form-select {
+        width: 220px;
+        height: 44px;
+        padding: 10px 14px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        color: #495057;
+        background-color: #fff;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .form-select:focus {
+            border-color: #6366f1;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
 </style>
 
 <div class="page-container">
     <div class="page-header">
-        <h2>📋 Danh Sách Tour Du Lịch</h2>
-        <a asp-action="CreateMaGiamGia" class="btn-add">+ Thêm Tour</a>
+        <h2> Danh Sách Tour Du Lịch</h2>
+        <a asp-action="CreateTour" class="btn-add">+ Thêm Tour</a>
     </div>
 
 
+    <form asp-action="LocTrangThai" method="get" class="search-form">
+        <div class="col-auto">
+            <select class="form-select" name="trangthai">
+                <option value="Tất Cả">Tất cả trạng thái</option>
+                <option value="Hoạt Động">Hoạt Động</option>
+                <option value="Ngưng Hoạt Động">Ngưng Hoạt Động</option>
+            </select>
+        </div>
 
-   
+        <div class="col-auto">
+            <input name="query" type="text" class="search-input" placeholder="Nhập tên tour" value="@ViewBag.Query" />
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-search">Tìm</button>
+        </div>
+    </form>
+
+   @* 
         <form asp-action="LocTrangThai" method="get" class="search-form">
         <div class="col-auto">
             <select class="form-select" name="trangthai">
@@ -196,7 +232,7 @@
         <div class="col-auto">
             <button type="submit" class="btn btn-search">Tìm</button>
         </div>
-    </form>
+    </form> *@
 
 
     <table class="tour-table">
@@ -225,9 +261,6 @@
                         <td>@item.DiemDen</td>
 
                         <td>@item.ThoiGian</td>
-
-
-
 
                         <td>@string.Format("{0:N0}đ", item.GiaNguoiLon)</td>
                         <td>

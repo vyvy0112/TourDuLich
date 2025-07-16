@@ -136,8 +136,15 @@
             <span asp-validation-for="TrangThai" class="text-danger"></span>
         </div>
 
-     
-       
+
+        <div class="form-group">
+            <label asp-for="IdTour" class="form-label">Tour áp dụng</label>
+            <select asp-for="IdTour" class="form-control" asp-items="ViewBag.IdTour">
+                <option value="">-- Chọn tour áp dụng --</option>
+            </select>
+            <span asp-validation-for="IdTour" class="text-danger"></span>
+        </div>
+
 
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> Lưu Thay Đổi</button>

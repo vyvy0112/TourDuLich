@@ -1,20 +1,105 @@
-﻿ @model VNTour.ViewModel.MaGiamGiaVM
+﻿@*  @model VNTour.ViewModel.MaGiamGiaVM
 
  @{
      ViewData["Title"] = "CreateMaGiamGia";
      Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
  }
- <!-- Select2 CSS -->
- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
- <!-- Select2 JS -->
- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-wrapper {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        padding: 40px 50px;
+        margin: 40px auto;
+        max-width: 700px;
+    }
+
+    .form-title {
+        font-size: 26px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        border-bottom: 3px solid #007bff;
+        display: inline-block;
+        padding-bottom: 6px;
+    }
+
+    .form-group,
+    .mb-3 {
+        margin-bottom: 20px;
+    }
+
+    .form-label,
+    .control-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #34495e;
+        display: block;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 26px;
+        font-size: 15px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+
+    .text-danger {
+        font-size: 13px;
+        color: #dc3545;
+    }
+
+    a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: 500;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+</style>
+
+
 
  <h1>CreateMaGiamGia</h1>
 
  <h4>MaGiamGium</h4>
  <hr />
- <div class="row">
-     <div class="col-md-4">
+<div class="discount-form-wrapper">
          <form asp-action="CreateMaGiamGia">
              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
              <div class="form-group">
@@ -63,14 +148,15 @@
                  </select>
              </div>
              <div class="form-group">
-                 <input type="submit" value="Create" class="btn btn-primary" />
+            <button type="submit" class="btn-submit">Tạo Mã Giảm Giá</button>
+
              </div>
          </form>
-     </div>
  </div>
 
  <div>
-     <a asp-action="Index">Back to List</a>
+    <a asp-action="ListGiamGia" asp-controller="Admin" class="back-link">← Quay lại danh sách</a>
+
  </div>
 
  <script>
@@ -85,3 +171,180 @@
 
 
 
+ *@
+
+  @model VNTour.ViewModel.MaGiamGiaVM
+
+@{
+    ViewData["Title"] = "CreateMaGiamGia";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-wrapper {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        padding: 40px 50px;
+        margin: 40px auto;
+        max-width: 700px;
+    }
+
+    .form-title {
+        font-size: 26px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        border-bottom: 3px solid #007bff;
+        display: inline-block;
+        padding-bottom: 6px;
+    }
+
+    .form-group,
+    .mb-3 {
+        margin-bottom: 20px;
+    }
+
+    .form-label,
+    .control-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #34495e;
+        display: block;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-submit {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 26px;
+        font-size: 15px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+        width: 100%;
+    }
+
+        .btn-submit:hover {
+            background-color: #0069d9;
+        }
+
+    .text-danger {
+        font-size: 13px;
+        color: #dc3545;
+    }
+
+    .back-link {
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        font-weight: 500;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+</style>
+
+
+<div class="form-wrapper">
+    <h2 class="form-title">Tạo Mã Giảm Giá</h2>
+
+    <form asp-action="CreateMaGiamGia" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="MaCode" class="control-label"></label>
+            <input asp-for="MaCode" class="form-control" />
+            <span asp-validation-for="MaCode" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MoTa" class="control-label"></label>
+            <input asp-for="MoTa" class="form-control" />
+            <span asp-validation-for="MoTa" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PhanTramGiam" class="control-label"></label>
+            <input asp-for="PhanTramGiam" class="form-control" />
+            <span asp-validation-for="PhanTramGiam" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NgayBatDau" class="control-label"></label>
+            <input asp-for="NgayBatDau" class="form-control" type="date" />
+            <span asp-validation-for="NgayBatDau" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NgayKetThuc" class="control-label"></label>
+            <input asp-for="NgayKetThuc" class="form-control" type="date" />
+            <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SoLuong" class="control-label"></label>
+            <input asp-for="SoLuong" class="form-control" />
+            <span asp-validation-for="SoLuong" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="TrangThai" class="control-label"></label>
+            <select asp-for="TrangThai" class="form-select">
+                <option value="">-- Chọn trạng thái --</option>
+                <option value="Hoạt Động">Hoạt Động</option>
+                <option value="Ngưng Hoạt Động">Ngưng Hoạt Động</option>
+            </select>
+            <span asp-validation-for="TrangThai" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IdTour" class="form-label">Tour áp dụng</label>
+            <select asp-for="IdTour" asp-items="Model.DanhSachTour" class="form-select" id="tour-select">
+                <option value="">-- Chọn tour áp dụng --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn-submit">Tạo Mã Giảm Giá</button>
+        </div>
+    </form>
+</div>
+
+<a asp-action="ListGiamGia" asp-controller="Admin" class="back-link">← Quay lại danh sách</a>
+<script>
+    $(document).ready(function () {
+        $('#tour-select').select2({
+            placeholder: "Chọn tour áp dụng - Mã tour",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+</script>

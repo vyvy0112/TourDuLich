@@ -1,6 +1,6 @@
-﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Presentation;
+﻿//using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Presentation;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,6 @@ using Microsoft.Identity.Client;
 using System;
 using System.ComponentModel;
 using System.Globalization;
-
 using VNTour.Data;
 using VNTour.Helpers;
 using VNTour.ViewModel;
@@ -41,18 +40,19 @@ namespace VNTour.Controllers
         {
             ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc");
             ViewBag.TrangThaiList = new List<SelectListItem>
-            {
-              new SelectListItem { Value = "Hoạt động", Text = "Hoạt động" },
-               new SelectListItem { Value = "Ngưng hoạt động", Text = "Ngưng hoạt động" }
-            };
+{
+    new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động" },
+    new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động" }
+};
+
 
             return View();
         }
 
 
-     
+
         [HttpPost]
- 
+
         public async Task<IActionResult> CreateTour(TourVM model, IFormFile? HinhAnhFile, List<IFormFile> HinhAnhPhu)
         {
             if (ModelState.IsValid)
@@ -80,20 +80,36 @@ namespace VNTour.Controllers
                     MoTa = model.MoTa,
                     GiaNguoiLon = model.GiaNguoiLon,
                     GiaTreEm = model.GiaTreEm,
-                    TrangThai = "Hoạt Động",
+                    TrangThai = model.TrangThai,
                     IdDanhMuc = model.IdDanhMuc,
                     HinhAnh = model.HinhAnh,
                     DiemDen = model.DiemDen,
                     DiemKhoiHanh = model.DiemKhoiHanh,
-                    ThoiGian = model.ThoiGian,
+                    //ThoiGian = model.ThoiGian,
+                   
                 };
+
+                var ngayDauTien = model.NgayKhoiHanhs.FirstOrDefault();
+                if (ngayDauTien != null)
+                {
+                    int soNgay = (ngayDauTien.NgayKetThuc - ngayDauTien.NgayKhoiHanh).Days + 1;
+                    tour.ThoiGian = $"{soNgay} ngày {soNgay - 1} đêm";
+                }
+
 
                 _context.Tours.Add(tour);
                 await _context.SaveChangesAsync(); // để có IdTour
 
-                
+
                 foreach (var item in model.NgayKhoiHanhs)
                 {
+
+                    if(item.NgayKetThuc <= item.NgayKhoiHanh)
+                    {
+                        ModelState.AddModelError("NgayKhoiHanh1", "Ngày kết thúc không thể trước ngày khởi hành.");
+                        ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc");
+                        return View(model);
+                    }
                     var ngayKhoiHanh = new NgayKhoiHanh
                     {
                         IdTour = tour.IdTour,
@@ -131,7 +147,7 @@ namespace VNTour.Controllers
         }
 
 
-      
+
         [HttpGet]
         public async Task<IActionResult> EditTour(int id)
         {
@@ -148,22 +164,28 @@ namespace VNTour.Controllers
                new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động" },
                   new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động" }
              };
+            if (tour.NgayKhoiHanhs == null || !tour.NgayKhoiHanhs.Any())
+            {
+                tour.NgayKhoiHanhs = await _context.NgayKhoiHanhs
+                    .Where(n => n.IdTour == tour.IdTour)
+                    .ToListAsync();
+            }
 
             return View(tour); // tour chứa cả NgayKhoiHanhs
         }
 
+
         [HttpPost]
         public async Task<IActionResult> EditTour(Tour model, IFormFile? HinhAnhFile, List<IFormFile> HinhAnhPhu)
         {
-     
-
             var tour = await _context.Tours
                 .Include(t => t.NgayKhoiHanhs)
                 .FirstOrDefaultAsync(t => t.IdTour == model.IdTour);
 
-            if (tour == null) return NotFound();
+            if (tour == null)
+                return NotFound();
 
-            // Cập nhật thông tin Tour
+            // Cập nhật các trường
             tour.TenTour = model.TenTour;
             tour.MoTa = model.MoTa;
             tour.GiaNguoiLon = model.GiaNguoiLon;
@@ -174,7 +196,6 @@ namespace VNTour.Controllers
             tour.DiemKhoiHanh = model.DiemKhoiHanh;
             tour.ThoiGian = model.ThoiGian;
 
-            // Cập nhật hình chính
             if (HinhAnhFile != null && HinhAnhFile.Length > 0)
             {
                 var path = MyUtil.UploadHinh(HinhAnhFile, "");
@@ -182,20 +203,32 @@ namespace VNTour.Controllers
                     tour.HinhAnh = path;
             }
 
-            // ✅ Xử lý cập nhật Ngày Khởi Hành
             foreach (var item in model.NgayKhoiHanhs)
             {
+                if (item.NgayKetThuc <= item.NgayKhoiHanh1)
+                {
+                    ModelState.AddModelError("NgayKhoiHanh1", "Ngày kết thúc không thể trước ngày khởi hành.");
+
+                    // 👉 PHẢI GÁN lại ViewBag trước khi return View
+                    ViewBag.IdDanhMuc = new SelectList(_context.DanhMucTours.ToList(), "IdDanhMuc", "TenDanhMuc", model.IdDanhMuc);
+                    ViewBag.TrangThaiList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Hoạt Động", Text = "Hoạt Động" },
+                new SelectListItem { Value = "Ngưng Hoạt Động", Text = "Ngưng Hoạt Động" }
+            };
+
+                    return View(model);
+                }
+
                 var existing = tour.NgayKhoiHanhs.FirstOrDefault(x => x.IdNkh == item.IdNkh);
                 if (existing != null)
                 {
-                    // Cập nhật
                     existing.NgayKhoiHanh1 = item.NgayKhoiHanh1;
                     existing.NgayKetThuc = item.NgayKetThuc;
                     existing.SoChoConLai = item.SoChoConLai;
                 }
                 else
                 {
-                    // Thêm mới
                     tour.NgayKhoiHanhs.Add(new NgayKhoiHanh
                     {
                         IdTour = tour.IdTour,
@@ -206,8 +239,6 @@ namespace VNTour.Controllers
                 }
             }
 
-
-            // Hình phụ
             if (HinhAnhPhu != null && HinhAnhPhu.Count > 0)
             {
                 foreach (var file in HinhAnhPhu)
@@ -224,14 +255,112 @@ namespace VNTour.Controllers
                 }
             }
 
+            var ngayDauTien = model.NgayKhoiHanhs.FirstOrDefault();
+            if (ngayDauTien != null)
+            {
+                int soNgay = (ngayDauTien.NgayKetThuc - ngayDauTien.NgayKhoiHanh1).Days + 1;
+                tour.ThoiGian = $"{soNgay} ngày {soNgay - 1} đêm";
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction("ListTour");
         }
 
+
+        //[HttpPost]
+        //public async Task<IActionResult> EditTour(Tour model, IFormFile? HinhAnhFile, List<IFormFile> HinhAnhPhu)
+        //{
+
+
+        //    var tour = await _context.Tours
+        //        .Include(t => t.NgayKhoiHanhs)
+        //        .FirstOrDefaultAsync(t => t.IdTour == model.IdTour);
+
+        //    if (tour == null) return NotFound();
+
+        //    // Cập nhật thông tin Tour
+        //    tour.TenTour = model.TenTour;
+        //    tour.MoTa = model.MoTa;
+        //    tour.GiaNguoiLon = model.GiaNguoiLon;
+        //    tour.GiaTreEm = model.GiaTreEm;
+        //    tour.TrangThai = model.TrangThai;
+        //    tour.IdDanhMuc = model.IdDanhMuc;
+        //    tour.DiemDen = model.DiemDen;
+        //    tour.DiemKhoiHanh = model.DiemKhoiHanh;
+        //    tour.ThoiGian = model.ThoiGian;
+
+        //    // Cập nhật hình chính
+        //    if (HinhAnhFile != null && HinhAnhFile.Length > 0)
+        //    {
+        //        var path = MyUtil.UploadHinh(HinhAnhFile, "");
+        //        if (!string.IsNullOrEmpty(path))
+        //            tour.HinhAnh = path;
+        //    }
+
+        //    // ✅ Xử lý cập nhật Ngày Khởi Hành
+        //    foreach (var item in model.NgayKhoiHanhs)
+        //    {
+
+        //        if (item.NgayKetThuc <= item.NgayKhoiHanh1)
+        //        {
+        //            ModelState.AddModelError("NgayKhoiHanh1", "Ngày kết thúc không thể trước ngày khởi hành.");
+        //            return View(model);
+        //        }
+        //        var existing = tour.NgayKhoiHanhs.FirstOrDefault(x => x.IdNkh == item.IdNkh);
+        //        if (existing != null)
+        //        {
+        //            // Cập nhật
+        //            existing.NgayKhoiHanh1 = item.NgayKhoiHanh1;
+        //            existing.NgayKetThuc = item.NgayKetThuc;
+        //            existing.SoChoConLai = item.SoChoConLai;
+        //        }
+        //        else
+        //        {
+        //            // Thêm mới
+        //            tour.NgayKhoiHanhs.Add(new NgayKhoiHanh
+        //            {
+        //                IdTour = tour.IdTour,
+        //                NgayKhoiHanh1 = item.NgayKhoiHanh1,
+        //                NgayKetThuc = item.NgayKetThuc,
+        //                SoChoConLai = item.SoChoConLai
+        //            });
+        //        }
+        //    }
+
+
+        //    // Hình phụ
+        //    if (HinhAnhPhu != null && HinhAnhPhu.Count > 0)
+        //    {
+        //        foreach (var file in HinhAnhPhu)
+        //        {
+        //            var url = MyUtil.UploadHinh(file, "");
+        //            if (!string.IsNullOrEmpty(url))
+        //            {
+        //                _context.TourHinhAnhs.Add(new TourHinhAnh
+        //                {
+        //                    IdTour = tour.IdTour,
+        //                    UrlHinhAnh = url
+        //                });
+        //            }
+        //        }
+        //    }
+
+        //    var ngayDauTien = model.NgayKhoiHanhs.FirstOrDefault();
+        //    if (ngayDauTien != null)
+        //    {
+        //        int soNgay = (ngayDauTien.NgayKetThuc - ngayDauTien.NgayKhoiHanh1).Days + 1;
+        //        tour.ThoiGian = $"{soNgay} ngày {soNgay - 1} đêm";
+        //    }
+
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction("ListTour");
+        //}
+
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var entity = await _context.Tours.Include(x=>x.NgayKhoiHanhs).FirstOrDefaultAsync(x=>x.IdTour == id);
+            var entity = await _context.Tours.Include(x => x.NgayKhoiHanhs).FirstOrDefaultAsync(x => x.IdTour == id);
             if (entity == null)
             {
                 return NotFound();
@@ -247,7 +376,7 @@ namespace VNTour.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteTour(int id)
         {
-            var entity = await _context.Tours.Include(x=>x.NgayKhoiHanhs).FirstOrDefaultAsync(x=>x.IdTour == id);
+            var entity = await _context.Tours.Include(x => x.NgayKhoiHanhs).FirstOrDefaultAsync(x => x.IdTour == id);
             if (entity == null)
             {
                 return NotFound();
@@ -361,27 +490,30 @@ namespace VNTour.Controllers
 
 
 
+       
+
         [HttpGet]
-        public async Task<IActionResult> LocTheoTrangThai(string trangThai)
+        public async Task<IActionResult> LocTheoTrangThai(string trangThai, string query)
         {
-            var tours = await _context.DanhMucTours
-                .Where(t => t.TrangThai == trangThai)
+            var danhMucQuery = _context.DanhMucTours.AsQueryable();
+
+            if (!string.IsNullOrEmpty(trangThai) && trangThai != "Tất Cả")
+            {
+                danhMucQuery = danhMucQuery.Where(t => t.TrangThai == trangThai);
+            }
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                danhMucQuery = danhMucQuery.Where(x => x.TenDanhMuc.Contains(query));
+            }
+
+            var ketqua = await danhMucQuery
+                .OrderByDescending(x => x.IdDanhMuc)
                 .ToListAsync();
 
             ViewBag.TrangThai = trangThai;
+            ViewBag.Query = query;
 
-            return View("ListDanhMucTour", tours); // hoặc View riêng nếu bạn muốn
-        }
-
-
-
-        [HttpPost]
-        public async Task<IActionResult> TimKiemDanhMuc(string query)
-        {
-            var ketqua = _context.DanhMucTours
-                .Where(x => x.TenDanhMuc.Contains(query))
-                .OrderByDescending(x => x.IdDanhMuc)
-                .ToList();
             return View("ListDanhMucTour", ketqua);
         }
 
@@ -398,7 +530,7 @@ namespace VNTour.Controllers
             return View(danhMuc); // Trả về View xác nhận
         }
 
-        
+
         [HttpPost, ActionName("DeleteDMTour")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -421,9 +553,27 @@ namespace VNTour.Controllers
 
         public async Task<IActionResult> ListGiamGia()
         {
-            var listgiamgia = await _context.MaGiamGia       
+
+            var today = DateTime.Today;
+            var listgiamgia = await _context.MaGiamGia
+                .Include(m=>m.IdTourNavigation)
                 .OrderByDescending(x => x.IdGiamGia)
                 .ToListAsync();
+            bool isUpdated = false;
+            foreach (var mg in listgiamgia)
+            {
+                if (mg.NgayKetThuc < today && mg.TrangThai != "Ngưng Hoạt Động")
+                {
+                    mg.TrangThai = "Ngưng Hoạt Động";
+                    isUpdated = true;
+                }
+            }
+
+            // Nếu có cập nhật thì lưu lại vào database
+            if (isUpdated)
+            {
+                await _context.SaveChangesAsync();
+            }
             return View(listgiamgia);
         }
 
@@ -436,10 +586,10 @@ namespace VNTour.Controllers
         {
             var danhSachTour = _context.Tours
              .Select(t => new
-                {
-                   t.IdTour,
-                   TenHienThi = t.TenTour + " - " + t.IdTour // ✅ gộp thông tin
-                })
+             {
+                 t.IdTour,
+                 TenHienThi = t.TenTour + " - " + t.IdTour // ✅ gộp thông tin
+             })
                  .ToList();
 
             var viewModel = new MaGiamGiaVM
@@ -453,7 +603,7 @@ namespace VNTour.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateMaGiamGia(MaGiamGiaVM model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var entity = new MaGiamGium
                 {
@@ -463,7 +613,8 @@ namespace VNTour.Controllers
                     NgayBatDau = model.NgayBatDau,
                     NgayKetThuc = model.NgayKetThuc,
                     SoLuong = model.SoLuong,
-                    TrangThai = model.TrangThai                                 
+                    TrangThai = model.TrangThai,
+                    IdTour = model.IdTour
                 };
 
                 _context.MaGiamGia.Add(entity);
@@ -482,7 +633,7 @@ namespace VNTour.Controllers
             return View(model);
         }
 
-   
+
 
 
         [HttpGet]
@@ -507,7 +658,15 @@ namespace VNTour.Controllers
                 IdTour = giamGia.IdTour
             };
 
-            ViewBag.IdTour = new SelectList(_context.Tours, "IdTour", "TenTour", giamGia.IdTour);
+            var danhSachTour = _context.Tours
+     .Select(t => new
+     {
+         t.IdTour,
+         TenHienThi = t.TenTour + " - " + t.IdTour
+     }).ToList();
+
+            ViewBag.IdTour = new SelectList(danhSachTour, "IdTour", "TenHienThi", giamGia.IdTour);
+
             return View(model);
         }
 
@@ -518,7 +677,28 @@ namespace VNTour.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.IdTour = new SelectList(_context.Tours, "IdTour", "TenTour", model.IdTour);
-                return View(model);
+
+                var giamGia = await _context.MaGiamGia.FindAsync(model.IdGiamGia);
+                if (giamGia == null)
+                {
+                    return NotFound();
+                }
+
+                // Cập nhật giá trị
+                giamGia.MaCode = model.MaCode;
+                giamGia.MoTa = model.MoTa;
+                giamGia.PhanTramGiam = model.PhanTramGiam;
+                giamGia.NgayBatDau = model.NgayBatDau;
+                giamGia.NgayKetThuc = model.NgayKetThuc;
+                giamGia.SoLuong = model.SoLuong;
+                giamGia.TrangThai = model.TrangThai;
+                giamGia.IdTour = model.IdTour;
+
+                _context.MaGiamGia.Update(giamGia);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("ListGiamGia");
+
             }
 
             // Kiểm tra trùng mã (ngoại trừ chính nó)
@@ -531,28 +711,56 @@ namespace VNTour.Controllers
                 ViewBag.IdTour = new SelectList(_context.Tours, "IdTour", "TenTour", model.IdTour);
                 return View(model);
             }
-
-            var giamGia = await _context.MaGiamGia.FindAsync(model.IdGiamGia);
-            if (giamGia == null)
-            {
-                return NotFound();
-            }
-
-            // Cập nhật giá trị
-            giamGia.MaCode = model.MaCode;
-            giamGia.MoTa = model.MoTa;
-            giamGia.PhanTramGiam = model.PhanTramGiam;
-            giamGia.NgayBatDau = model.NgayBatDau;
-            giamGia.NgayKetThuc = model.NgayKetThuc;
-            giamGia.SoLuong = model.SoLuong;
-            giamGia.TrangThai = model.TrangThai;
-            giamGia.IdTour = model.IdTour;
-
-            _context.MaGiamGia.Update(giamGia);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("ListGiamGia");
+            return View(model);
         }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditMaGiamGia(MaGiamGiaVM model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        var giamGia = await _context.MaGiamGia.FindAsync(model.IdGiamGia);
+        //        if (giamGia == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        ViewBag.IdTour = new SelectList(_context.Tours, "IdTour", "TenTour", model.IdTour);
+        //        return View(model);
+
+        //        // Cập nhật giá trị
+        //        giamGia.MaCode = model.MaCode;
+        //        giamGia.MoTa = model.MoTa;
+        //        giamGia.PhanTramGiam = model.PhanTramGiam;
+        //        giamGia.NgayBatDau = model.NgayBatDau;
+        //        giamGia.NgayKetThuc = model.NgayKetThuc;
+        //        giamGia.SoLuong = model.SoLuong;
+        //        giamGia.TrangThai = model.TrangThai;
+        //        giamGia.IdTour = model.IdTour;
+
+        //        // Nếu ngày kết thúc còn hiệu lực thì cập nhật lại trạng thái là "Hoạt Động"
+        //        if (model.NgayKetThuc >= DateTime.Today)
+        //        {
+        //            giamGia.TrangThai = "Hoạt Động";
+        //        }
+
+        //        _context.MaGiamGia.Update(giamGia);
+        //        await _context.SaveChangesAsync();
+
+        //        return RedirectToAction("ListGiamGia");
+        //    }
+
+        //    // Kiểm tra trùng mã (ngoại trừ chính nó)
+        //    bool isDuplicate = await _context.MaGiamGia
+        //        .AnyAsync(m => m.MaCode == model.MaCode && m.IdGiamGia != model.IdGiamGia);
+
+        //    if (isDuplicate)
+        //    {
+        //        ModelState.AddModelError("MaCode", "Mã giảm giá đã tồn tại.");
+        //        ViewBag.IdTour = new SelectList(_context.Tours, "IdTour", "TenTour", model.IdTour);
+        //        return View(model);
+        //    }
+        //    return View(model);
+        //}
 
 
 
@@ -640,7 +848,7 @@ namespace VNTour.Controllers
         public async Task<IActionResult> CreateKH(int? id)
         {
             var khachhang = await _context.KhachHangs.FindAsync(id);
-            return View(khachhang); 
+            return View(khachhang);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -779,12 +987,13 @@ namespace VNTour.Controllers
 
 
 
+
        
+
         [HttpGet]
         public async Task<IActionResult> ThongKe(string tuan)
         {
-            // Lấy ngày đầu tuần
-            //DateTime startOfWeek = DateTime.Today.AddDays(-6); // mặc định tuần trước
+
             DateTime startOfWeek = FirstDateOfWeekISO8601(DateTime.Today.Year,
            CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Today,
            CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
@@ -812,7 +1021,7 @@ namespace VNTour.Controllers
 
             var data = await _context.DatTours
                 .Include(x => x.IdTourNavigation)
-                .Where(x => x.TrangThai == "Hoàn Tất" && x.NgayDat >= startOfWeek && x.NgayDat <= endOfWeek)
+                .Where(x => x.TrangThai == "Đã Hoàn Thành" || x.TrangThai == "Đã Thanh Toán" && x.NgayDat >= startOfWeek && x.NgayDat <= endOfWeek)
                 .ToListAsync();
 
             // Tính doanh thu theo ngày, bao gồm cả ngày không có đơn
@@ -825,6 +1034,7 @@ namespace VNTour.Controllers
                         .Sum(x => x.TongTien ?? 0)
                 })
                 .ToList();
+
 
             var thongKeTheoTour = data
                 .Where(x => x.IdTourNavigation != null)
@@ -840,44 +1050,43 @@ namespace VNTour.Controllers
 
             ViewBag.TuanSelected = tuan;
 
-
-            // doanh thu ngày hiện tại 
+            //tính doanh thu ngày hiện tại
             var doanhThuHomNay = await _context.DatTours
-     .Where(x => x.TrangThai == "Hoàn Tất" && x.NgayDat!.Value.Date == DateTime.Today)
-     .SumAsync(x => x.TongTien ?? 0);
+           .Where(x =>
+               (x.TrangThai == "Đã Hoàn Thành" || x.TrangThai == "Đã Thanh Toán")
+               && x.NgayDat!.Value.Date == DateTime.Today)
+           .SumAsync(x => x.TongTien ?? 0);
+
 
             //thống kê số đơn hôm nay
             var soDonHomNay = await _context.DatTours
-    .Where( x=> x.NgayDat!.Value.Date == DateTime.Today)
+    .Where(x => x.NgayDat!.Value.Date == DateTime.Today)
     .CountAsync();
             //thống kê doanh thu theo tháng 
             var homNay = DateTime.Today;
             var dauThang = new DateTime(homNay.Year, homNay.Month, 1);
             var cuoiThang = dauThang.AddMonths(1).AddDays(-1);
             var doanhThuTheoThang = await _context.DatTours
-    .Where(x => x.TrangThai == "Hoàn Tất" &&
+         .Where(x => x.TrangThai == "Đã Hoàn Thành" &&
                 x.NgayDat >= dauThang && x.NgayDat <= cuoiThang)
-    .SumAsync(x => x.TongTien ?? 0);
+        .SumAsync(x => x.TongTien ?? 0);
 
 
             var vm = new ThongKeVM
             {
                 DoanhThuTuan = thongKeTheoNgay,
                 DoanhThuTheoTour = thongKeTheoTour,
-                 TongDoanhThuTheoNgay = doanhThuHomNay,
-                 SoDonHomNay = soDonHomNay,
-                DoanhThuTheoThang = doanhThuTheoThang
+                TongDoanhThuTheoNgay = doanhThuHomNay,
+                SoDonHomNay = soDonHomNay,
+                DoanhThuTheoThang = doanhThuTheoThang,
+                TuanSelected = tuan,            
             };
-
-
-
-
             return View(vm);
         }
 
 
-       // Hàm phụ để lấy ngày thứ 2 đầu tiên của tuần ISO
-       //tính ngày bắt đầu kết thúc của tuần
+        // Hàm phụ để lấy ngày thứ 2 đầu tiên của tuần ISO
+        //tính ngày bắt đầu kết thúc của tuần
         public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
         {
             var jan1 = new DateTime(year, 1, 1);
@@ -904,12 +1113,25 @@ namespace VNTour.Controllers
                 .Include(x => x.IdTourNavigation)
                 .Include(x => x.IdKhachHangNavigation)
                 .OrderBy(x => x.NgayDat)
-                .Take(500) // lấy 500 đơn
+                .Take(5000) // lấy 500 đơn
                 .ToListAsync();
+
+            int pageSize = 30;
+            int page = 1; // bạn có thể lấy từ query string, route, v.v.
+
+            //var datTours = await _context.DatTours
+            //    .Include(x => x.IdTourNavigation)
+            //    .Include(x => x.IdKhachHangNavigation)
+            //    .OrderByDescending(x => x.NgayDat)
+            //    .Skip((page - 1) * pageSize)
+            //    .Take(pageSize)
+            //    .AsNoTracking()
+            //    .ToListAsync();
+
 
             // 1. Thống kê theo ngày
             var thongKeNgay = datTours
-                .Where(x => x.TrangThai == "Hoàn Tất")
+                .Where(x => x.TrangThai == "Đã Hoàn Thành" || x.TrangThai == "Đã Thanh Toán")
                 .GroupBy(x => x.NgayDat!.Value.Date)
                 .Select(g => new
                 {
@@ -922,7 +1144,7 @@ namespace VNTour.Controllers
 
             // 2. Thống kê theo tour
             var thongKeTour = datTours
-                .Where(x => x.TrangThai == "Hoàn Tất")
+                .Where(x => x.TrangThai == "Đã Hoàn Thành" || x.TrangThai == "Đã Thanh Toán")
                 .GroupBy(x => x.IdTourNavigation.TenTour)
                 .Select(g => new
                 {
@@ -935,7 +1157,7 @@ namespace VNTour.Controllers
 
             using var workbook = new XLWorkbook();
 
-            // === Sheet 1: Chi tiết đơn đặt tour ===
+     
             var ws1 = workbook.Worksheets.Add("ChiTietDatTour");
 
             ws1.Cell(1, 1).Value = "STT";
@@ -1019,47 +1241,120 @@ namespace VNTour.Controllers
 
 
 
+
+        //[HttpGet]
+        //public IActionResult QuanLyDatTour()
+        //{
+        //    var danhSach = _context.DatTours
+        //                    .Include(d => d.IdKhachHangNavigation)
+        //                    .Include(d => d.IdTourNavigation)
+        //                    .Include(d => d.IdNkhNavigation)
+        //                    .ToList();
+        //    return View(danhSach);
+        //}
+
+
         [HttpGet]
-        public IActionResult QuanLyDatTour()
+        public IActionResult QuanLyDatTour(string trangThai)
         {
             var danhSach = _context.DatTours
-                            .Include(d => d.IdKhachHangNavigation)
-                            .Include(d => d.IdTourNavigation)
-                            .Include(d => d.IdNkhNavigation)
-                            .ToList();
-            return View(danhSach);
+                .Include(d => d.IdKhachHangNavigation)
+                .Include(d => d.IdTourNavigation)
+                .Include(d => d.IdNkhNavigation)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(trangThai))
+            {
+                danhSach = danhSach.Where(d => d.TrangThai == trangThai);
+            }
+
+            return View(danhSach.ToList());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChiTietDatTour(int id)
+        {
+            var datTour = await _context.DatTours
+                .Include(d => d.IdKhachHangNavigation)
+                .Include(d => d.IdTourNavigation)
+                .Include(d => d.IdNkhNavigation)
+                .FirstOrDefaultAsync(d => d.IdDatTour == id);
+
+            if (datTour == null)
+            {
+                return NotFound();
+            }
+
+            return View(datTour);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> LocDatTour(string trangthai, string keyword, string ptthanhtoan)
+        {
+            var danhsach = _context.DatTours
+                .Include(d => d.IdKhachHangNavigation)
+                .Include(d => d.IdTourNavigation)
+                .Include(d => d.IdNkhNavigation)
+                .AsQueryable();
+            if (!string.IsNullOrEmpty(trangthai) && trangthai != "Tất Cả")
+            {
+                danhsach = danhsach.Where(d => d.TrangThai == trangthai);
+            }
+
+            // Lọc theo từ khóa
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                keyword = keyword.ToLower();
+                danhsach = danhsach.Where(d =>
+                    d.IdTourNavigation.TenTour.ToLower().Contains(keyword) ||
+                    d.IdKhachHangNavigation.HoTenKh.ToLower().Contains(keyword) ||
+                    d.IdDatTour.ToString().Contains(keyword)
+                );
+            }
+
+            if (!string.IsNullOrEmpty(ptthanhtoan) && ptthanhtoan != "Tất Cả")
+            {
+                danhsach = danhsach.Where(d => d.PtthanhToan == ptthanhtoan);
+            }
+
+            return View("QuanLyDatTour", danhsach.ToList());
         }
 
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> HuyDatTour(int id)
+        public async Task<IActionResult> CapNhatTrangThai(int idDatTour, string trangThaiMoi)
         {
-            var datTour = await _context.DatTours.FindAsync(id);
+            var datTour = await _context.DatTours.FindAsync(idDatTour);
             if (datTour == null)
             {
                 return NotFound();
             }
-
-            // Cập nhật trạng thái
-            datTour.TrangThai = "Đã Hủy";
-
-            // Trả lại số chỗ cho ngày khởi hành (nếu muốn)
-            var ngayKhoiHanh = await _context.NgayKhoiHanhs.FindAsync(datTour.IdNkh);
-            if (ngayKhoiHanh != null)
+            if (datTour.TrangThai == "Đã Hoàn Thành")
             {
-                ngayKhoiHanh.SoChoConLai += (datTour.SoNguoiLon + datTour.SoTreEm);
-                _context.NgayKhoiHanhs.Update(ngayKhoiHanh);
+                TempData["Message"] = "Không thể cập nhật trạng thái của đơn đã hoàn thành.";
+                return RedirectToAction("QuanLyDatTour");
             }
 
-            _context.DatTours.Update(datTour);
-            await _context.SaveChangesAsync();
-            TempData["Success"] = $" Đã hủy đơn đặt tour.\" (Mã đặt tour: {datTour.IdDatTour}) thành công!";
-           
-            return RedirectToAction("QuanLyDatTour"); // hoặc tên view của bạn
-        }
 
+
+            datTour.TrangThai = trangThaiMoi;
+
+            if (trangThaiMoi == "Đã Hủy")
+            {
+                var nkh = await _context.NgayKhoiHanhs.FindAsync(datTour.IdNkh);
+                if (nkh != null)
+                {
+                    nkh.SoChoConLai += datTour.SoNguoiLon + datTour.SoTreEm;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Success"] = $"Đã cập nhật trạng thái đơn (Mã: {idDatTour}) thành công!";
+            return RedirectToAction("QuanLyDatTour");
+        }
 
 
 

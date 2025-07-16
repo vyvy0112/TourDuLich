@@ -26,6 +26,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\Nam4\doan3\VNTour\VNTour
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/Nam4/doan3/VNTour/VNTour/Views/Admin/ChiTietDatTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2hpVGlldERhdFRvdXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Nam4/doan3/VNTour/VNTour/Views/Admin/CreateDMTour.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlRE1Ub3VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -132,6 +136,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Page/ChinhSachRiengTu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZVxDaGluaFNhY2hSaWVuZ1R1LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Page/LienHe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZVxMaWVuSGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Nam4/doan3/VNTour/VNTour/Views/Page/TinTuc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZVxUaW5UdWMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Nam4/doan3/VNTour/VNTour/Views/Shared/Components/DanhMuc/Default.cshtml]

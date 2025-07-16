@@ -126,6 +126,51 @@
         .btn-cancel:hover {
             background-color: #5a6268;
         }
+
+
+    .nkh-section {
+        background-color: #f9fafb;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+        .nkh-section .form-group {
+            margin-bottom: 16px;
+        }
+
+            .nkh-section .form-group label {
+                font-weight: 500;
+                color: #495057;
+            }
+
+    .add-nkh-btn {
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+        padding: 10px 22px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+        margin-top: 10px;
+    }
+
+        .add-nkh-btn:hover {
+            background-color: #138496;
+        }
+
+
+    .short-input {
+        width: 120px !important;
+    }
+
+    .short-select {
+        width: 200px !important;
+    }
+
+
 </style>
 
 
@@ -223,45 +268,54 @@
             }
 
 
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
             <h4 class="form-title mt-4">Ngày Khởi Hành</h4>
             <div id="ngayKhoiHanhContainer">
                 @for (int i = 0; i < ngayKhoiHanhList.Count; i++)
                 {
-                    <div class="form-row mb-3">
-                        <!-- THÊM DÒNG NÀY -->
+                    <div class="form-row nkh-section">
                         <input type="hidden" name="NgayKhoiHanhs[@i].IdNkh" value="@ngayKhoiHanhList[i].IdNkh" />
-
                         <input type="hidden" name="NgayKhoiHanhs[@i].IdTour" value="@Model.IdTour" />
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group form-col">
                             <label>Ngày khởi hành</label>
                             <input type="date" name="NgayKhoiHanhs[@i].NgayKhoiHanh1" value="@ngayKhoiHanhList[i].NgayKhoiHanh1.ToString("yyyy-MM-dd")" class="form-control" />
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group form-col">
                             <label>Ngày kết thúc</label>
                             <input type="date" name="NgayKhoiHanhs[@i].NgayKetThuc" value="@ngayKhoiHanhList[i].NgayKetThuc.ToString("yyyy-MM-dd")" class="form-control" />
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group form-col">
                             <label>Số chỗ còn lại</label>
-                            <input type="number" name="NgayKhoiHanhs[@i].SoChoConLai" value="@ngayKhoiHanhList[i].SoChoConLai" class="form-control" />
-                        </div>
+                            <input type="number" name="NgayKhoiHanhs[@i].SoChoConLai" value="@ngayKhoiHanhList[i].SoChoConLai" class="form-control short-input" />
+
+                       </div>
                     </div>
                 }
-
             </div>
+            <button type="button" class="add-nkh-btn" onclick="addNgayKhoiHanh()">+ Thêm ngày khởi hành</button>
 
-            <button type="button" class="btn btn-secondary mb-3" onclick="addNgayKhoiHanh()">+ Thêm ngày khởi hành</button>
 
 
             <div class="form-group">
                 <label asp-for="TrangThai" class="form-label">Trạng thái</label>
-                <select asp-for="TrangThai" asp-items="ViewBag.TrangThaiList" class="form-select"></select>
+                <select asp-for="TrangThai" asp-items="ViewBag.TrangThaiList" class="form-select short-select"></select>
+
                 <span asp-validation-for="TrangThai" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="IdDanhMuc" class="form-label">Danh mục</label>
-                <select asp-for="IdDanhMuc" asp-items="ViewBag.IdDanhMuc" class="form-select"></select>
+                <select asp-for="IdDanhMuc" asp-items="ViewBag.IdDanhMuc" class="form-select short-select"></select>
+
                 <span asp-validation-for="IdDanhMuc" class="text-danger"></span>
             </div>
 
@@ -278,26 +332,50 @@
 </div>
 
 <script>
+
     function addNgayKhoiHanh() {
-        var index = document.querySelectorAll('#ngayKhoiHanhContainer .form-row').length;
+    var index = document.querySelectorAll('#ngayKhoiHanhContainer .nkh-section').length;
 
-        var html = `
-                <div class="form-row mb-3">
-                    <input type="hidden" name="NgayKhoiHanhs[${index}].IdTour" value="@Model.IdTour" />
-                    <div class="form-group col-md-4">
-                        <label>Ngày khởi hành</label>
-                        <input type="date" name="NgayKhoiHanhs[${index}].NgayKhoiHanh1" class="form-control" />
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label>Ngày kết thúc</label>
-                        <input type="date" name="NgayKhoiHanhs[${index}].NgayKetThuc" class="form-control" />
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Số chỗ còn lại</label>
-                        <input type="number" name="NgayKhoiHanhs[${index}].SoChoConLai" class="form-control" />
-                    </div>
-                </div>`;
+    var html = `
+        <div class="form-row nkh-section">
+            <input type="hidden" name="NgayKhoiHanhs[${index}].IdTour" value="@Model.IdTour" />
+            <div class="form-group form-col">
+                <label>Ngày khởi hành</label>
+                <input type="date" name="NgayKhoiHanhs[${index}].NgayKhoiHanh1" class="form-control" />
+            </div>
+            <div class="form-group form-col">
+                <label>Ngày kết thúc</label>
+                <input type="date" name="NgayKhoiHanhs[${index}].NgayKetThuc" class="form-control" />
+            </div>
+            <div class="form-group form-col">
+                <label>Số chỗ còn lại</label>
+                    <input type="number" name="NgayKhoiHanhs[${index}].SoChoConLai" class="form-control short-input" />
+            </div>
+        </div>`;
+        
+    document.getElementById("ngayKhoiHanhContainer").insertAdjacentHTML("beforeend", html);
+}
 
-        document.getElementById("ngayKhoiHanhContainer").insertAdjacentHTML("beforeend", html);
-    }
+    // function addNgayKhoiHanh() {
+    //     var index = document.querySelectorAll('#ngayKhoiHanhContainer .form-row').length;
+
+    //     var html = `
+    //             <div class="form-row mb-3">
+    //                 <input type="hidden" name="NgayKhoiHanhs[${index}].IdTour" value="@Model.IdTour" />
+    //                 <div class="form-group col-md-4">
+    //                     <label>Ngày khởi hành</label>
+    //                     <input type="date" name="NgayKhoiHanhs[${index}].NgayKhoiHanh1" class="form-control" />
+    //                 </div>
+    //                 <div class="form-group col-md-4">
+    //                     <label>Ngày kết thúc</label>
+    //                     <input type="date" name="NgayKhoiHanhs[${index}].NgayKetThuc" class="form-control" />
+    //                 </div>
+    //                 <div class="form-group col-md-3">
+    //                     <label>Số chỗ còn lại</label>
+    //                     <input type="number" name="NgayKhoiHanhs[${index}].SoChoConLai" class="form-control" />
+    //                 </div>
+    //             </div>`;
+
+    //     document.getElementById("ngayKhoiHanhContainer").insertAdjacentHTML("beforeend", html);
+    // }
 </script>
